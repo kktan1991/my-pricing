@@ -46,7 +46,9 @@
   .incl-dot.no { color: #A32D2D; }
   .incl-text { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
   .note-box { background: #E6F1FB; border: 0.5px solid #B5D4F4; border-radius: var(--border-radius-md); padding: 0.85rem 1rem; margin: 0 1.25rem 1rem; }
-  .note-text { font-size: 12px; color: #0C447C; line-height: 1.6; }
+  .note-text { font-size: 12px; color: #0C447C; line-height: 1.7; }
+  .note-text p { margin: 0 0 6px; }
+  .note-text p:last-child { margin: 0; }
   .footer-bar { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
   .footer-contact { font-size: 12px; color: var(--color-text-secondary); }
   .footer-contact span { color: var(--color-text-primary); font-weight: 500; }
@@ -138,14 +140,15 @@
   <div class="divider-section" style="margin-top: 1rem;">
     <div class="note-box">
       <div class="note-text" id="t-note">
-        <i class="ti ti-info-circle" aria-hidden="true"></i> All third-party platform subscriptions are registered and paid directly by the client. Platform account management is available as an add-on at <strong>RM 180 / hour</strong> or a fixed monthly fee by arrangement.
+        <p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Platform subscriptions</strong> — All third-party platforms (n8n, OpenAI, WhatsApp API, etc.) are registered and paid directly by the client.</p>
+        <p><i class="ti ti-plus" aria-hidden="true"></i> <strong>Account management add-on</strong> — If you prefer us to handle platform setup and management on your behalf, this is charged separately at <strong>RM 100 / hour</strong> or a fixed monthly fee by arrangement.</p>
       </div>
     </div>
   </div>
 
   <div class="footer-bar">
     <div class="footer-contact" id="t-footer">Questions? Reach out via <span>WhatsApp / Telegram</span></div>
-    <div class="footer-rate" id="t-rate">Ad-hoc rate: RM80 -RM120 / hr</div>
+    <div class="footer-rate" id="t-rate">Ad-hoc rate: RM 100 / hr</div>
   </div>
 </div>
 
@@ -185,9 +188,9 @@ const translations = {
     'e4': 'Google Workspace / domains',
     'e5': 'Extra revisions beyond scope',
     'e6': 'New features after sign-off',
-    'note': '<i class="ti ti-info-circle" aria-hidden="true"></i> All third-party platform subscriptions are registered and paid directly by the client. Platform account management is available as an add-on at <strong>RM 180 / hour</strong> or a fixed monthly fee by arrangement.',
+    'note': '<p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Platform subscriptions</strong> — All third-party platforms (n8n, OpenAI, WhatsApp API, etc.) are registered and paid directly by the client.</p><p><i class="ti ti-plus" aria-hidden="true"></i> <strong>Account management add-on</strong> — If you prefer us to handle platform setup and management on your behalf, this is charged separately at <strong>RM 100 / hour</strong> or a fixed monthly fee by arrangement.</p>',
     'footer': 'Questions? Reach out via <span>WhatsApp / Telegram</span>',
-    'rate': 'Ad-hoc rate: RM 180 / hr'
+    'rate': 'Ad-hoc rate: RM 100 / hr'
   },
   cn: {
     'brand': '自动化服务',
@@ -223,9 +226,9 @@ const translations = {
     'e4': 'Google Workspace / 域名',
     'e5': '超出范围的额外修改',
     'e6': '验收后新增功能',
-    'note': '<i class="ti ti-info-circle" aria-hidden="true"></i> 所有第三方平台订阅费用由客户自行注册并支付。如需代为管理平台账号，可额外收取 <strong>RM 180 / 小时</strong> 或按月收取固定服务费。',
+    'note': '<p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>平台订阅费</strong> — 所有第三方平台（n8n、OpenAI、WhatsApp API 等）由客户自行注册并支付。</p><p><i class="ti ti-plus" aria-hidden="true"></i> <strong>账号管理附加服务</strong> — 如需由我们代为设置和管理平台账号，额外收取 <strong>RM 100 / 小时</strong>，或按月收取固定服务费。</p>',
     'footer': '有疑问？请联系我们 <span>WhatsApp / Telegram</span>',
-    'rate': '零散工时：RM 180 / 小时'
+    'rate': '零散工时：RM 100 / 小时'
   }
 };
 
