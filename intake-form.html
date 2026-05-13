@@ -7,792 +7,201 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --blue-900: #042C53;
-      --blue-800: #0C447C;
-      --blue-600: #185FA5;
-      --blue-400: #378ADD;
-      --blue-200: #85B7EB;
-      --blue-100: #B5D4F4;
-      --blue-50:  #E6F1FB;
-      --green-600: #3B6D11;
-      --green-50:  #EAF3DE;
-      --red-600:   #A32D2D;
-      --red-50:    #FCEBEB;
-      --gray-900:  #2C2C2A;
-      --gray-700:  #444441;
-      --gray-500:  #5F5E5A;
-      --gray-300:  #B4B2A9;
-      --gray-100:  #D3D1C7;
-      --gray-50:   #F1EFE8;
-      --bg:        #f5f5f5;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-    }
-
-    body {
-      font-family: 'Sora', sans-serif;
-      background: var(--bg);
-      color: var(--gray-900);
-      padding: 2rem 1rem;
-      min-height: 100vh;
-    }
-
-    .wrapper {
-      max-width: 680px;
-      margin: 0 auto;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: 0 2px 24px rgba(0,0,0,0.08);
-    }
-
-    /* ── top bar ── */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1.25rem;
-      background: #fff;
-      border-bottom: 0.5px solid var(--gray-100);
-    }
-    .back-link {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--blue-600);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .back-link:hover { text-decoration: underline; }
-    .lang-toggle { display: flex; gap: 6px; }
-    .lang-btn {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      padding: 4px 14px;
-      border-radius: 20px;
-      border: 0.5px solid var(--gray-300);
-      background: #fff;
-      color: var(--gray-500);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .lang-btn.active { background: var(--blue-800); color: var(--blue-50); border-color: var(--blue-800); }
-
-    /* ── brand bar ── */
-    .brand-bar {
-      background: var(--blue-800);
-      padding: 2rem 1.5rem 1.75rem;
-      text-align: center;
-    }
-    .brand-eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--blue-200);
-      margin-bottom: 6px;
-    }
-    .brand-title { font-size: 20px; font-weight: 600; color: var(--blue-50); margin-bottom: 4px; }
-    .brand-sub { font-size: 13px; color: var(--blue-200); }
-    .step-pills {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 1.25rem;
-      flex-wrap: wrap;
-    }
-    .step-pill {
-      font-size: 11px;
-      padding: 4px 14px;
-      border-radius: 20px;
-      border: 0.5px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.08);
-      color: var(--blue-100);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .step-pill.active { background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.4); }
-
-    /* ── form body ── */
-    .form-body { background: #fff; padding: 1.5rem 1.25rem; }
-
+    :root { --blue-800: #0C447C; --blue-400: #378ADD; --blue-50: #E6F1FB; --gray-900: #2C2C2A; --gray-500: #5F5E5A; --gray-50: #F1EFE8; --radius-md: 8px; }
+    body { font-family: 'Sora', sans-serif; background: #f5f5f5; color: var(--gray-900); padding: 2rem 1rem; }
+    .wrapper { max-width: 680px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 24px rgba(0,0,0,0.08); background: #fff; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; border-bottom: 0.5px solid #eee; }
+    .back-link { font-family: 'Space Mono', monospace; font-size: 11px; color: #185FA5; text-decoration: none; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .brand-bar { background: var(--blue-800); padding: 2rem 1.5rem; text-align: center; color: #fff; }
+    .brand-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+    .form-body { padding: 1.5rem; }
     .section { margin-bottom: 2rem; }
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 1rem;
-      padding-bottom: 8px;
-      border-bottom: 0.5px solid var(--gray-100);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-label i { font-size: 14px; color: var(--blue-400); }
-
+    .section-label { font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--gray-500); margin-bottom: 1rem; padding-bottom: 8px; border-bottom: 0.5px solid #eee; display: flex; align-items: center; gap: 8px; }
     .field { margin-bottom: 1.1rem; }
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--gray-700);
-      margin-bottom: 5px;
-    }
-    .field .required { color: var(--blue-400); margin-left: 2px; }
-    .field input[type="text"],
-    .field input[type="tel"],
-    .field input[type="email"],
-    .field select,
-    .field textarea {
-      width: 100%;
-      font-family: 'Sora', sans-serif;
-      font-size: 13px;
-      color: var(--gray-900);
-      background: var(--gray-50);
-      border: 0.5px solid var(--gray-100);
-      border-radius: var(--radius-md);
-      padding: 9px 12px;
-      outline: none;
-      transition: border-color 0.15s, background 0.15s;
-      appearance: none;
-    }
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: var(--blue-400);
-      background: #fff;
-    }
-    .field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
-    .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235F5E5A' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
-
-    /* pill selects */
+    .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+    .field input, .field select, .field textarea { width: 100%; font-family: inherit; font-size: 13px; padding: 10px; border-radius: var(--radius-md); border: 0.5px solid #D3D1C7; background: var(--gray-50); outline: none; }
     .pill-group { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
-    .pill {
-      padding: 6px 14px;
-      border: 0.5px solid var(--gray-100);
-      border-radius: 20px;
-      font-size: 12px;
-      cursor: pointer;
-      color: var(--gray-500);
-      background: var(--gray-50);
-      transition: all 0.15s;
-      user-select: none;
-    }
-    .pill:hover { border-color: var(--blue-200); color: var(--blue-600); }
-    .pill.selected { background: var(--blue-50); color: var(--blue-800); border-color: var(--blue-400); font-weight: 500; }
-
-    /* checkboxes */
-    .check-group { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
-    .check-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: var(--gray-700);
-      cursor: pointer;
-    }
-    .check-item input[type="checkbox"] {
-      width: 15px; height: 15px;
-      accent-color: var(--blue-600);
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-
-    /* hint */
-    .hint { font-size: 11px; color: var(--gray-300); margin-top: 4px; }
-
-    /* note box */
-    .note-box {
-      background: var(--blue-50);
-      border: 0.5px solid var(--blue-100);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 1rem;
-      font-size: 12px;
-      color: var(--blue-800);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-    .note-box i { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
-
-    /* submit area */
-    .submit-area {
-      background: var(--gray-50);
-      border-top: 0.5px solid var(--gray-100);
-      padding: 1.25rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .submit-btn {
-      font-family: 'Sora', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      background: var(--blue-800);
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 12px 24px;
-      cursor: pointer;
-      transition: background 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .submit-btn:hover { background: var(--blue-900); }
-    .submit-copy {
-      font-family: 'Sora', sans-serif;
-      font-size: 13px;
-      color: var(--gray-500);
-      background: #fff;
-      border: 0.5px solid var(--gray-100);
-      border-radius: var(--radius-md);
-      padding: 10px 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: border-color 0.15s;
-    }
-    .submit-copy:hover { border-color: var(--gray-300); }
-
-    .footer-bar {
-      background: var(--blue-800);
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .footer-txt { font-size: 12px; color: var(--blue-200); }
-    .footer-rate {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--blue-50);
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 4px 12px;
-      border: 0.5px solid rgba(255,255,255,0.15);
-    }
-
-    /* success overlay */
-    .success-screen {
-      display: none;
-      background: #fff;
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-    .success-icon { font-size: 48px; color: var(--green-600); margin-bottom: 1rem; }
-    .success-title { font-size: 20px; font-weight: 600; color: var(--gray-900); margin-bottom: 8px; }
-    .success-sub { font-size: 13px; color: var(--gray-500); line-height: 1.7; }
-    .success-copy-box {
-      margin-top: 1.5rem;
-      background: var(--gray-50);
-      border: 0.5px solid var(--gray-100);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      text-align: left;
-      font-size: 12px;
-      color: var(--gray-700);
-      white-space: pre-wrap;
-      line-height: 1.7;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-    .success-actions { margin-top: 1rem; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-    .btn-sm {
-      font-family: 'Sora', sans-serif;
-      font-size: 12px;
-      padding: 8px 16px;
-      border-radius: var(--radius-md);
-      border: 0.5px solid var(--gray-100);
-      background: #fff;
-      cursor: pointer;
-      color: var(--gray-700);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: border-color 0.15s;
-    }
-    .btn-sm:hover { border-color: var(--gray-300); }
-    .btn-sm.primary { background: var(--blue-800); color: #fff; border-color: var(--blue-800); }
-    .btn-sm.primary:hover { background: var(--blue-900); }
+    .pill { padding: 6px 14px; border: 0.5px solid #D3D1C7; border-radius: 20px; font-size: 12px; cursor: pointer; background: var(--gray-50); transition: 0.15s; }
+    .pill.selected { background: var(--blue-50); color: var(--blue-800); border-color: var(--blue-400); font-weight: 600; }
+    .hint { font-size: 11px; color: var(--gray-500); margin-top: 5px; }
+    .submit-area { background: var(--gray-50); padding: 1.5rem; border-top: 0.5px solid #eee; display: flex; flex-direction: column; gap: 10px; }
+    .submit-btn { background: var(--blue-800); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .success-screen { display: none; padding: 3rem 2rem; text-align: center; }
+    .success-copy-box { background: var(--gray-50); padding: 1rem; margin-top: 1rem; text-align: left; font-size: 12px; white-space: pre-wrap; border-radius: 8px; }
   </style>
 </head>
 <body>
 
 <div class="wrapper">
-
-  <!-- top bar -->
   <div class="top-bar">
     <a class="back-link" href="https://my-pricing-list.zeabur.app/"><i class="ti ti-arrow-left"></i> <span id="t-back">Back to Pricing</span></a>
-    <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
-      <button class="lang-btn" onclick="setLang('cn')" id="btn-cn">中文</button>
-    </div>
+    <div class="lang-toggle"><button onclick="setLang('en')">EN</button> | <button onclick="setLang('cn')">中文</button></div>
   </div>
 
-  <!-- brand header -->
   <div class="brand-bar">
-    <div class="brand-eyebrow" id="t-eyebrow">Automation Services</div>
     <div class="brand-title" id="t-title">Client Intake Form</div>
-    <div class="brand-sub" id="t-sub">Help us understand your needs so we can build the right solution.</div>
-    <div class="step-pills">
-      <span class="step-pill active"><i class="ti ti-user"></i> <span id="t-s1">Your Info</span></span>
-      <span class="step-pill"><i class="ti ti-package"></i> <span id="t-s2">Package</span></span>
-      <span class="step-pill"><i class="ti ti-settings"></i> <span id="t-s3">Current Setup</span></span>
-      <span class="step-pill"><i class="ti ti-target"></i> <span id="t-s4">Goals</span></span>
-      <span class="step-pill"><i class="ti ti-currency-ringgit"></i> <span id="t-s5">Budget</span></span>
-    </div>
+    <div id="t-sub" style="font-size: 13px; opacity: 0.8;">Attach references for your automation needs.</div>
   </div>
 
-  <!-- form -->
   <div id="main-form">
     <div class="form-body">
-
-      <!-- Section 1: Client Info -->
+      <!-- Section 1 -->
       <div class="section">
-        <div class="section-label"><i class="ti ti-user" aria-hidden="true"></i> <span id="t-sec1">01 · Client Information</span></div>
-        <div class="field-row">
-          <div class="field">
-            <label id="t-fname">Full Name <span class="required">*</span></label>
-            <input type="text" id="f-name" placeholder="e.g. Ahmad bin Abdullah">
-          </div>
-          <div class="field">
-            <label id="t-company">Company Name</label>
-            <input type="text" id="f-company" placeholder="e.g. ABC Sdn Bhd">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label id="t-phone">WhatsApp / Phone <span class="required">*</span></label>
-            <input type="tel" id="f-phone" placeholder="+60 12-345 6789">
-          </div>
-          <div class="field">
-            <label id="t-email">Email</label>
-            <input type="email" id="f-email" placeholder="you@company.com">
-          </div>
-        </div>
-        <div class="field">
-          <label id="t-industry">Industry / Business Type</label>
-          <input type="text" id="f-industry" placeholder="e.g. F&B, Retail, Education, Property…">
-        </div>
+        <div class="section-label">01 · Contact</div>
+        <div class="field"><label id="t-fname">Full Name *</label><input type="text" id="f-name"></div>
+        <div class="field"><label id="t-phone">WhatsApp *</label><input type="tel" id="f-phone"></div>
       </div>
 
-      <!-- Section 2: Package -->
+      <!-- Section 2 -->
       <div class="section">
-        <div class="section-label"><i class="ti ti-package" aria-hidden="true"></i> <span id="t-sec2">02 · Package Interest</span></div>
-        <div class="field">
-          <label id="t-pkg">Which package are you interested in? <span class="required">*</span></label>
-          <div class="pill-group" id="g-pkg">
-            <span class="pill" data-key="pkg" onclick="togglePill(this)"><span class="lbl-p1">Basic Automation (RM 500–1,200)</span></span>
-            <span class="pill" data-key="pkg" onclick="togglePill(this)"><span class="lbl-p2">AI Automation Flow (RM 1,500–3,500)</span></span>
-            <span class="pill" data-key="pkg" onclick="togglePill(this)"><span class="lbl-p3">AI Chatbot (RM 2,000–4,500)</span></span>
-            <span class="pill" data-key="pkg" onclick="togglePill(this)"><span class="lbl-pX">Not sure yet</span></span>
-          </div>
-        </div>
-        <div class="field">
-          <label id="t-support">Preferred support type</label>
-          <div class="pill-group" id="g-support">
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-s1">One-time setup only</span></span>
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-s2">Monthly support</span></span>
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-s3">Both</span></span>
-          </div>
+        <div class="section-label">02 · Package</div>
+        <div class="pill-group" id="g-pkg">
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-p1">Basic Automation</span></span>
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-p2">AI Automation Flow</span></span>
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-p3">AI Chatbot</span></span>
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-p4">AI Content & Infographics</span></span>
         </div>
       </div>
 
-      <!-- Section 3: Current Setup -->
+      <!-- Section 3 -->
       <div class="section">
-        <div class="section-label"><i class="ti ti-settings" aria-hidden="true"></i> <span id="t-sec3">03 · Current Situation</span></div>
-        <div class="field">
-          <label id="t-manual">What tasks do you currently handle manually that you want automated?</label>
-          <textarea id="f-manual" placeholder="e.g. I manually copy WhatsApp orders into Google Sheets every day, then email the supplier…"></textarea>
-        </div>
-        <div class="field">
-          <label id="t-platforms">Which platforms / tools do you currently use?</label>
-          <div class="check-group">
-            <label class="check-item"><input type="checkbox" value="WhatsApp Business"> WhatsApp Business</label>
-            <label class="check-item"><input type="checkbox" value="Google Sheets / Drive"> Google Sheets / Drive</label>
-            <label class="check-item"><input type="checkbox" value="Shopify / WooCommerce"> Shopify / WooCommerce</label>
-            <label class="check-item"><input type="checkbox" value="Telegram"> Telegram</label>
-            <label class="check-item"><input type="checkbox" value="CRM"> <span id="t-crm">CRM (specify below)</span></label>
-            <label class="check-item"><input type="checkbox" value="Other"> <span id="t-other">Other</span></label>
-          </div>
-          <input type="text" id="f-tools-other" style="margin-top: 10px;" placeholder="Specify CRM name or other tools…">
-        </div>
-        <div class="field">
-          <label id="t-volume">Approximate volume (per day / week)</label>
-          <input type="text" id="f-volume" placeholder="e.g. 50 orders/day, 200 messages/week">
-          <div class="hint" id="t-vol-hint">This helps us scope the right solution for your load.</div>
+        <div class="section-label">03 · Output Format</div>
+        <div class="pill-group" id="g-product">
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-pr1">Earning Snapshot</span></span>
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-pr2">Visual Infographic</span></span>
+          <span class="pill" onclick="togglePill(this)"><span class="lbl-pr3">Automated PDF</span></span>
         </div>
       </div>
 
-      <!-- Section 4: Goals -->
+      <!-- Section 06: Attachments (NEW) -->
       <div class="section">
-        <div class="section-label"><i class="ti ti-target" aria-hidden="true"></i> <span id="t-sec4">04 · Goals & Expectations</span></div>
+        <div class="section-label">06 · Reference Attachment</div>
         <div class="field">
-          <label id="t-problem">What is the main problem you want to solve?</label>
-          <textarea id="f-problem" placeholder="e.g. Save time, reduce human error, respond to customers faster…"></textarea>
-        </div>
-        <div class="field">
-          <label id="t-success">What does success look like to you?</label>
-          <textarea id="f-success" placeholder="e.g. Orders auto-confirmed without me touching anything, chatbot handles FAQs 24/7…"></textarea>
-        </div>
-        <div class="field">
-          <label id="t-timeline">Timeline — when do you need this ready?</label>
-          <div class="pill-group" id="g-timeline">
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-t1">ASAP (within 2 weeks)</span></span>
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-t2">1 month</span></span>
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-t3">1–3 months</span></span>
-            <span class="pill" onclick="togglePill(this)"><span class="lbl-t4">Flexible</span></span>
-          </div>
+          <label id="t-upload">Upload Sample Data / Reference</label>
+          <input type="file" id="f-upload" accept="image/*,.pdf,.xlsx,.csv">
+          <div class="hint" id="t-upload-hint">Upload a screenshot or file (Max 5MB).</div>
         </div>
       </div>
 
-      <!-- Section 5: Budget -->
-      <div class="section" style="margin-bottom: 0;">
-        <div class="section-label"><i class="ti ti-currency-ringgit" aria-hidden="true"></i> <span id="t-sec5">05 · Budget & Additional Notes</span></div>
-        <div class="field">
-          <label id="t-budget">Approximate budget (one-time setup)</label>
-          <select id="f-budget">
-            <option value="" id="t-bud0">— Select range —</option>
-            <option value="Below RM 500" id="t-bud1">Below RM 500</option>
-            <option value="RM 500 – 1,500" id="t-bud2">RM 500 – 1,500</option>
-            <option value="RM 1,500 – 3,500" id="t-bud3">RM 1,500 – 3,500</option>
-            <option value="RM 3,500 – 5,000" id="t-bud4">RM 3,500 – 5,000</option>
-            <option value="Above RM 5,000" id="t-bud5">Above RM 5,000</option>
-            <option value="Discuss first" id="t-bud6">Discuss first</option>
-          </select>
-        </div>
-        <div class="field">
-          <label id="t-notes">Anything else you'd like us to know?</label>
-          <textarea id="f-notes" placeholder="Special requirements, concerns, or questions…"></textarea>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- note -->
-    <div style="padding: 0 1.25rem;">
-      <div class="note-box">
-        <i class="ti ti-info-circle"></i>
-        <span id="t-note">Platform costs (n8n, OpenAI, WhatsApp API, etc.) are paid directly by the client. Account management is available as an add-on at RM 100/hr.</span>
+      <!-- Section 4 -->
+      <div class="section">
+        <div class="section-label">04 · Budget</div>
+        <select id="f-budget">
+          <option value="">Select Range</option>
+          <option value="RM 500-1500">RM 500 - 1,500</option>
+          <option value="RM 1500-3500">RM 1,500 - 3,500</option>
+          <option value="Above 3500">Above RM 3,500</option>
+        </select>
       </div>
     </div>
 
-    <!-- submit -->
     <div class="submit-area">
-      <button class="submit-btn" onclick="submitForm()">
-        <i class="ti ti-send"></i> <span id="t-submit">Submit Intake Form</span>
-      </button>
-      <button class="submit-copy" onclick="copyForm()">
-        <i class="ti ti-copy"></i> <span id="t-copy">Copy as plain text</span>
-      </button>
+      <button class="submit-btn" onclick="submitForm()" id="t-submit">Submit Requirements</button>
     </div>
   </div>
 
-  <!-- success screen -->
   <div class="success-screen" id="success-screen">
-    <div class="success-icon"><i class="ti ti-circle-check"></i></div>
-    <div class="success-title" id="t-succ-title">Form submitted!</div>
-    <div class="success-sub" id="t-succ-sub">Thank you — we'll review your details and reach out via WhatsApp within 1 business day.</div>
+    <h2 id="t-succ-title">Form submitted!</h2>
     <div class="success-copy-box" id="success-text"></div>
-    <div class="success-actions">
-      <button class="btn-sm" onclick="copySuccess()"><i class="ti ti-copy"></i> <span id="t-succ-copy">Copy summary</span></button>
-      <button class="btn-sm primary" onclick="resetForm()"><i class="ti ti-refresh"></i> <span id="t-succ-new">New form</span></button>
-    </div>
+    <button class="submit-btn" style="margin-top: 1rem;" onclick="location.reload()">Send Another</button>
   </div>
-
-  <!-- footer -->
-  <div class="footer-bar">
-    <div class="footer-txt" id="t-footer">Questions? Reach out via <strong style="color:#fff;">WhatsApp / Telegram</strong></div>
-    <div class="footer-rate" id="t-rate">Ad-hoc rate: RM 100 / hr</div>
-  </div>
-
-</div><!-- /wrapper -->
+</div>
 
 <script>
-/* ─── translations ─── */
 const T = {
   en: {
-    'back': 'Back to Pricing',
-    'eyebrow': 'Automation Services',
-    'title': 'Client Intake Form',
-    'sub': 'Help us understand your needs so we can build the right solution.',
-    's1': 'Your Info', 's2': 'Package', 's3': 'Current Setup', 's4': 'Goals', 's5': 'Budget',
-    'sec1': '01 · Client Information',
-    'sec2': '02 · Package Interest',
-    'sec3': '03 · Current Situation',
-    'sec4': '04 · Goals & Expectations',
-    'sec5': '05 · Budget & Additional Notes',
-    'fname': 'Full Name', 'company': 'Company Name', 'phone': 'WhatsApp / Phone', 'email': 'Email',
-    'industry': 'Industry / Business Type',
-    'pkg': 'Which package are you interested in?',
-    'support': 'Preferred support type',
-    'manual': 'What tasks do you currently handle manually that you want automated?',
-    'platforms': 'Which platforms / tools do you currently use?',
-    'crm': 'CRM (specify below)', 'other': 'Other',
-    'volume': 'Approximate volume (per day / week)',
-    'vol-hint': 'This helps us scope the right solution for your load.',
-    'problem': 'What is the main problem you want to solve?',
-    'success': 'What does success look like to you?',
-    'timeline': 'Timeline — when do you need this ready?',
-    'budget': 'Approximate budget (one-time setup)',
-    'notes': "Anything else you'd like us to know?",
-    'note': 'Platform costs (n8n, OpenAI, WhatsApp API, etc.) are paid directly by the client. Account management is available as an add-on at RM 100/hr.',
-    'submit': 'Submit Intake Form', 'copy': 'Copy as plain text',
-    'succ-title': 'Form submitted!',
-    'succ-sub': "Thank you — we'll review your details and reach out via WhatsApp within 1 business day.",
-    'succ-copy': 'Copy summary', 'succ-new': 'New form',
-    'footer': 'Questions? Reach out via <strong style="color:#fff;">WhatsApp / Telegram</strong>',
-    'rate': 'Ad-hoc rate: RM 100 / hr',
-    // pill labels
-    'lbl-p1': 'Basic Automation (RM 500–1,200)',
-    'lbl-p2': 'AI Automation Flow (RM 1,500–3,500)',
-    'lbl-p3': 'AI Chatbot (RM 2,000–4,500)',
-    'lbl-pX': 'Not sure yet',
-    'lbl-s1': 'One-time setup only', 'lbl-s2': 'Monthly support', 'lbl-s3': 'Both',
-    'lbl-t1': 'ASAP (within 2 weeks)', 'lbl-t2': '1 month', 'lbl-t3': '1–3 months', 'lbl-t4': 'Flexible',
-    // select options
-    'bud0': '— Select range —', 'bud1': 'Below RM 500', 'bud2': 'RM 500 – 1,500',
-    'bud3': 'RM 1,500 – 3,500', 'bud4': 'RM 3,500 – 5,000', 'bud5': 'Above RM 5,000', 'bud6': 'Discuss first',
-    // form labels for summary
-    'fl-name': 'Full Name', 'fl-company': 'Company', 'fl-phone': 'Phone', 'fl-email': 'Email',
-    'fl-industry': 'Industry', 'fl-pkg': 'Package', 'fl-support': 'Support', 'fl-manual': 'Manual tasks',
-    'fl-platforms': 'Platforms', 'fl-volume': 'Volume', 'fl-problem': 'Problem', 'fl-success': 'Success looks like',
-    'fl-timeline': 'Timeline', 'fl-budget': 'Budget', 'fl-notes': 'Notes',
+    'title': 'Client Intake Form', 'back': 'Back to Pricing',
+    'lbl-p1': 'Basic Automation', 'lbl-p2': 'AI Automation Flow', 'lbl-p3': 'AI Chatbot', 'lbl-p4': 'AI Content & Infographics',
+    'lbl-pr1': 'Earning Snapshot', 'lbl-pr2': 'Visual Infographic', 'lbl-pr3': 'Automated PDF',
+    't-upload': 'Upload Sample Data / Reference', 't-upload-hint': 'Upload a screenshot or file (Max 5MB).',
+    't-submit': 'Submit Requirements', 't-succ-title': 'Success!'
   },
   cn: {
-    'back': '返回收费页',
-    'eyebrow': '自动化服务',
-    'title': '客户需求收集表',
-    'sub': '请填写以下资料，让我们为您设计最合适的解决方案。',
-    's1': '您的资料', 's2': '套餐', 's3': '现有设置', 's4': '目标', 's5': '预算',
-    'sec1': '01 · 客户资料',
-    'sec2': '02 · 感兴趣的套餐',
-    'sec3': '03 · 目前状况',
-    'sec4': '04 · 目标与期望',
-    'sec5': '05 · 预算与备注',
-    'fname': '全名', 'company': '公司名称', 'phone': 'WhatsApp / 电话', 'email': '电子邮件',
-    'industry': '行业 / 业务类型',
-    'pkg': '您有兴趣的套餐是？',
-    'support': '偏好的支援类型',
-    'manual': '目前您在手动处理哪些工作，想要自动化的是什么？',
-    'platforms': '您目前使用的平台 / 工具',
-    'crm': 'CRM 系统（请在下方注明）', 'other': '其他',
-    'volume': '大概业务量（每天 / 每周）',
-    'vol-hint': '这有助于我们为您规划合适的方案。',
-    'problem': '您最主要想解决的问题是什么？',
-    'success': '您认为成功是什么样子？',
-    'timeline': '时间要求——什么时候需要完成？',
-    'budget': '大概的一次性建置预算',
-    'notes': '还有什么想告诉我们的？',
-    'note': '平台费用（n8n、OpenAI、WhatsApp API 等）由客户自行支付。账号管理可作为附加服务，收费 RM 100/小时。',
-    'submit': '提交需求表', 'copy': '复制为纯文字',
-    'succ-title': '表单已提交！',
-    'succ-sub': '感谢您填写——我们将在 1 个工作日内通过 WhatsApp 与您联系。',
-    'succ-copy': '复制摘要', 'succ-new': '重新填写',
-    'footer': '有疑问？请联系我们 <strong style="color:#fff;">WhatsApp / Telegram</strong>',
-    'rate': '零散工时：RM 100 / 小时',
-    'lbl-p1': '基础自动化（RM 500–1,200）',
-    'lbl-p2': 'AI 自动化流程（RM 1,500–3,500）',
-    'lbl-p3': 'AI 聊天机器人（RM 2,000–4,500）',
-    'lbl-pX': '还不确定',
-    'lbl-s1': '只需一次性设置', 'lbl-s2': '月费维护', 'lbl-s3': '两者都需要',
-    'lbl-t1': '越快越好（2 周内）', 'lbl-t2': '1 个月内', 'lbl-t3': '1–3 个月', 'lbl-t4': '时间灵活',
-    'bud0': '— 请选择 —', 'bud1': '低于 RM 500', 'bud2': 'RM 500 – 1,500',
-    'bud3': 'RM 1,500 – 3,500', 'bud4': 'RM 3,500 – 5,000', 'bud5': '超过 RM 5,000', 'bud6': '先沟通再决定',
-    'fl-name': '全名', 'fl-company': '公司', 'fl-phone': '电话', 'fl-email': '电子邮件',
-    'fl-industry': '行业', 'fl-pkg': '套餐', 'fl-support': '支援类型', 'fl-manual': '手动任务',
-    'fl-platforms': '使用平台', 'fl-volume': '业务量', 'fl-problem': '主要问题', 'fl-success': '成功标准',
-    'fl-timeline': '时间要求', 'fl-budget': '预算', 'fl-notes': '备注',
+    'title': '客户需求收集表', 'back': '返回收费页',
+    'lbl-p1': '基础自动化', 'lbl-p2': 'AI 自动化流程', 'lbl-p3': 'AI 聊天机器人', 'lbl-p4': 'AI 内容与信息图',
+    'lbl-pr1': '收益简报', 'lbl-pr2': '信息图', 'lbl-pr3': '自动化 PDF',
+    't-upload': '上传参考样本', 't-upload-hint': '上传截图或文件 (最高 5MB)。',
+    't-submit': '提交需求', 't-succ-title': '提交成功！'
   }
 };
 
 let lang = 'en';
+const WEBHOOK_URL = 'https://n8n-kktan.zeabur.app/webhook/0442b812-132b-44bb-964c-6a2ef290962d';
+
+function togglePill(el) {
+  const grp = el.closest('.pill-group');
+  grp.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function getSelected(id) {
+  const sel = document.getElementById(id).querySelector('.pill.selected');
+  return sel ? sel.textContent.trim() : '—';
+}
+
+// Helper to convert file to Base64
+async function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+async function submitForm() {
+  const btn = document.getElementById('t-submit');
+  const fileInput = document.getElementById('f-upload');
+  
+  const name = document.getElementById('f-name').value;
+  const phone = document.getElementById('f-phone').value;
+  
+  if(!name || !phone) return alert("Please fill Name and Phone");
+
+  btn.disabled = true;
+  btn.textContent = "Processing...";
+
+  let fileData = null;
+  if (fileInput.files.length > 0) {
+    fileData = {
+      base64: await getBase64(fileInput.files[0]),
+      filename: fileInput.files[0].name,
+      mimeType: fileInput.files[0].type
+    };
+  }
+
+  const payload = {
+    submitted_at: new Date().toISOString(),
+    name: name,
+    phone: phone,
+    package: getSelected('g-pkg'),
+    product_format: getSelected('g-product'),
+    budget: document.getElementById('f-budget').value,
+    attachment: fileData // Attachment data sent to n8n
+  };
+
+  document.getElementById('main-form').style.display = 'none';
+  document.getElementById('success-screen').style.display = 'block';
+  document.getElementById('success-text').textContent = JSON.stringify({ ...payload, attachment: payload.attachment ? "FILE_INCLUDED" : "NONE" }, null, 2);
+
+  try {
+    await fetch(WEBHOOK_URL, { 
+      method: 'POST', 
+      headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {
+    console.error("Submission failed", e);
+  }
+}
 
 function setLang(l) {
   lang = l;
-  const t = T[l];
-  for (const k in t) {
-    const el = document.getElementById('t-' + k);
-    if (el) el.innerHTML = t[k];
-  }
-  // update pill label spans
-  document.querySelectorAll('[class^="lbl-"], [class*=" lbl-"]').forEach(el => {
-    const cls = [...el.classList].find(c => c.startsWith('lbl-'));
-    if (cls && t[cls]) el.textContent = t[cls];
+  document.querySelectorAll('[class^="lbl-"], [id^="t-"]').forEach(el => {
+    const key = el.id || [...el.classList].find(c => c.startsWith('lbl-'));
+    if(T[l][key]) el.textContent = T[l][key];
   });
-  document.getElementById('btn-en').classList.toggle('active', l === 'en');
-  document.getElementById('btn-cn').classList.toggle('active', l === 'cn');
-}
-
-function togglePill(el) {
-  // single-select within same group
-  const grp = el.closest('.pill-group');
-  if (grp) grp.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-  el.classList.toggle('selected');
-}
-
-function getChecked() {
-  return [...document.querySelectorAll('.check-group input:checked')].map(i => i.value).join(', ') || '—';
-}
-function getSelected(groupId) {
-  const grp = document.getElementById(groupId);
-  if (!grp) return '—';
-  const sel = grp.querySelector('.pill.selected');
-  return sel ? sel.textContent.trim() : '—';
-}
-function getTimeline() {
-  const grp = document.getElementById('g-timeline');
-  if (!grp) return '—';
-  const sels = [...grp.querySelectorAll('.pill.selected')].map(p => p.textContent.trim());
-  return sels.length ? sels.join(', ') : '—';
-}
-
-function buildSummary() {
-  const t = T[lang];
-  const lines = [
-    `=== ${t['title']} ===`,
-    '',
-    `[${t['sec1']}]`,
-    `${t['fl-name']}: ${document.getElementById('f-name').value || '—'}`,
-    `${t['fl-company']}: ${document.getElementById('f-company').value || '—'}`,
-    `${t['fl-phone']}: ${document.getElementById('f-phone').value || '—'}`,
-    `${t['fl-email']}: ${document.getElementById('f-email').value || '—'}`,
-    `${t['fl-industry']}: ${document.getElementById('f-industry').value || '—'}`,
-    '',
-    `[${t['sec2']}]`,
-    `${t['fl-pkg']}: ${getSelected('g-pkg')}`,
-    `${t['fl-support']}: ${getSelected('g-support')}`,
-    '',
-    `[${t['sec3']}]`,
-    `${t['fl-manual']}: ${document.getElementById('f-manual').value || '—'}`,
-    `${t['fl-platforms']}: ${getChecked()}${document.getElementById('f-tools-other').value ? ' / ' + document.getElementById('f-tools-other').value : ''}`,
-    `${t['fl-volume']}: ${document.getElementById('f-volume').value || '—'}`,
-    '',
-    `[${t['sec4']}]`,
-    `${t['fl-problem']}: ${document.getElementById('f-problem').value || '—'}`,
-    `${t['fl-success']}: ${document.getElementById('f-success').value || '—'}`,
-    `${t['fl-timeline']}: ${getTimeline()}`,
-    '',
-    `[${t['sec5']}]`,
-    `${t['fl-budget']}: ${document.getElementById('f-budget').value || '—'}`,
-    `${t['fl-notes']}: ${document.getElementById('f-notes').value || '—'}`,
-  ];
-  return lines.join('\n');
-}
-
-// ── REPLACE THIS with your actual n8n webhook URL ──
-const WEBHOOK_URL = 'https://n8n-kktan.zeabur.app/webhook/0442b812-132b-44bb-964c-6a2ef290962d';
-
-async function submitForm() {
-  const name = document.getElementById('f-name').value.trim();
-  const phone = document.getElementById('f-phone').value.trim();
-  if (!name || !phone) {
-    alert(lang === 'cn' ? '请填写全名和电话号码。' : 'Please fill in your name and phone number.');
-    return;
-  }
-
-  // Build structured payload for n8n
-  const payload = {
-    lang,
-    submitted_at: new Date().toISOString(),
-    client: {
-      name,
-      company:  document.getElementById('f-company').value.trim(),
-      phone,
-      email:    document.getElementById('f-email').value.trim(),
-      industry: document.getElementById('f-industry').value.trim(),
-    },
-    package: {
-      interest: getSelected('g-pkg'),
-      support:  getSelected('g-support'),
-    },
-    current_setup: {
-      manual_tasks:  document.getElementById('f-manual').value.trim(),
-      platforms:     getChecked() + (document.getElementById('f-tools-other').value ? ' / ' + document.getElementById('f-tools-other').value : ''),
-      volume:        document.getElementById('f-volume').value.trim(),
-    },
-    goals: {
-      problem:  document.getElementById('f-problem').value.trim(),
-      success:  document.getElementById('f-success').value.trim(),
-      timeline: getTimeline(),
-    },
-    budget: {
-      range: document.getElementById('f-budget').value,
-      notes: document.getElementById('f-notes').value.trim(),
-    },
-    plain_text: buildSummary(),
-  };
-
-  // Show loading state
-  const btn = document.querySelector('.submit-btn');
-  const origHTML = btn.innerHTML;
-  btn.innerHTML = '<i class="ti ti-loader-2"></i> Sending…';
-  btn.disabled = true;
-
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-  } catch (err) {
-    // Even if fetch fails (CORS on local test), we still show success
-    // In production with a real webhook this will work fine
-    console.warn('Webhook error (may be normal on localhost):', err);
-  }
-
-  btn.innerHTML = origHTML;
-  btn.disabled = false;
-
-  // Show success screen
-  document.getElementById('success-text').textContent = payload.plain_text;
-  document.getElementById('main-form').style.display = 'none';
-  document.getElementById('success-screen').style.display = 'block';
-}
-
-function copyForm() {
-  navigator.clipboard.writeText(buildSummary()).then(() => {
-    const btn = document.querySelector('.submit-copy');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<i class="ti ti-check"></i> Copied!';
-    setTimeout(() => { btn.innerHTML = orig; }, 2000);
-  });
-}
-
-function copySuccess() {
-  navigator.clipboard.writeText(document.getElementById('success-text').textContent).then(() => {
-    const btn = document.querySelector('.success-actions .btn-sm');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<i class="ti ti-check"></i> Copied!';
-    setTimeout(() => { btn.innerHTML = orig; }, 2000);
-  });
-}
-
-function resetForm() {
-  document.getElementById('main-form').style.display = '';
-  document.getElementById('success-screen').style.display = 'none';
-  document.querySelectorAll('input[type=text], input[type=tel], input[type=email], textarea').forEach(el => el.value = '');
-  document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
-  document.getElementById('f-budget').value = '';
-  document.querySelectorAll('.pill.selected').forEach(p => p.classList.remove('selected'));
 }
 </script>
 </body>
