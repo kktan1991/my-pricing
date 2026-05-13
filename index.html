@@ -5,62 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Services & Pricing</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
-    .price-root { font-family: 'Sora', sans-serif; padding: 0 0 2rem; max-width: 1200px; margin: 0 auto; }
-    .lang-toggle { display: flex; gap: 6px; justify-content: flex-end; padding: 0.75rem 1.25rem 0; }
-    .lang-btn { font-family: 'Space Mono', monospace; font-size: 11px; padding: 4px 14px; border-radius: 20px; border: 0.5px solid #B4B2A9; background: #fff; color: #5F5E5A; cursor: pointer; transition: all 0.15s; }
-    .lang-btn.active { background: #0C447C; color: #E6F1FB; border-color: #0C447C; }
-    .brand-bar { background: #0C447C; color: #E6F1FB; padding: 2.5rem 1.5rem 2rem; border-radius: 12px 12px 0 0; text-align: center; }
-    .brand-name { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: #85B7EB; text-transform: uppercase; margin-bottom: 8px; }
-    .brand-title { font-size: 26px; font-weight: 600; color: #E6F1FB; margin: 0 0 6px; }
-    .brand-sub { font-size: 14px; color: #85B7EB; }
-    .badge-row { display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
-    .badge { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); border-radius: 20px; font-size: 11px; padding: 4px 12px; color: #B5D4F4; }
-    
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; padding: 1.5rem; background: #F1EFE8; border: 0.5px solid #D3D1C7; }
-    .pkg-card { background: #fff; border: 0.5px solid #D3D1C7; border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 10px; transition: transform 0.2s; }
-    .pkg-card:hover { transform: translateY(-3px); }
-    .pkg-card.featured { border: 1.5px solid #378ADD; box-shadow: 0 4px 12px rgba(55,138,221,0.1); }
-    .pkg-icon { font-size: 24px; color: #185FA5; }
-    .pkg-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; }
-    .pkg-name { font-size: 17px; font-weight: 600; color: #2C2C2A; margin: 0; line-height: 1.3; }
-    .pkg-badge { display: inline-block; font-size: 10px; padding: 2px 10px; border-radius: 20px; background: #E6F1FB; color: #0C447C; font-weight: 600; align-self: flex-start; }
-    .price-block { margin-top: 8px; border-top: 0.5px solid #D3D1C7; padding-top: 12px; }
-    .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 6px; }
-    .price-key { font-size: 11px; color: #5F5E5A; }
-    .price-val { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: #185FA5; }
-    
-    .cta-strip { background: #F1EFE8; border: 0.5px solid #D3D1C7; border-top: none; padding: 0 1.5rem 1.5rem; }
-    .cta-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px 24px; background: #0C447C; color: #E6F1FB; font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background 0.15s; box-sizing: border-box; }
-    .cta-btn:hover { background: #042C53; }
-    .cta-sub { text-align: center; font-size: 11px; color: #888780; margin-top: 10px; }
-
-    .divider-section { padding: 0 1.5rem; }
-    .section-title { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; margin: 2rem 0 1rem; }
-    .incl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-    .incl-card { background: #fff; border: 0.5px solid #D3D1C7; border-radius: 12px; padding: 1.25rem; }
-    .incl-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .incl-icon { font-size: 20px; }
-    .incl-icon.green { color: #3B6D11; }
-    .incl-icon.red { color: #A32D2D; }
-    .incl-title { font-size: 14px; font-weight: 600; color: #2C2C2A; }
-    .incl-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
-    .incl-dot { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
-    .incl-dot.yes { color: #3B6D11; }
-    .incl-dot.no { color: #A32D2D; }
-    .incl-text { font-size: 12px; color: #5F5E5A; line-height: 1.6; }
-    
-    .note-box { background: #E6F1FB; border: 0.5px solid #B5D4F4; border-radius: 8px; padding: 1rem; margin: 1.5rem 1.5rem 0; }
-    .note-text { font-size: 12px; color: #0C447C; line-height: 1.8; }
-    
-    .footer-bar { background: #F1EFE8; border: 0.5px solid #D3D1C7; border-radius: 0 0 12px 12px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 2rem; }
-    .footer-contact { font-size: 12px; color: #5F5E5A; }
-    .footer-contact span { color: #2C2C2A; font-weight: 600; }
-    .footer-rate { font-family: 'Space Mono', monospace; font-size: 11px; color: #185FA5; background: #E6F1FB; border-radius: 20px; padding: 4px 12px; font-weight: 700; }
-  </style>
 </head>
 <body style="margin: 0; padding: 2rem; background: #f5f5f5;">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+  .price-root { font-family: 'Sora', sans-serif; padding: 0 0 2rem; }
+  .lang-toggle { display: flex; gap: 6px; justify-content: flex-end; padding: 0.75rem 1.25rem 0; }
+  .lang-btn { font-family: 'Space Mono', monospace; font-size: 11px; padding: 4px 14px; border-radius: 20px; border: 0.5px solid #B4B2A9; background: #fff; color: #5F5E5A; cursor: pointer; transition: all 0.15s; }
+  .lang-btn.active { background: #0C447C; color: #E6F1FB; border-color: #0C447C; }
+  .brand-bar { background: #0C447C; color: #E6F1FB; padding: 2rem 1.5rem 1.5rem; border-radius: 12px 12px 0 0; text-align: center; }
+  .brand-name { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: #85B7EB; text-transform: uppercase; margin-bottom: 6px; }
+  .brand-title { font-size: 22px; font-weight: 600; color: #E6F1FB; margin: 0 0 4px; }
+  .brand-sub { font-size: 13px; color: #85B7EB; }
+  .badge-row { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); border-radius: 20px; font-size: 11px; padding: 4px 12px; color: #B5D4F4; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 1.25rem; background: #F1EFE8; border: 0.5px solid #D3D1C7; }
+  .pkg-card { background: #fff; border: 0.5px solid #D3D1C7; border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 8px; }
+  .pkg-card.featured { border: 1.5px solid #378ADD; }
+  .pkg-icon { font-size: 20px; color: #185FA5; }
+  .pkg-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; }
+  .pkg-name { font-size: 15px; font-weight: 500; color: #2C2C2A; margin: 0; line-height: 1.3; }
+  .pkg-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #E6F1FB; color: #0C447C; font-weight: 500; align-self: flex-start; }
+  .price-block { margin-top: 4px; border-top: 0.5px solid #D3D1C7; padding-top: 10px; }
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .price-key { font-size: 11px; color: #5F5E5A; }
+  .price-val { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: #185FA5; }
+
+  /* ── Get Started button strip ── */
+  .cta-strip { background: #F1EFE8; border: 0.5px solid #D3D1C7; border-top: none; padding: 0 1.25rem 1.25rem; }
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px 24px;
+    background: #0C447C;
+    color: #E6F1FB;
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+    box-sizing: border-box;
+  }
+  .cta-btn:hover { background: #042C53; }
+  .cta-sub { text-align: center; font-size: 11px; color: #888780; margin-top: 8px; }
+
+  .divider-section { padding: 0 1.25rem; }
+  .section-title { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; margin: 1.25rem 0 0.75rem; }
+  .incl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .incl-card { background: #fff; border: 0.5px solid #D3D1C7; border-radius: 12px; padding: 1rem 1.25rem; }
+  .incl-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .incl-icon { font-size: 18px; }
+  .incl-icon.green { color: #3B6D11; }
+  .incl-icon.red { color: #A32D2D; }
+  .incl-title { font-size: 13px; font-weight: 500; color: #2C2C2A; }
+  .incl-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 7px; }
+  .incl-dot { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+  .incl-dot.yes { color: #3B6D11; }
+  .incl-dot.no { color: #A32D2D; }
+  .incl-text { font-size: 12px; color: #5F5E5A; line-height: 1.5; }
+  .note-box { background: #E6F1FB; border: 0.5px solid #B5D4F4; border-radius: 8px; padding: 0.85rem 1rem; margin: 0 1.25rem 1rem; }
+  .note-text { font-size: 12px; color: #0C447C; line-height: 1.7; }
+  .note-text p { margin: 0 0 6px; }
+  .note-text p:last-child { margin: 0; }
+  .footer-bar { background: #F1EFE8; border: 0.5px solid #D3D1C7; border-radius: 0 0 12px 12px; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-contact { font-size: 12px; color: #5F5E5A; }
+  .footer-contact span { color: #2C2C2A; font-weight: 500; }
+  .footer-rate { font-family: 'Space Mono', monospace; font-size: 11px; color: #185FA5; background: #E6F1FB; border-radius: 20px; padding: 4px 12px; }
+</style>
 
 <div class="price-root">
   <div class="lang-toggle">
@@ -73,16 +91,15 @@
     <div class="brand-title" id="t-title">Service Packages & Pricing</div>
     <div class="brand-sub" id="t-sub">n8n · AI Workflows · Chatbots · Python Tools</div>
     <div class="badge-row">
-      <span class="badge"><i class="ti ti-map-pin"></i> <span id="t-loc">Malaysia</span></span>
-      <span class="badge"><i class="ti ti-calendar"></i> <span id="t-valid">Valid from May 2026</span></span>
+      <span class="badge"><i class="ti ti-map-pin" aria-hidden="true"></i> <span id="t-loc">Malaysia</span></span>
+      <span class="badge"><i class="ti ti-calendar" aria-hidden="true"></i> <span id="t-valid">Valid from May 2026</span></span>
       <span class="badge" id="t-sme">SME-Friendly</span>
     </div>
   </div>
 
   <div class="cards-grid">
-    <!-- P1 -->
     <div class="pkg-card">
-      <i class="ti ti-settings-automation pkg-icon"></i>
+      <i class="ti ti-settings-automation pkg-icon" aria-hidden="true"></i>
       <div class="pkg-label">Package 01</div>
       <div class="pkg-name" id="t-p1name">Basic Automation</div>
       <div class="pkg-badge" id="t-p1badge">Starter</div>
@@ -92,9 +109,8 @@
       </div>
     </div>
 
-    <!-- P2 -->
     <div class="pkg-card featured">
-      <i class="ti ti-robot pkg-icon"></i>
+      <i class="ti ti-robot pkg-icon" aria-hidden="true"></i>
       <div class="pkg-label">Package 02</div>
       <div class="pkg-name" id="t-p2name">AI Automation Flow</div>
       <div class="pkg-badge" id="t-p2badge">Most Popular</div>
@@ -104,70 +120,63 @@
       </div>
     </div>
 
-    <!-- P3 -->
     <div class="pkg-card">
-      <i class="ti ti-message-chatbot pkg-icon"></i>
+      <i class="ti ti-message-chatbot pkg-icon" aria-hidden="true"></i>
       <div class="pkg-label">Package 03</div>
       <div class="pkg-name" id="t-p3name">AI Chatbot</div>
-      <div class="pkg-badge" id="t-p3badge">WhatsApp / Web</div>
+      <div class="pkg-badge" id="t-p3badge">WhatsApp / Web / Telegram</div>
       <div class="price-block">
         <div class="price-row"><span class="price-key" id="t-setup3">One-time setup</span><span class="price-val">RM 2,000 – 4,500</span></div>
         <div class="price-row"><span class="price-key" id="t-monthly3">Monthly support</span><span class="price-val">RM 600 – 1,000</span></div>
       </div>
     </div>
-
-    <!-- P4 -->
-    <div class="pkg-card">
-      <i class="ti ti-photo-ai pkg-icon"></i>
-      <div class="pkg-label">Package 04</div>
-      <div class="pkg-name" id="t-p4name">AI Content & Insights</div>
-      <div class="pkg-badge" id="t-p4badge">Snapshots & Infographics</div>
-      <div class="price-block">
-        <div class="price-row"><span class="price-key" id="t-setup4">Per report/setup</span><span class="price-val">To be discussed</span></div>
-        <div class="price-row"><span class="price-key" id="t-monthly4">Monthly retainer</span><span class="price-val">To be discussed</span></div>
-      </div>
-    </div>
   </div>
 
+  <!-- ── CTA strip ── -->
   <div class="cta-strip">
     <a class="cta-btn" href="intake-form.html" id="t-cta-btn">
-      <i class="ti ti-send"></i>
+      <i class="ti ti-send" aria-hidden="true"></i>
       <span id="t-cta-label">Get Started — Fill in Your Requirements</span>
     </a>
     <div class="cta-sub" id="t-cta-sub">Takes less than 3 minutes · We'll reply within 1 business day</div>
   </div>
 
-  <!-- Included/Excluded -->
   <div class="divider-section">
     <div class="section-title" id="t-inclhead">What's included / excluded</div>
     <div class="incl-grid">
       <div class="incl-card">
         <div class="incl-head">
-          <i class="ti ti-circle-check incl-icon green"></i>
+          <i class="ti ti-circle-check incl-icon green" aria-hidden="true"></i>
           <div class="incl-title" id="t-incltitle">Included in price</div>
         </div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes"></i><span class="incl-text" id="t-i1">Flow design & build</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes"></i><span class="incl-text" id="t-i2">Testing & bug fixing</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes"></i><span class="incl-text" id="t-i3">AI prompt tuning</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes"></i><span class="incl-text" id="t-i4">Basic training & handover doc</span></div>
+        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i1">Flow design & build</span></div>
+        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i2">Testing & bug fixing</span></div>
+        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i3">AI prompt tuning</span></div>
+        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i4">Basic training & handover doc</span></div>
+        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i5">1 revision after delivery</span></div>
+        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i6">WhatsApp support (14 days)</span></div>
       </div>
       <div class="incl-card">
         <div class="incl-head">
-          <i class="ti ti-circle-x incl-icon red"></i>
+          <i class="ti ti-circle-x incl-icon red" aria-hidden="true"></i>
           <div class="incl-title" id="t-excltitle">Not included</div>
         </div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no"></i><span class="incl-text" id="t-e1">n8n Cloud / hosting fees</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no"></i><span class="incl-text" id="t-e2">OpenAI / Claude API costs</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no"></i><span class="incl-text" id="t-e3">WhatsApp Business API fee</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no"></i><span class="incl-text" id="t-e4">Extra revisions beyond scope</span></div>
+        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e1">n8n Cloud / hosting fees</span></div>
+        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e2">OpenAI / Claude API costs</span></div>
+        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e3">WhatsApp Business API fee</span></div>
+        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e4">Google Workspace / domains</span></div>
+        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e5">Extra revisions beyond scope</span></div>
+        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e6">New features after sign-off</span></div>
       </div>
     </div>
   </div>
 
-  <div class="note-box">
-    <div class="note-text" id="t-note">
-      <p><strong>Platform subscriptions</strong> — Third-party fees (n8n, OpenAI, etc.) are paid directly by the client.</p>
-      <p><strong>Account management</strong> — Setup assistance is available at <strong>RM 100 / hour</strong>.</p>
+  <div class="divider-section" style="margin-top: 1rem;">
+    <div class="note-box">
+      <div class="note-text" id="t-note">
+        <p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Platform subscriptions</strong> — All third-party platforms (n8n, OpenAI, WhatsApp API, etc.) are registered and paid directly by the client.</p>
+        <p><i class="ti ti-plus" aria-hidden="true"></i> <strong>Account management add-on</strong> — If you prefer us to handle platform setup and management on your behalf, this is charged separately at <strong>RM 100 / hour</strong> or a fixed monthly fee by arrangement.</p>
+      </div>
     </div>
   </div>
 
@@ -180,42 +189,58 @@
 <script>
 const translations = {
   en: {
-    'brand': 'Automation Services', 'title': 'Service Packages & Pricing', 'sub': 'n8n · AI Workflows · Chatbots · Python Tools',
-    'loc': 'Malaysia', 'valid': 'Valid from May 2026', 'sme': 'SME-Friendly',
+    'brand': 'Automation Services',
+    'title': 'Service Packages & Pricing',
+    'sub': 'n8n · AI Workflows · Chatbots · Python Tools',
+    'loc': 'Malaysia',
+    'valid': 'Valid from May 2026',
+    'sme': 'SME-Friendly',
     'p1name': 'Basic Automation', 'p1badge': 'Starter',
     'p2name': 'AI Automation Flow', 'p2badge': 'Most Popular',
-    'p3name': 'AI Chatbot', 'p3badge': 'WhatsApp / Web',
-    'p4name': 'AI Content & Insights', 'p4badge': 'Snapshots & Infographics',
+    'p3name': 'AI Chatbot', 'p3badge': 'WhatsApp / Web / Telegram',
     'setup': 'One-time setup', 'monthly': 'Monthly support',
     'setup2': 'One-time setup', 'monthly2': 'Monthly support',
     'setup3': 'One-time setup', 'monthly3': 'Monthly support',
-    'setup4': 'Per report/setup', 'monthly4': 'Monthly retainer',
     'cta-label': 'Get Started — Fill in Your Requirements',
     'cta-sub': 'Takes less than 3 minutes · We\'ll reply within 1 business day',
-    'inclhead': "What's included / excluded", 'incltitle': 'Included in price', 'excltitle': 'Not included',
-    'i1': 'Flow design & build', 'i2': 'Testing & bug fixing', 'i3': 'AI prompt tuning', 'i4': 'Basic training & handover doc',
-    'e1': 'n8n Cloud / hosting fees', 'e2': 'OpenAI / Claude API costs', 'e3': 'WhatsApp Business API fee', 'e4': 'Extra revisions beyond scope',
-    'note': '<p><strong>Platform subscriptions</strong> — Third-party fees (n8n, OpenAI, etc.) are paid directly by the client.</p><p><strong>Account management</strong> — Setup assistance is available at <strong>RM 100 / hour</strong>.</p>',
-    'footer': 'Questions? Reach out via <span>WhatsApp / Telegram</span>', 'rate': 'Ad-hoc rate: RM 100 / hr'
+    'inclhead': "What's included / excluded",
+    'incltitle': 'Included in price', 'excltitle': 'Not included',
+    'i1': 'Flow design & build', 'i2': 'Testing & bug fixing',
+    'i3': 'AI prompt tuning', 'i4': 'Basic training & handover doc',
+    'i5': '1 revision after delivery', 'i6': 'WhatsApp support (14 days)',
+    'e1': 'n8n Cloud / hosting fees', 'e2': 'OpenAI / Claude API costs',
+    'e3': 'WhatsApp Business API fee', 'e4': 'Google Workspace / domains',
+    'e5': 'Extra revisions beyond scope', 'e6': 'New features after sign-off',
+    'note': '<p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Platform subscriptions</strong> — All third-party platforms (n8n, OpenAI, WhatsApp API, etc.) are registered and paid directly by the client.</p><p><i class="ti ti-plus" aria-hidden="true"></i> <strong>Account management add-on</strong> — If you prefer us to handle platform setup and management on your behalf, this is charged separately at <strong>RM 100 / hour</strong> or a fixed monthly fee by arrangement.</p>',
+    'footer': 'Questions? Reach out via <span>WhatsApp / Telegram</span>',
+    'rate': 'Ad-hoc rate: RM 100 / hr'
   },
   cn: {
-    'brand': '自动化服务', 'title': '服务套餐与收费', 'sub': 'n8n · AI 流程 · 聊天机器人 · Python 工具',
-    'loc': '马来西亚', 'valid': '2026年5月起生效', 'sme': '中小企业友好',
+    'brand': '自动化服务',
+    'title': '服务套餐与收费',
+    'sub': 'n8n · AI 流程 · 聊天机器人 · Python 工具',
+    'loc': '马来西亚',
+    'valid': '2026年5月起生效',
+    'sme': '中小企业友好',
     'p1name': '基础自动化', 'p1badge': '入门款',
     'p2name': 'AI 自动化流程', 'p2badge': '最受欢迎',
-    'p3name': 'AI 聊天机器人', 'p3badge': 'WhatsApp / 网页',
-    'p4name': 'AI 内容与视觉洞察', 'p4badge': '简报与信息图',
+    'p3name': 'AI 聊天机器人', 'p3badge': 'WhatsApp / 网页 / Telegram',
     'setup': '一次性建置费', 'monthly': '月维护费',
     'setup2': '一次性建置费', 'monthly2': '月维护费',
     'setup3': '一次性建置费', 'monthly3': '月维护费',
-    'setup4': '单次报告/设置', 'monthly4': '月度服务费',
     'cta-label': '立即开始——填写您的需求',
     'cta-sub': '少于 3 分钟完成 · 1 个工作日内回复',
-    'inclhead': '服务范围说明', 'incltitle': '包含在报价内', 'excltitle': '不包含在报价内',
-    'i1': '流程设计与搭建', 'i2': '测试与错误修复', 'i3': 'AI 提示词调优', 'i4': '基础培训与交接文档',
-    'e1': 'n8n Cloud / 主机费用', 'e2': 'OpenAI / Claude API 费用', 'e3': 'WhatsApp Business API 费', 'e4': '超出范围的额外修改',
-    'note': '<p><strong>平台订阅费</strong> — 所有第三方平台（n8n、OpenAI 等）由客户自行注册并支付。</p><p><strong>账号管理附加服务</strong> — 如需代劳，收费为 <strong>RM 100 / 小时</strong>。</p>',
-    'footer': '有疑问？请联系我们 <span>WhatsApp / Telegram</span>', 'rate': '零散工时：RM 100 / 小时'
+    'inclhead': '服务范围说明',
+    'incltitle': '包含在报价内', 'excltitle': '不包含在报价内',
+    'i1': '流程设计与搭建', 'i2': '测试与错误修复',
+    'i3': 'AI 提示词调优', 'i4': '基础培训与交接文档',
+    'i5': '交付后 1 次修改', 'i6': 'WhatsApp 支援（14天）',
+    'e1': 'n8n Cloud / 主机费用', 'e2': 'OpenAI / Claude API 费用',
+    'e3': 'WhatsApp Business API 费', 'e4': 'Google Workspace / 域名',
+    'e5': '超出范围的额外修改', 'e6': '验收后新增功能',
+    'note': '<p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>平台订阅费</strong> — 所有第三方平台（n8n、OpenAI、WhatsApp API 等）由客户自行注册并支付。</p><p><i class="ti ti-plus" aria-hidden="true"></i> <strong>账号管理附加服务</strong> — 如需由我们代为设置和管理平台账号，额外收取 <strong>RM 100 / 小时</strong>，或按月收取固定服务费。</p>',
+    'footer': '有疑问？请联系我们 <span>WhatsApp / Telegram</span>',
+    'rate': '零散工时：RM 100 / 小时'
   }
 };
 
@@ -229,5 +254,6 @@ function setLang(lang) {
   document.getElementById('btn-cn').classList.toggle('active', lang === 'cn');
 }
 </script>
+
 </body>
 </html>
