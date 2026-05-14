@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Services & Pricing</title>
+  <title>AI Automation Services & Pricing</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 </head>
 <body style="margin: 0; padding: 2rem; background: #f5f5f5;">
@@ -27,6 +27,7 @@
   .pkg-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; }
   .pkg-name { font-size: 15px; font-weight: 500; color: #2C2C2A; margin: 0; line-height: 1.3; }
   .pkg-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #E6F1FB; color: #0C447C; font-weight: 500; align-self: flex-start; }
+  .pkg-desc { font-size: 11.5px; line-height: 1.55; color: #5F5E5A; min-height: 36px; }
   .price-block { margin-top: 4px; border-top: 0.5px solid #D3D1C7; padding-top: 10px; }
   .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
   .price-key { font-size: 11px; color: #5F5E5A; }
@@ -87,9 +88,9 @@
   </div>
 
   <div class="brand-bar">
-    <div class="brand-name" id="t-brand">Automation Services</div>
-    <div class="brand-title" id="t-title">Service Packages & Pricing</div>
-    <div class="brand-sub" id="t-sub">n8n · AI Workflows · Chatbots · Python Tools</div>
+    <div class="brand-name" id="t-brand">AI Automation Services</div>
+    <div class="brand-title" id="t-title">Practical AI Automation for SMEs</div>
+    <div class="brand-sub" id="t-sub">Excel · Admin · Documents · n8n · Chatbots</div>
     <div class="badge-row">
       <span class="badge"><i class="ti ti-map-pin" aria-hidden="true"></i> <span id="t-loc">Malaysia</span></span>
       <span class="badge"><i class="ti ti-calendar" aria-hidden="true"></i> <span id="t-valid">Valid from May 2026</span></span>
@@ -99,10 +100,23 @@
 
   <div class="cards-grid">
     <div class="pkg-card">
-      <i class="ti ti-settings-automation pkg-icon" aria-hidden="true"></i>
+      <i class="ti ti-search pkg-icon" aria-hidden="true"></i>
+      <div class="pkg-label">Start Here</div>
+      <div class="pkg-name" id="t-p0name">Workflow Automation Audit</div>
+      <div class="pkg-badge" id="t-p0badge">For first-time clients</div>
+      <div class="pkg-desc" id="t-p0desc">Map your current manual process and identify the best automation opportunities.</div>
+      <div class="price-block">
+        <div class="price-row"><span class="price-key" id="t-auditfee">Audit fee</span><span class="price-val">RM 299 – 499</span></div>
+        <div class="price-row"><span class="price-key" id="t-auditdeliver">Includes</span><span class="price-val" id="t-auditdeliver-val">Roadmap</span></div>
+      </div>
+    </div>
+
+    <div class="pkg-card">
+      <i class="ti ti-table-automation pkg-icon" aria-hidden="true"></i>
       <div class="pkg-label">Package 01</div>
-      <div class="pkg-name" id="t-p1name">Basic Automation</div>
+      <div class="pkg-name" id="t-p1name">Excel / Admin Automation</div>
       <div class="pkg-badge" id="t-p1badge">Starter</div>
+      <div class="pkg-desc" id="t-p1desc">For Excel, Google Sheets, file clean-up, reports, copy-paste work and admin tasks.</div>
       <div class="price-block">
         <div class="price-row"><span class="price-key" id="t-setup">One-time setup</span><span class="price-val">RM 500 – 1,200</span></div>
         <div class="price-row"><span class="price-key" id="t-monthly">Monthly support</span><span class="price-val">RM 300 – 500</span></div>
@@ -112,8 +126,9 @@
     <div class="pkg-card featured">
       <i class="ti ti-robot pkg-icon" aria-hidden="true"></i>
       <div class="pkg-label">Package 02</div>
-      <div class="pkg-name" id="t-p2name">AI Automation Flow</div>
+      <div class="pkg-name" id="t-p2name">AI Workflow Automation</div>
       <div class="pkg-badge" id="t-p2badge">Most Popular</div>
+      <div class="pkg-desc" id="t-p2desc">For n8n workflows, Gmail, Sheets, Forms, Telegram, AI classification and auto reports.</div>
       <div class="price-block">
         <div class="price-row"><span class="price-key" id="t-setup2">One-time setup</span><span class="price-val">RM 1,500 – 3,500</span></div>
         <div class="price-row"><span class="price-key" id="t-monthly2">Monthly support</span><span class="price-val">RM 500 – 800</span></div>
@@ -121,10 +136,11 @@
     </div>
 
     <div class="pkg-card">
-      <i class="ti ti-message-chatbot pkg-icon" aria-hidden="true"></i>
+      <i class="ti ti-file-ai pkg-icon" aria-hidden="true"></i>
       <div class="pkg-label">Package 03</div>
-      <div class="pkg-name" id="t-p3name">AI Chatbot</div>
+      <div class="pkg-name" id="t-p3name">AI Document / Chatbot System</div>
       <div class="pkg-badge" id="t-p3badge">WhatsApp / Web / Telegram</div>
+      <div class="pkg-desc" id="t-p3desc">For PDF Q&A, FAQ bots, internal knowledge assistants, document summaries and chatbots.</div>
       <div class="price-block">
         <div class="price-row"><span class="price-key" id="t-setup3">One-time setup</span><span class="price-val">RM 2,000 – 4,500</span></div>
         <div class="price-row"><span class="price-key" id="t-monthly3">Monthly support</span><span class="price-val">RM 600 – 1,000</span></div>
@@ -136,9 +152,9 @@
   <div class="cta-strip">
     <a class="cta-btn" href="intake-form.html" id="t-cta-btn">
       <i class="ti ti-send" aria-hidden="true"></i>
-      <span id="t-cta-label">Get Started — Fill in Your Requirements</span>
+      <span id="t-cta-label">Start with a Workflow Audit</span>
     </a>
-    <div class="cta-sub" id="t-cta-sub">Takes less than 3 minutes · We'll reply within 1 business day</div>
+    <div class="cta-sub" id="t-cta-sub">Tell us your current manual process · We'll reply within 1 business day</div>
   </div>
 
   <div class="divider-section">
@@ -189,24 +205,30 @@
 <script>
 const translations = {
   en: {
-    'brand': 'Automation Services',
-    'title': 'Service Packages & Pricing',
-    'sub': 'n8n · AI Workflows · Chatbots · Python Tools',
+    'brand': 'AI Automation Services',
+    'title': 'Practical AI Automation for SMEs',
+    'sub': 'Excel · Admin · Documents · n8n · Chatbots',
     'loc': 'Malaysia',
     'valid': 'Valid from May 2026',
     'sme': 'SME-Friendly',
-    'p1name': 'Basic Automation', 'p1badge': 'Starter',
-    'p2name': 'AI Automation Flow', 'p2badge': 'Most Popular',
-    'p3name': 'AI Chatbot', 'p3badge': 'WhatsApp / Web / Telegram',
+    'p0name': 'Workflow Automation Audit', 'p0badge': 'For first-time clients',
+    'p0desc': 'Map your current manual process and identify the best automation opportunities.',
+    'auditfee': 'Audit fee', 'auditdeliver': 'Includes', 'auditdeliver-val': 'Roadmap',
+    'p1name': 'Excel / Admin Automation', 'p1badge': 'Starter',
+    'p1desc': 'For Excel, Google Sheets, file clean-up, reports, copy-paste work and admin tasks.',
+    'p2name': 'AI Workflow Automation', 'p2badge': 'Most Popular',
+    'p2desc': 'For n8n workflows, Gmail, Sheets, Forms, Telegram, AI classification and auto reports.',
+    'p3name': 'AI Document / Chatbot System', 'p3badge': 'WhatsApp / Web / Telegram',
+    'p3desc': 'For PDF Q&A, FAQ bots, internal knowledge assistants, document summaries and chatbots.',
     'setup': 'One-time setup', 'monthly': 'Monthly support',
     'setup2': 'One-time setup', 'monthly2': 'Monthly support',
     'setup3': 'One-time setup', 'monthly3': 'Monthly support',
-    'cta-label': 'Get Started — Fill in Your Requirements',
-    'cta-sub': 'Takes less than 3 minutes · We\'ll reply within 1 business day',
+    'cta-label': 'Start with a Workflow Audit',
+    'cta-sub': 'Tell us your current manual process · We will reply within 1 business day',
     'inclhead': "What's included / excluded",
     'incltitle': 'Included in price', 'excltitle': 'Not included',
-    'i1': 'Flow design & build', 'i2': 'Testing & bug fixing',
-    'i3': 'AI prompt tuning', 'i4': 'Basic training & handover doc',
+    'i1': 'Basic workflow consultation', 'i2': 'Flow design, build & testing',
+    'i3': 'AI prompt tuning where applicable', 'i4': 'Simple SOP / handover guide',
     'i5': '1 revision after delivery', 'i6': 'WhatsApp support (14 days)',
     'e1': 'n8n Cloud / hosting fees', 'e2': 'OpenAI / Claude API costs',
     'e3': 'WhatsApp Business API fee', 'e4': 'Google Workspace / domains',
@@ -216,24 +238,30 @@ const translations = {
     'rate': 'Ad-hoc rate: RM 100 / hr'
   },
   cn: {
-    'brand': '自动化服务',
-    'title': '服务套餐与收费',
-    'sub': 'n8n · AI 流程 · 聊天机器人 · Python 工具',
+    'brand': 'AI 自动化服务',
+    'title': '帮中小企业把重复工作变成自动流程',
+    'sub': 'Excel｜行政流程｜文件处理｜n8n｜Chatbot',
     'loc': '马来西亚',
     'valid': '2026年5月起生效',
     'sme': '中小企业友好',
-    'p1name': '基础自动化', 'p1badge': '入门款',
-    'p2name': 'AI 自动化流程', 'p2badge': '最受欢迎',
-    'p3name': 'AI 聊天机器人', 'p3badge': 'WhatsApp / 网页 / Telegram',
+    'p0name': '工作流自动化诊断', 'p0badge': '适合第一次咨询',
+    'p0desc': '梳理现有人工流程，找出最适合自动化的机会点。',
+    'auditfee': '诊断费', 'auditdeliver': '包含', 'auditdeliver-val': '路线图',
+    'p1name': 'Excel / 行政自动化', 'p1badge': '入门款',
+    'p1desc': '适合 Excel、Google Sheet、文件整理、报表、复制粘贴和行政任务。',
+    'p2name': 'AI 工作流自动化', 'p2badge': '最受欢迎',
+    'p2desc': '适合 n8n、Gmail、表单、Telegram、AI 分类和自动报告。',
+    'p3name': 'AI 文件 / Chatbot 系统', 'p3badge': 'WhatsApp / 网页 / Telegram',
+    'p3desc': '适合 PDF 问答、FAQ 机器人、内部知识库、文件摘要和聊天机器人。',
     'setup': '一次性建置费', 'monthly': '月维护费',
     'setup2': '一次性建置费', 'monthly2': '月维护费',
     'setup3': '一次性建置费', 'monthly3': '月维护费',
-    'cta-label': '立即开始——填写您的需求',
-    'cta-sub': '少于 3 分钟完成 · 1 个工作日内回复',
+    'cta-label': '先做一次流程诊断',
+    'cta-sub': '告诉我们你现在最耗时的工作 · 1 个工作日内回复',
     'inclhead': '服务范围说明',
     'incltitle': '包含在报价内', 'excltitle': '不包含在报价内',
-    'i1': '流程设计与搭建', 'i2': '测试与错误修复',
-    'i3': 'AI 提示词调优', 'i4': '基础培训与交接文档',
+    'i1': '基础流程咨询', 'i2': '流程设计、搭建与测试',
+    'i3': '适用时包含 AI 提示词调优', 'i4': '简单 SOP / 交接指南',
     'i5': '交付后 1 次修改', 'i6': 'WhatsApp 支援（14天）',
     'e1': 'n8n Cloud / 主机费用', 'e2': 'OpenAI / Claude API 费用',
     'e3': 'WhatsApp Business API 费', 'e4': 'Google Workspace / 域名',
