@@ -493,7 +493,7 @@ function createXiaoOAssistant() {
           <span class="xiao-o-smile"></span>
         </span>
       </span>
-      <span class="sr-only">Open 小O</span>
+      <span class="sr-only">Open 小O / Xiao O</span>
     </button>
     <div class="xiao-o-panel" id="xiao-o-panel" hidden>
       <header class="xiao-o-header">
@@ -502,25 +502,27 @@ function createXiaoOAssistant() {
             <span></span>
           </span>
           <div>
-            <strong>小O</strong>
-            <span>AI Omic 助理</span>
+            <strong>小O (Xiao O)</strong>
+            <span>AI Omic Assistant / AI Omic 助理</span>
           </div>
         </div>
         <button class="xiao-o-close" type="button" aria-label="Close 小O">Close</button>
       </header>
       <div class="xiao-o-messages" aria-live="polite">
         <div class="xiao-o-message assistant">
-          你好，我是小O。你可以问我 AI Omic 的服务、价格、Workflow Audit、RAG、OCR 或售后支持。
+          Hi! I'm Xiao O. You can ask me about AI Omic services, pricing, Workflow Audit, RAG, OCR, or aftercare.
+          <br><br>
+          你好！我是小O。你可以问我关于 AI Omic 的服务、价格、Workflow Audit、RAG、OCR 或售后支持。
         </div>
       </div>
       <div class="xiao-o-prompts" aria-label="Suggested questions">
-        <button type="button">AI Omic 有什么服务？</button>
-        <button type="button">Workflow Audit 是什么？</button>
-        <button type="button">售后支持怎么算？</button>
+        <button type="button">Our Services / 我们的服务</button>
+        <button type="button">Workflow Audit? / 什么是审计？</button>
+        <button type="button">Pricing / 价格咨询</button>
       </div>
       <form class="xiao-o-form">
-        <label class="sr-only" for="xiao-o-input">Ask 小O</label>
-        <input id="xiao-o-input" name="message" autocomplete="off" placeholder="Ask about AI Omic..." />
+        <label class="sr-only" for="xiao-o-input">Ask 小O / Xiao O</label>
+        <input id="xiao-o-input" name="message" autocomplete="off" placeholder="Type here... / 请输入问题..." />
         <button type="submit">Send</button>
       </form>
     </div>
