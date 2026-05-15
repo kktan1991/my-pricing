@@ -5,6 +5,7 @@ Static website for AI Omic's Malaysia SME automation service pricing, presales f
 ## Pages
 
 - `index.html` - pricing, service journey, quote checklist, support scope, and SME examples.
+- `blog.html` - public blog page for OCR, workflow friction, and AI workflow articles.
 - `intake-form.html` - customer requirement intake with copyable plain-text summary.
 - `playbook.html` - WhatsApp reply, audit offer, quotation, handover, support, and sign-off templates.
 
