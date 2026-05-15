@@ -1,16 +1,20 @@
 /**
- * AI Omic - 小O Assistant 核心脚本
- * 有效期：2026年5月起
+ * AI Omic - 小O (Xiao O) Assistant 
+ * Full Bilingual Version / 全面双语版
+ * Updated: 2026-05
  */
 
 const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
 const INTAKE_FORM_URL = "https://my-pricing-list.zeabur.app/intake-form";
 
-// 仅作为 n8n 离线时的兜底回复，不建议在这里写太多业务逻辑
-const XIAO_O_FALLBACK_ANSWER = `小O 目前无法连接到大脑。你可以直接填写需求表单，我们会在 1 个工作日内回复：\n\n${INTAKE_FORM_URL}`;
+// 兜底回复内容 (Fallback logic)
+const XIAO_O_FALLBACK_ANSWER = `
+Xiao O is currently offline. Please fill in the intake form directly:
+小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：
+\n${INTAKE_FORM_URL}`;
 
 /**
- * 获取或创建 Session ID，确保对话记忆连贯
+ * 管理会话 ID (Manage Session ID)
  */
 function getXiaoOSessionId() {
   const key = "xiaoOSessionId";
@@ -23,7 +27,7 @@ function getXiaoOSessionId() {
 }
 
 /**
- * 初始化小O UI 组件
+ * 初始化双语 UI (Initialize Bilingual UI)
  */
 function createXiaoOAssistant() {
   const assistant = document.createElement("section");
@@ -46,26 +50,28 @@ function createXiaoOAssistant() {
         <div class="xiao-o-title">
           <span class="xiao-o-mini-bot" aria-hidden="true"><span></span></span>
           <div>
-            <strong>小O</strong>
-            <span>AI Omic 助理</span>
+            <strong>小O (Xiao O)</strong>
+            <span>AI Omic Assistant / 助理</span>
           </div>
         </div>
         <button class="xiao-o-close" type="button" aria-label="Close 小O">Close</button>
       </header>
       <div class="xiao-o-messages" aria-live="polite">
         <div class="xiao-o-message assistant">
-          你好！我是 AI Omic 的助理小O。我可以回答关于自动化流程、RAG 知识库、报价和售后相关的问题。请问有什么可以帮到你？
+          Hi! I'm Xiao O, your AI Omic assistant. You can ask me about our services, pricing, RAG, or aftercare. 
+          <br><br>
+          你好！我是小O。你可以问我关于 AI Omic 的服务、价格、RAG、OCR 或售后支持。
         </div>
       </div>
       <div class="xiao-o-prompts" aria-label="Suggested questions">
-        <button type="button">AI Omic 有什么服务？</button>
-        <button type="button">Workflow Audit 是什么？</button>
-        <button type="button">How much for a chatbot?</button>
+        <button type="button">Our Services / 我们的服务</button>
+        <button type="button">What is Workflow Audit? / 什么是审计？</button>
+        <button type="button">Pricing & Support / 价格与支持</button>
       </div>
       <form class="xiao-o-form">
         <label class="sr-only" for="xiao-o-input">Ask 小O</label>
-        <input id="xiao-o-input" name="message" autocomplete="off" placeholder="输入问题或点击上方快捷提问..." />
-        <button type="submit">发送</button>
+        <input id="xiao-o-input" name="message" autocomplete="off" placeholder="Type here... / 请输入问题..." />
+        <button type="submit">Send / 发送</button>
       </form>
     </div>
   `;
@@ -84,13 +90,9 @@ function createXiaoOAssistant() {
     if (isOpen) input.focus();
   }
 
-  /**
-   * 渲染消息文本，并自动将链接转化为可点击状态
-   */
   function renderMessageText(bubble, role, text) {
     bubble.replaceChildren();
     if (role === "assistant") {
-      // 简单的 URL 正则匹配并渲染超链接
       const parts = text.split(/(https?:\/\/[^\s]+)/g);
       parts.forEach((part) => {
         if (/^https?:\/\//.test(part)) {
@@ -119,12 +121,12 @@ function createXiaoOAssistant() {
   }
 
   /**
-   * 与 n8n 后端通信
+   * 调用 n8n Webhook
    */
   async function askXiaoO(message) {
     if (!message) return;
     addMessage("user", message);
-    const loading = addMessage("assistant", "小O 正在思考...");
+    const loading = addMessage("assistant", "Thinking / 正在整理答案...");
 
     try {
       const response = await fetch(XIAO_O_WEBHOOK_URL, {
@@ -139,10 +141,9 @@ function createXiaoOAssistant() {
         })
       });
 
-      if (!response.ok) throw new Error(`Network response error: ${response.status}`);
+      if (!response.ok) throw new Error(`n8n error: ${response.status}`);
       
       const data = await response.json();
-      // 兼容多种返回格式 (answer, output, text)
       const finalAnswer = data.answer || data.output || data.text;
       
       if (finalAnswer) {
@@ -153,15 +154,14 @@ function createXiaoOAssistant() {
 
     } catch (error) {
       console.error("Xiao O Webhook Error:", error);
-      renderMessageText(loading, "assistant", "抱歉，小O 暂时连不上服务器。请检查网络，或直接查看：" + INTAKE_FORM_URL);
+      renderMessageText(loading, "assistant", "Connection error / 连不上大脑: \n" + INTAKE_FORM_URL);
     }
   }
 
-  // 事件监听
+  // 事件监听器 (Event Listeners)
   launcher.addEventListener("click", () => setOpen(panel.hidden));
   close.addEventListener("click", () => setOpen(false));
   
-  // 快捷提问按钮
   assistant.querySelectorAll(".xiao-o-prompts button").forEach((button) => {
     button.addEventListener("click", () => {
       setOpen(true);
@@ -169,7 +169,6 @@ function createXiaoOAssistant() {
     });
   });
 
-  // 表单提交
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const message = input.value.trim();
@@ -179,5 +178,5 @@ function createXiaoOAssistant() {
   });
 }
 
-// 启动执行
+// 启动组件
 createXiaoOAssistant();
