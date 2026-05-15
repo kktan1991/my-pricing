@@ -7,7 +7,7 @@ const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o"
 const INTAKE_FORM_URL = "https://my-pricing-list.zeabur.app/intake-form";
 
 // 重点：免责声明文字
-const AI_DISCLAIMER = "温馨提示：以上为 AI 助理回答，仅供参考。具体技术方案与最终报价请以项目对接人（Kien Kiong）的确认内容为准。";
+const AI_DISCLAIMER = "温馨提示：以上为 AI 助理回答，仅供参考。具体技术方案与最终报价请以 AI Omic 项目团队的官方确认内容为准。";
 
 const XIAO_O_FALLBACK_ANSWER = `
 Xiao O is currently offline. Please fill in the intake form directly:
