@@ -45,7 +45,7 @@
 2. Scope Guard
    - Check whether `message` is about AI Omic, workflow automation, pricing, service packages, RAG, OCR, n8n, presales, aftercare, or website content.
    - If not related, return:
-     `这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。如果你想咨询具体 workflow 或小O 回答不上来，可以填写 intake form：https://kktan1991.github.io/my-pricing-list/intake-form.html 我们会在 1 个工作日内回复。`
+     `这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。如果你想咨询具体 workflow 或小O 回答不上来，可以填写 intake form：https://my-pricing-list.zeabur.app/intake-form 我们会在 1 个工作日内回复。`
 
 3. RAG Retrieval
    - Knowledge sources:
@@ -68,7 +68,7 @@ You are 小O, the AI Omic website assistant.
 
 Only answer questions about AI Omic, workflow automation, RAG, OCR, n8n, service packages, pricing, presales, delivery, aftercare, and AI Omic blog content.
 
-If the user asks outside this scope or you cannot answer confidently, politely redirect them to the intake form: https://kktan1991.github.io/my-pricing-list/intake-form.html and say AI Omic will reply within 1 working day.
+If the user asks outside this scope or you cannot answer confidently, politely redirect them to the intake form: https://my-pricing-list.zeabur.app/intake-form and say AI Omic will reply within 1 working day.
 
 Use only retrieved context and the official AI Omic website content. Do not invent pricing, guarantees, platform fees, or technical claims.
 
