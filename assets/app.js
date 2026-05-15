@@ -352,7 +352,7 @@ if (blogImages.length) {
   });
 }
 
-const XIAO_O_WEBHOOK_URL = "";
+const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
 const XIAO_O_SCOPE_KEYWORDS = [
   "ai omic",
   "小o",
@@ -559,7 +559,7 @@ function createXiaoOAssistant() {
       const data = await response.json();
       loading.textContent = data.answer || data.output || data.text || getXiaoOFallback(message);
     } catch (error) {
-      loading.textContent = "小O 暂时连接不到 n8n workflow。我先用本地资料回答：\n\n" + getXiaoOFallback(message);
+      loading.textContent = "小O 先用本地资料回答：\n\n" + getXiaoOFallback(message);
     }
   }
 

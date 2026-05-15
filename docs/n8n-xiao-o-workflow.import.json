@@ -84,7 +84,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"deepseek-chat\",\n  \"temperature\": 0.3,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are 小O, the AI Omic website assistant. Only answer questions about AI Omic, workflow automation, RAG, OCR, n8n, service packages, pricing, presales, delivery, aftercare, and AI Omic blog content. If outside scope, politely refuse and redirect to AI Omic-related topics. Use only the provided context. Do not invent pricing, guarantees, platform fees, or technical claims. Answer in the user's language. Keep answers concise, practical, and sales-friendly. Suggest the intake form when the user wants a quote or has a specific workflow.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Context:\\n{{$json.context}}\\n\\nUser question:\\n{{$json.message}}\"\n    }\n  ]\n}",
+        "jsonBody": "={{ JSON.stringify({ model: \"deepseek-chat\", temperature: 0.3, messages: [{ role: \"system\", content: \"You are 小O, the AI Omic website assistant. Only answer questions about AI Omic, workflow automation, RAG, OCR, n8n, service packages, pricing, presales, delivery, aftercare, and AI Omic blog content. If outside scope, politely refuse and redirect to AI Omic-related topics. Use only the provided context. Do not invent pricing, guarantees, platform fees, or technical claims. Answer in the user's language. Keep answers concise, practical, and sales-friendly. Suggest the intake form when the user wants a quote or has a specific workflow.\" }, { role: \"user\", content: \"Context:\\n\" + $json.context + \"\\n\\nUser question:\\n\" + $json.message }] }) }}",
         "options": {}
       },
       "id": "80b6caf7-75b4-4fb3-a10c-52d508525b8f",
@@ -125,7 +125,7 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ $json }}",
+        "responseBody": "={{ JSON.stringify($json) }}",
         "options": {
           "responseCode": 200
         }
