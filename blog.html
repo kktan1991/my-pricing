@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Omic Blog | Workflow Automation for SMEs</title>
+    <meta
+      name="description"
+      content="AI Omic articles on workflow friction, OCR automation, AI workflows, and SME operating systems."
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="AI Omic home">
+        <span class="brand-mark">AI</span>
+        <span>
+          <strong>AI Omic</strong>
+          <small>Workflow insights</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html#packages" data-i18n="navPackages">Packages</a>
+        <a href="index.html#sales" data-i18n="navSales">Sales Flow</a>
+        <a href="index.html#support" data-i18n="navSupport">Aftercare</a>
+        <a href="blog.html" data-i18n="navBlog">Blog</a>
+        <a href="playbook.html" data-i18n="navPlaybook">Playbook</a>
+      </nav>
+      <div class="header-actions">
+        <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">中文</button>
+        <a class="button button-small" href="intake-form.html" data-i18n="navCta">Get Started</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="blog-hero">
+        <p class="hero-meta">AI Omic Blog</p>
+        <h1>Practical notes on workflow automation, OCR, and AI operations.</h1>
+        <p>
+          Use these articles to understand where automation creates value: reducing workflow friction, moving documents
+          faster, and helping SME teams spend less time copying information between tools.
+        </p>
+      </section>
+
+      <section class="blog-index" aria-label="Blog posts">
+        <article class="blog-card">
+          <img src="assets/blog/ocr/ocr-1.png" alt="OCR article cover about invoices and documents" />
+          <div>
+            <p class="blog-meta">OCR Automation · 中文 · May 15, 2026</p>
+            <h2>每天都在处理成堆的发票和单据？</h2>
+            <p>
+              通过 OCR 与 AI 自动提取、分类和归档文件，让收据、发票、财务报表和知识归档不再靠人工逐页翻找。
+            </p>
+            <a class="button button-secondary" href="#ocr-automation">Read post</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <img src="assets/blog/workflow-cn/workflow-1.png" alt="Chinese workflow article cover" />
+          <div>
+            <p class="blog-meta">Workflow Friction · 中文 · May 15, 2026</p>
+            <h2>企业真正的瓶颈，是信息怎样流动。</h2>
+            <p>
+              企业采用 AI 与自动化的核心价值，不是取代员工，而是降低 workflow friction，让人专注判断、异常处理和决策。
+            </p>
+            <a class="button button-secondary" href="#workflow-cn">Read post</a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <img src="assets/blog/workflow-en/workflow-infographic.png" alt="English workflow infographic" />
+          <div>
+            <p class="blog-meta">Workflow Friction · English · May 15, 2026</p>
+            <h2>The future company may be organized around workflows.</h2>
+            <p>
+              AI changes the operating structure of companies by connecting OCR, classification, routing, exception review,
+              ERP updates, and audit trails.
+            </p>
+            <a class="button button-secondary" href="#workflow-en">Read post</a>
+          </div>
+        </article>
+      </section>
+
+      <article id="ocr-automation" class="blog-post">
+        <header class="post-header">
+          <p class="blog-meta">OCR Automation · 中文 · May 15, 2026</p>
+          <h2>每天都在处理成堆的发票和单据？</h2>
+          <p>
+            面对大量收据、发票、财务报表和知识归档，手动录入和逐页翻找不仅耗时，也容易出错。OCR 与 AI 可以把文件收集、
+            识别提取、数据处理和归档管理串成一条更顺畅的工作流。
+          </p>
+        </header>
+        <div class="image-gallery">
+          <img src="assets/blog/ocr/ocr-1.png" alt="OCR article slide 1" />
+          <img src="assets/blog/ocr/ocr-2.png" alt="OCR article slide 2" />
+          <img src="assets/blog/ocr/ocr-3.png" alt="OCR article slide 3" />
+          <img src="assets/blog/ocr/ocr-4.png" alt="OCR article slide 4" />
+          <img src="assets/blog/ocr/ocr-5.png" alt="OCR article slide 5" />
+          <img src="assets/blog/ocr/ocr-6.png" alt="OCR article slide 6" />
+        </div>
+        <div class="post-body">
+          <p>
+            每个月处理成堆的发票、收据和财务报表，总是耗费大量时间？很多团队习惯了手动录入数据或在几十页的报告里寻找关键数字。
+            但其实，这种重复性的工作流完全可以被优化。
+          </p>
+          <p>
+            最近，我们测试并搭建了一个 Python 桌面端应用，它不仅能读取和理解文档，还能让你直接和文档“对话”。
+          </p>
+          <p>
+            简单来说，它的工作流是这样的：只要你把图片、单据或多页文档导入系统，它就能通过 OCR 技术自动提取文字，
+            并利用本地运行的 AI 模型（Ollama）自动生成总结。
+          </p>
+          <p>
+            这意味着，面对复杂的收据、发票或商业报告，你不再需要逐行核对，而是直接向它“提问”并立刻获得答案。
+          </p>
+          <p>
+            通过开源模型和像 PySide6 这样的工具，以前需要庞大系统才能完成的事，现在可以非常轻量化地实现。
+          </p>
+          <p>
+            在 AI Omic 看来，AI 不仅仅是一个聊天框，它应该是能够改变我们实际工作方式的实用工具。
+          </p>
+          <p>
+            关注 AI Omic，和我们一起探索如何用极简的自动化系统，把你的团队从繁杂的操作中解放出来。
+          </p>
+        </div>
+      </article>
+
+      <article id="workflow-cn" class="blog-post">
+        <header class="post-header">
+          <p class="blog-meta">Workflow Friction · 中文 · May 15, 2026</p>
+          <h2>企业的真正瓶颈，往往不是员工不够努力。</h2>
+        </header>
+        <div class="post-layout">
+          <div class="post-body">
+            <p>企业的真正瓶颈，往往不是员工不够努力，而是“部门”结构阻碍了信息的顺畅流动。</p>
+            <p>
+              在传统企业运作中，Finance、Operations 等部门各自为政，导致员工的大量时间消耗在低价值的信息搬运上，
+              例如在部门间传 Excel、等待 approval、以及重复的 copy paste。以处理一张 invoice 为例，大家真正在花时间的环节其实不是“思考”，而是人工搬运信息。
+            </p>
+            <p>
+              企业采用 AI 与自动化的核心价值，并不在于取代员工，而是为了降低流程摩擦（workflow friction）。一个重构后的现代工作流应该是：
+              OCR 读取 → AI 分类 → 自动 routing → 系统记录 audit trail，并且只有在出现异常（exception）时，才进入人工 review。
+            </p>
+            <p>
+              在这种高效的人机协作模式下，人类得以从重复性操作中解放，将全部精力专注在真正高价值的事情上：
+              判断（judgement）、异常处理（exception handling）、理解商业语境（business context）以及做出最终决策（final decision）。
+            </p>
+            <p>
+              未来的公司运作，将不再围绕“哪个部门负责什么”来设计，而是围绕“信息怎样流动”来重构。对于企业管理者而言，
+              未来的管理重心也将发生转移——不只是管理人，更需要管理 AI 与 workflow system。拥有最顺畅的工作流，才是未来企业真正的核心竞争力。
+            </p>
+            <p>
+              AI Omic 专注于帮助企业减少重复沟通与人工整理。您的公司目前哪个环节的信息搬运最让你头痛？欢迎留言交流。
+            </p>
+          </div>
+          <aside class="post-media-stack">
+            <img src="assets/blog/workflow-cn/workflow-1.png" alt="Chinese workflow article slide 1" />
+            <img src="assets/blog/workflow-cn/workflow-2.png" alt="Chinese workflow article slide 2" />
+            <img src="assets/blog/workflow-cn/workflow-3.png" alt="Chinese workflow article slide 3" />
+          </aside>
+        </div>
+        <div class="image-gallery compact-gallery">
+          <img src="assets/blog/workflow-cn/workflow-4.png" alt="Chinese workflow article slide 4" />
+          <img src="assets/blog/workflow-cn/workflow-5.png" alt="Chinese workflow article slide 5" />
+          <img src="assets/blog/workflow-cn/workflow-6.png" alt="Chinese workflow article slide 6" />
+          <img src="assets/blog/workflow-cn/workflow-7.png" alt="Chinese workflow article slide 7" />
+        </div>
+      </article>
+
+      <article id="workflow-en" class="blog-post">
+        <header class="post-header">
+          <p class="blog-meta">Workflow Friction · English · May 15, 2026</p>
+          <h2>The future company may be organized around workflows.</h2>
+        </header>
+        <div class="post-layout">
+          <div class="post-body">
+            <p>A few years ago, most companies were still organized around departments.</p>
+            <p>Finance handled invoices. HR handled hiring. Operations handled processes. Marketing handled campaigns.</p>
+            <p>
+              Work moved slowly from one team to another, often through spreadsheets, emails, meetings, approvals, and manual updates.
+              At the time, that structure made sense.
+            </p>
+            <p>
+              But recently, while building AI workflows and automation systems, I started noticing something interesting: the real
+              bottleneck inside many companies is no longer people. It is workflow friction.
+            </p>
+            <p>
+              Information gets stuck between tools. Approvals get delayed between teams. Data gets copied multiple times. Employees
+              spend hours moving information instead of making decisions.
+            </p>
+            <p>
+              Most people think AI will mainly replace jobs. I don’t think that’s the biggest shift. I think AI is quietly changing
+              the operating structure of companies themselves.
+            </p>
+            <p>
+              Because AI does not care about departments. It cares about workflows. An invoice does not “belong” to Finance anymore.
+              It becomes part of a connected operational flow:
+            </p>
+            <p>
+              OCR reads the document → AI classifies and validates data → Workflow routes exceptions → Human reviews only when necessary →
+              ERP updates automatically → Audit trails are recorded in real time.
+            </p>
+            <p>
+              The same thing is happening across customer support, reporting, onboarding, procurement, content operations, internal approvals,
+              and knowledge management.
+            </p>
+            <p>
+              The future company may not be organized around departments. It may be organized around interconnected systems of workflows.
+              Humans will still matter deeply, but our role shifts from moving information to judgement, escalation, context, and decision-making.
+            </p>
+            <p>
+              Many SMEs are currently asking: “How can AI help us?” A better question might be: “What workflows inside our company should
+              never have been manual in the first place?”
+            </p>
+            <p>
+              The companies that win in the AI era may not be the ones with the most employees. They may be the ones with the least workflow friction.
+            </p>
+          </div>
+          <aside class="post-media-stack">
+            <img src="assets/blog/workflow-en/workflow-infographic.png" alt="Workflow friction infographic" />
+          </aside>
+        </div>
+      </article>
+
+      <section class="cta-section">
+        <h2>Want to find your highest-friction workflow?</h2>
+        <p>Start with the intake form. If the scope is unclear, AI Omic can map the workflow first through a paid audit.</p>
+        <a class="button" href="intake-form.html">Start with the intake form</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p data-i18n="footerText">Platform costs are paid directly by the client. Account management add-on: RM100/hr or fixed monthly fee by arrangement.</p>
+      <p>Ad-hoc rate: RM 100/hr</p>
+    </footer>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>
