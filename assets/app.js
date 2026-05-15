@@ -141,13 +141,17 @@ const translations = {
 
 const languageToggle = document.querySelector("[data-lang-toggle]");
 const savedLang = localStorage.getItem("siteLang") || "en";
+const translatableNodes = document.querySelectorAll("[data-i18n]");
+const defaultTexts = new Map(
+  Array.from(translatableNodes, (node) => [node, node.textContent])
+);
 
 function applyLanguage(lang) {
   document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
-  document.querySelectorAll("[data-i18n]").forEach((node) => {
+  translatableNodes.forEach((node) => {
     const key = node.dataset.i18n;
-    const value = translations[lang]?.[key];
-    if (value) node.textContent = value;
+    const value = lang === "en" ? defaultTexts.get(node) : translations[lang]?.[key];
+    if (value !== undefined) node.textContent = value;
   });
   if (languageToggle) languageToggle.textContent = lang === "zh" ? "EN" : "中文";
   localStorage.setItem("siteLang", lang);
