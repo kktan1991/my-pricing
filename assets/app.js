@@ -3,6 +3,7 @@ const translations = {
     navPackages: "配套",
     navSales: "售前流程",
     navSupport: "售后支持",
+    navBlog: "文章",
     navPlaybook: "模板",
     navCta: "开始填写",
     heroMeta: "2026 年 5 月起有效 · 马来西亚 · SME 友好",
