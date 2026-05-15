@@ -1,21 +1,16 @@
 /**
  * AI Omic - 小O (Xiao O) Assistant 
- * Full Bilingual Version / 全面双语版
- * Updated: 2026-05
+ * Version: 2.1 (Anti-Markdown Fix)
  */
 
 const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
 const INTAKE_FORM_URL = "https://my-pricing-list.zeabur.app/intake-form";
 
-// 兜底回复内容 (Fallback logic)
 const XIAO_O_FALLBACK_ANSWER = `
 Xiao O is currently offline. Please fill in the intake form directly:
 小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：
 \n${INTAKE_FORM_URL}`;
 
-/**
- * 管理会话 ID (Manage Session ID)
- */
 function getXiaoOSessionId() {
   const key = "xiaoOSessionId";
   let sessionId = localStorage.getItem(key);
@@ -26,9 +21,6 @@ function getXiaoOSessionId() {
   return sessionId;
 }
 
-/**
- * 初始化双语 UI (Initialize Bilingual UI)
- */
 function createXiaoOAssistant() {
   const assistant = document.createElement("section");
   assistant.className = "xiao-o";
@@ -90,10 +82,18 @@ function createXiaoOAssistant() {
     if (isOpen) input.focus();
   }
 
+  /**
+   * 核心修复：处理消息文本
+   */
   function renderMessageText(bubble, role, text) {
     bubble.replaceChildren();
+    
     if (role === "assistant") {
-      const parts = text.split(/(https?:\/\/[^\s]+)/g);
+      // 1. 清洗：移除所有的 ** 符号
+      let cleanText = text.replace(/\*\*/g, '');
+      
+      // 2. 处理链接和换行
+      const parts = cleanText.split(/(https?:\/\/[^\s]+)/g);
       parts.forEach((part) => {
         if (/^https?:\/\//.test(part)) {
           const link = document.createElement("a");
@@ -103,7 +103,14 @@ function createXiaoOAssistant() {
           link.rel = "noopener noreferrer";
           bubble.appendChild(link);
         } else {
-          bubble.appendChild(document.createTextNode(part));
+          // 3. 将换行符 \n 转换为 <br>
+          const lines = part.split('\n');
+          lines.forEach((line, i) => {
+            bubble.appendChild(document.createTextNode(line));
+            if (i < lines.length - 1) {
+              bubble.appendChild(document.createElement("br"));
+            }
+          });
         }
       });
     } else {
@@ -120,9 +127,6 @@ function createXiaoOAssistant() {
     return bubble;
   }
 
-  /**
-   * 调用 n8n Webhook
-   */
   async function askXiaoO(message) {
     if (!message) return;
     addMessage("user", message);
@@ -158,7 +162,6 @@ function createXiaoOAssistant() {
     }
   }
 
-  // 事件监听器 (Event Listeners)
   launcher.addEventListener("click", () => setOpen(panel.hidden));
   close.addEventListener("click", () => setOpen(false));
   
@@ -178,5 +181,4 @@ function createXiaoOAssistant() {
   });
 }
 
-// 启动组件
 createXiaoOAssistant();
