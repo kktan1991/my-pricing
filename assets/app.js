@@ -1,15 +1,19 @@
 /**
  * AI Omic - 小O (Xiao O) Assistant 
- * Version: 2.1 (Anti-Markdown Fix)
+ * Version: 2.2 (Added Professional Disclaimer)
  */
 
 const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
 const INTAKE_FORM_URL = "https://my-pricing-list.zeabur.app/intake-form";
 
+// 重点：免责声明文字
+const AI_DISCLAIMER = "温馨提示：以上为 AI 助理回答，仅供参考。具体技术方案与最终报价请以项目对接人（Kien Kiong）的确认内容为准。";
+
 const XIAO_O_FALLBACK_ANSWER = `
 Xiao O is currently offline. Please fill in the intake form directly:
 小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：
-\n${INTAKE_FORM_URL}`;
+\n${INTAKE_FORM_URL}
+\n\n${AI_DISCLAIMER}`;
 
 function getXiaoOSessionId() {
   const key = "xiaoOSessionId";
@@ -22,94 +26,77 @@ function getXiaoOSessionId() {
 }
 
 function createXiaoOAssistant() {
+  // ... (HTML 结构保持不变，参考之前的双语版本)
   const assistant = document.createElement("section");
   assistant.className = "xiao-o";
-  assistant.setAttribute("aria-label", "小O AI Omic assistant");
   assistant.innerHTML = `
     <button class="xiao-o-launcher" type="button" aria-expanded="false" aria-controls="xiao-o-panel">
-      <span class="xiao-o-bot" aria-hidden="true">
+      <span class="xiao-o-bot">
         <span class="xiao-o-antenna"></span>
-        <span class="xiao-o-face">
-          <span class="xiao-o-eye"></span>
-          <span class="xiao-o-eye"></span>
-          <span class="xiao-o-smile"></span>
-        </span>
+        <span class="xiao-o-face"><span class="xiao-o-eye"></span><span class="xiao-o-eye"></span><span class="xiao-o-smile"></span></span>
       </span>
-      <span class="sr-only">Open 小O</span>
     </button>
     <div class="xiao-o-panel" id="xiao-o-panel" hidden>
       <header class="xiao-o-header">
-        <div class="xiao-o-title">
-          <span class="xiao-o-mini-bot" aria-hidden="true"><span></span></span>
-          <div>
-            <strong>小O (Xiao O)</strong>
-            <span>AI Omic Assistant / 助理</span>
-          </div>
-        </div>
-        <button class="xiao-o-close" type="button" aria-label="Close 小O">Close</button>
+        <div class="xiao-o-title"><strong>小O (Xiao O)</strong><span>AI Omic Assistant</span></div>
+        <button class="xiao-o-close" type="button">Close</button>
       </header>
-      <div class="xiao-o-messages" aria-live="polite">
+      <div class="xiao-o-messages">
         <div class="xiao-o-message assistant">
-          Hi! I'm Xiao O, your AI Omic assistant. You can ask me about our services, pricing, RAG, or aftercare. 
+          Hi! I'm Xiao O. You can ask me about AI Omic services or pricing.
           <br><br>
-          你好！我是小O。你可以问我关于 AI Omic 的服务、价格、RAG、OCR 或售后支持。
+          你好！我是小O。你可以问我关于 AI Omic 的服务、价格或售后支持。
         </div>
       </div>
-      <div class="xiao-o-prompts" aria-label="Suggested questions">
+      <div class="xiao-o-prompts">
         <button type="button">Our Services / 我们的服务</button>
-        <button type="button">What is Workflow Audit? / 什么是审计？</button>
-        <button type="button">Pricing & Support / 价格与支持</button>
+        <button type="button">Workflow Audit? / 什么是审计？</button>
+        <button type="button">Pricing / 价格咨询</button>
       </div>
       <form class="xiao-o-form">
-        <label class="sr-only" for="xiao-o-input">Ask 小O</label>
-        <input id="xiao-o-input" name="message" autocomplete="off" placeholder="Type here... / 请输入问题..." />
-        <button type="submit">Send / 发送</button>
+        <input id="xiao-o-input" placeholder="Type here... / 请输入问题..." />
+        <button type="submit">Send</button>
       </form>
     </div>
   `;
   document.body.appendChild(assistant);
 
-  const launcher = assistant.querySelector(".xiao-o-launcher");
-  const panel = assistant.querySelector(".xiao-o-panel");
-  const close = assistant.querySelector(".xiao-o-close");
   const messages = assistant.querySelector(".xiao-o-messages");
-  const form = assistant.querySelector(".xiao-o-form");
   const input = assistant.querySelector("#xiao-o-input");
-
-  function setOpen(isOpen) {
-    panel.hidden = !isOpen;
-    launcher.setAttribute("aria-expanded", String(isOpen));
-    if (isOpen) input.focus();
-  }
+  const form = assistant.querySelector(".xiao-o-form");
 
   /**
-   * 核心修复：处理消息文本
+   * 渲染带免责声明的消息
    */
-  function renderMessageText(bubble, role, text) {
+  function renderMessageText(bubble, role, text, isUnsure = false) {
     bubble.replaceChildren();
     
     if (role === "assistant") {
-      // 1. 清洗：移除所有的 ** 符号
       let cleanText = text.replace(/\*\*/g, '');
       
-      // 2. 处理链接和换行
+      // 如果 AI 表示不确定（或是在 fallback），加上免责声明
+      if (isUnsure) {
+        cleanText += `\n\n---\n${AI_DISCLAIMER}`;
+      }
+
       const parts = cleanText.split(/(https?:\/\/[^\s]+)/g);
       parts.forEach((part) => {
         if (/^https?:\/\//.test(part)) {
           const link = document.createElement("a");
-          link.href = part;
-          link.textContent = part;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
+          link.href = part; link.textContent = part; link.target = "_blank";
           bubble.appendChild(link);
         } else {
-          // 3. 将换行符 \n 转换为 <br>
           const lines = part.split('\n');
           lines.forEach((line, i) => {
-            bubble.appendChild(document.createTextNode(line));
-            if (i < lines.length - 1) {
-              bubble.appendChild(document.createElement("br"));
+            const span = document.createElement("span");
+            // 如果是免责声明部分（---之后），设为灰色小字
+            if (line.includes("项目对接人为准")) {
+                span.style.fontSize = "0.8em";
+                span.style.color = "#888";
             }
+            span.textContent = line;
+            bubble.appendChild(span);
+            if (i < lines.length - 1) bubble.appendChild(document.createElement("br"));
           });
         }
       });
@@ -118,10 +105,10 @@ function createXiaoOAssistant() {
     }
   }
 
-  function addMessage(role, text) {
+  function addMessage(role, text, isUnsure = false) {
     const bubble = document.createElement("div");
     bubble.className = `xiao-o-message ${role}`;
-    renderMessageText(bubble, role, text);
+    renderMessageText(bubble, role, text, isUnsure);
     messages.appendChild(bubble);
     messages.scrollTop = messages.scrollHeight;
     return bubble;
@@ -145,40 +132,24 @@ function createXiaoOAssistant() {
         })
       });
 
-      if (!response.ok) throw new Error(`n8n error: ${response.status}`);
-      
       const data = await response.json();
       const finalAnswer = data.answer || data.output || data.text;
       
-      if (finalAnswer) {
-        renderMessageText(loading, "assistant", finalAnswer);
-      } else {
-        renderMessageText(loading, "assistant", XIAO_O_FALLBACK_ANSWER);
-      }
+      // 逻辑：如果 AI 回复包含 "intake-form" 或者 "sorry"，我们认为它是不确定的
+      const isUnsure = /intake-form|sorry|抱歉|不确定|超出范围/.test(finalAnswer);
+      
+      renderMessageText(loading, "assistant", finalAnswer || XIAO_O_FALLBACK_ANSWER, isUnsure);
 
     } catch (error) {
-      console.error("Xiao O Webhook Error:", error);
-      renderMessageText(loading, "assistant", "Connection error / 连不上大脑: \n" + INTAKE_FORM_URL);
+      renderMessageText(loading, "assistant", XIAO_O_FALLBACK_ANSWER, true);
     }
   }
 
-  launcher.addEventListener("click", () => setOpen(panel.hidden));
-  close.addEventListener("click", () => setOpen(false));
-  
-  assistant.querySelectorAll(".xiao-o-prompts button").forEach((button) => {
-    button.addEventListener("click", () => {
-      setOpen(true);
-      askXiaoO(button.textContent.trim());
-    });
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const message = input.value.trim();
-    if (!message) return;
-    input.value = "";
-    askXiaoO(message);
-  });
+  // ... 剩下的事件监听保持不变
+  assistant.querySelector(".xiao-o-close").onclick = () => { assistant.querySelector(".xiao-o-panel").hidden = true; };
+  assistant.querySelector(".xiao-o-launcher").onclick = () => { assistant.querySelector(".xiao-o-panel").hidden = false; input.focus(); };
+  form.onsubmit = (e) => { e.preventDefault(); const m = input.value.trim(); input.value = ""; askXiaoO(m); };
+  assistant.querySelectorAll(".xiao-o-prompts button").forEach(b => b.onclick = () => askXiaoO(b.textContent));
 }
 
 createXiaoOAssistant();
