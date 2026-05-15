@@ -353,6 +353,7 @@ if (blogImages.length) {
 }
 
 const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
+const INTAKE_FORM_URL = "https://kktan1991.github.io/my-pricing-list/intake-form.html";
 const XIAO_O_SCOPE_KEYWORDS = [
   "ai omic",
   "小o",
@@ -403,7 +404,7 @@ const XIAO_O_FALLBACKS = [
   {
     test: /(price|pricing|cost|fee|quote|quotation|how much|价格|报价|配套|多少钱|几多钱|收费|费用|预算)/i,
     answer:
-      "如果你问“多少钱”，小O 可以先给你一个范围：\n\nWorkflow Audit：RM299-RM499\nBasic Automation：RM500-RM1,200\nAI Automation Flow：RM1,500-RM3,500\nAI Chatbot：RM2,000-RM4,500\n\n如果只是维护和小修改，月费一般从 RM300 起。真正报价要看你的 workflow 有多少步骤、接多少系统、有没有 AI/RAG/OCR、以及要不要 WhatsApp 或 API。你可以先填写需求表单，我会建议你适合 Audit 还是直接报价。"
+      `如果你问“多少钱”，小O 可以先给你一个范围：\n\nWorkflow Audit：RM299-RM499\nBasic Automation：RM500-RM1,200\nAI Automation Flow：RM1,500-RM3,500\nAI Chatbot：RM2,000-RM4,500\n\n如果只是维护和小修改，月费一般从 RM300 起。真正报价要看你的 workflow 有多少步骤、接多少系统、有没有 AI/RAG/OCR、以及要不要 WhatsApp 或 API。你可以先填写 intake form：${INTAKE_FORM_URL}\n我们会在 1 个工作日内回复。`
   },
   {
     test: /(audit|审计|不清楚|scope|范围)/i,
@@ -439,13 +440,13 @@ function isXiaoOInScope(message) {
 
 function getXiaoOFallback(message) {
   if (!isXiaoOInScope(message)) {
-    return "这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。";
+    return `这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。\n\n如果你想咨询具体 workflow 或小O 回答不上来，可以填写 intake form：${INTAKE_FORM_URL}\n我们会在 1 个工作日内回复。`;
   }
 
   const match = XIAO_O_FALLBACKS.find((item) => item.test.test(message));
   if (match) return match.answer;
 
-  return "小O 可以帮你了解 AI Omic 的 Workflow Audit、Basic Automation、AI Automation Flow、AI Chatbot、售前流程和售后支持。你也可以填写需求表单，让我们 1 个工作日内通过 WhatsApp 回复。";
+  return `小O 可以帮你了解 AI Omic 的 Workflow Audit、Basic Automation、AI Automation Flow、AI Chatbot、售前流程和售后支持。\n\n如果你想咨询具体 workflow 或小O 回答不上来，可以填写 intake form：${INTAKE_FORM_URL}\n我们会在 1 个工作日内回复。`;
 }
 
 function getXiaoOSessionId() {
@@ -519,10 +520,31 @@ function createXiaoOAssistant() {
     if (isOpen) input.focus();
   }
 
+  function renderMessageText(bubble, role, text) {
+    bubble.replaceChildren();
+    if (role === "assistant") {
+      const parts = text.split(/(https?:\/\/[^\s]+)/g);
+      parts.forEach((part) => {
+        if (/^https?:\/\//.test(part)) {
+          const link = document.createElement("a");
+          link.href = part;
+          link.textContent = part;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          bubble.appendChild(link);
+        } else {
+          bubble.appendChild(document.createTextNode(part));
+        }
+      });
+    } else {
+      bubble.textContent = text;
+    }
+  }
+
   function addMessage(role, text) {
     const bubble = document.createElement("div");
     bubble.className = `xiao-o-message ${role}`;
-    bubble.textContent = text;
+    renderMessageText(bubble, role, text);
     messages.appendChild(bubble);
     messages.scrollTop = messages.scrollHeight;
     return bubble;
@@ -533,12 +555,12 @@ function createXiaoOAssistant() {
     const loading = addMessage("assistant", "小O 正在整理答案...");
 
     if (!isXiaoOInScope(message)) {
-      loading.textContent = getXiaoOFallback(message);
+      renderMessageText(loading, "assistant", getXiaoOFallback(message));
       return;
     }
 
     if (!XIAO_O_WEBHOOK_URL) {
-      loading.textContent = getXiaoOFallback(message);
+      renderMessageText(loading, "assistant", getXiaoOFallback(message));
       return;
     }
 
@@ -557,9 +579,9 @@ function createXiaoOAssistant() {
 
       if (!response.ok) throw new Error(`n8n returned ${response.status}`);
       const data = await response.json();
-      loading.textContent = data.answer || data.output || data.text || getXiaoOFallback(message);
+      renderMessageText(loading, "assistant", data.answer || data.output || data.text || getXiaoOFallback(message));
     } catch (error) {
-      loading.textContent = "小O 先用本地资料回答：\n\n" + getXiaoOFallback(message);
+      renderMessageText(loading, "assistant", "小O 先用本地资料回答：\n\n" + getXiaoOFallback(message));
     }
   }
 

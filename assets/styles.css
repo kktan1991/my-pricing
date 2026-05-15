@@ -1116,6 +1116,15 @@ pre {
   justify-self: start;
 }
 
+.xiao-o-message.assistant a {
+  color: var(--accent);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .xiao-o-message.user {
   background: var(--accent);
   color: #fff;
