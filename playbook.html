@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sales and Aftercare Playbook</title>
+    <meta name="description" content="AI Omic WhatsApp replies, quote checklist, handover template, and monthly support rules." />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="AI Omic home">
+        <span class="brand-mark">AI</span>
+        <span>
+          <strong>AI Omic</strong>
+          <small>Sales and aftercare</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html#packages" data-i18n="navPackages">Packages</a>
+        <a href="index.html#sales" data-i18n="navSales">Sales Flow</a>
+        <a href="intake-form.html" data-i18n="navCta">Get Started</a>
+      </nav>
+      <div class="header-actions">
+        <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">中文</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="form-hero">
+        <div>
+          <p class="hero-meta" data-i18n="playbookMeta">Internal operating templates</p>
+          <h1 data-i18n="playbookTitle">Sales and Aftercare Playbook</h1>
+          <p data-i18n="playbookIntro">Use these templates to keep WhatsApp replies, quotations, handover, and support boundaries consistent.</p>
+        </div>
+        <aside class="response-card">
+          <strong data-i18n="playbookRuleTitle">Default rule</strong>
+          <p data-i18n="playbookRuleText">Free consultation qualifies fit. Detailed solution design belongs inside the paid Workflow Audit.</p>
+        </aside>
+      </section>
+
+      <section class="template-grid">
+        <article class="template-card">
+          <h2 data-i18n="waTitle">WhatsApp first reply</h2>
+          <pre data-copy-block>Hello {{Name}}, thanks for sharing your workflow details.
+
+I will review your current process and reply within 1 business day.
+
+For the first call, we will only confirm 5 things:
+1. Main pain point
+2. Current tools
+3. Daily/weekly volume
+4. Budget range
+5. Timeline
+
+If the workflow is clear, I can prepare a quote.
+If the workflow is unclear, I recommend a Workflow Audit at RM299-RM499.</pre>
+          <button class="button button-secondary" type="button" data-copy-template data-i18n="copyTemplate">Copy template</button>
+        </article>
+
+        <article class="template-card">
+          <h2 data-i18n="auditTemplateTitle">Workflow Audit offer</h2>
+          <pre data-copy-block>Based on what you shared, the scope is still not clear enough for a responsible fixed quote.
+
+I recommend starting with a Workflow Audit at RM299-RM499.
+
+You will receive:
+- Simple process map
+- Automation recommendation
+- Budget range
+- Implementation steps
+- Suggested package
+
+If you proceed with the build, the audit helps avoid wrong scope and unnecessary features.</pre>
+          <button class="button button-secondary" type="button" data-copy-template data-i18n="copyTemplate">Copy template</button>
+        </article>
+
+        <article class="template-card">
+          <h2 data-i18n="quoteTemplateTitle">Quotation structure</h2>
+          <pre data-copy-block>Project: {{Project name}}
+Package: {{Workflow Audit / Basic Automation / AI Automation Flow / AI Chatbot}}
+One-time setup: RM {{Amount}}
+Monthly support: RM {{Amount}} / month
+
+Scope:
+- {{Outcome 1}}
+- {{Outcome 2}}
+- {{Outcome 3}}
+
+Deliverables:
+- Workflow design and build
+- Testing and bug fixing
+- AI prompt tuning where applicable
+- Basic training
+- Handover document
+- 1 revision after delivery
+- 14 days WhatsApp support
+
+Not included:
+- n8n Cloud / hosting fees
+- OpenAI / Claude API costs
+- WhatsApp Business API fees
+- Google Workspace / domains
+- Extra revisions beyond scope
+- New features after sign-off
+
+Payment:
+50% deposit to start
+50% before handover</pre>
+          <button class="button button-secondary" type="button" data-copy-template data-i18n="copyTemplate">Copy template</button>
+        </article>
+
+        <article class="template-card">
+          <h2 data-i18n="handoverTitle">Handover checklist</h2>
+          <pre data-copy-block>Handover checklist:
+- Final workflow name and purpose
+- Tools connected
+- Account owner and access notes
+- How to trigger the workflow
+- What the workflow does
+- What to check when something fails
+- Known limits
+- Revision used / remaining
+- 14-day WhatsApp support end date
+- Monthly support option</pre>
+          <button class="button button-secondary" type="button" data-copy-template data-i18n="copyTemplate">Copy template</button>
+        </article>
+
+        <article class="template-card">
+          <h2 data-i18n="supportTemplateTitle">Monthly support scope</h2>
+          <pre data-copy-block>Monthly support includes:
+- Bug fixing for the delivered workflow
+- Monitoring and light troubleshooting
+- Small adjustments within the same workflow
+- Light AI prompt tuning
+- WhatsApp support during business hours
+
+Monthly support does not include:
+- New features
+- New workflows
+- Extra revisions beyond agreed scope
+- Third-party platform fees
+- Full account management unless separately arranged</pre>
+          <button class="button button-secondary" type="button" data-copy-template data-i18n="copyTemplate">Copy template</button>
+        </article>
+
+        <article class="template-card">
+          <h2 data-i18n="signoffTitle">Sign-off message</h2>
+          <pre data-copy-block>The workflow has been delivered and tested based on the agreed scope.
+
+Please confirm sign-off once the acceptance test is complete.
+
+After sign-off:
+- 14-day WhatsApp support starts from {{Date}}
+- 1 included revision is considered used if changes are requested after delivery
+- New features or extra changes will be quoted separately
+- Monthly support is available from RM {{Amount}} / month</pre>
+          <button class="button button-secondary" type="button" data-copy-template data-i18n="copyTemplate">Copy template</button>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p data-i18n="footerText">Platform costs are paid directly by the client. Account management add-on: RM100/hr or fixed monthly fee by arrangement.</p>
+      <p>Ad-hoc rate: RM 100/hr</p>
+    </footer>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

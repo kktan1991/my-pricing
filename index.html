@@ -1,287 +1,260 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Automation Services & Pricing</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-</head>
-<body style="margin: 0; padding: 2rem; background: #f5f5f5;">
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
-  .price-root { font-family: 'Sora', sans-serif; padding: 0 0 2rem; }
-  .lang-toggle { display: flex; gap: 6px; justify-content: flex-end; padding: 0.75rem 1.25rem 0; }
-  .lang-btn { font-family: 'Space Mono', monospace; font-size: 11px; padding: 4px 14px; border-radius: 20px; border: 0.5px solid #B4B2A9; background: #fff; color: #5F5E5A; cursor: pointer; transition: all 0.15s; }
-  .lang-btn.active { background: #0C447C; color: #E6F1FB; border-color: #0C447C; }
-  .brand-bar { background: #0C447C; color: #E6F1FB; padding: 2rem 1.5rem 1.5rem; border-radius: 12px 12px 0 0; text-align: center; }
-  .brand-name { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: #85B7EB; text-transform: uppercase; margin-bottom: 6px; }
-  .brand-title { font-size: 22px; font-weight: 600; color: #E6F1FB; margin: 0 0 4px; }
-  .brand-sub { font-size: 13px; color: #85B7EB; }
-  .badge-row { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
-  .badge { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); border-radius: 20px; font-size: 11px; padding: 4px 12px; color: #B5D4F4; }
-  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 1.25rem; background: #F1EFE8; border: 0.5px solid #D3D1C7; }
-  .pkg-card { background: #fff; border: 0.5px solid #D3D1C7; border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 8px; }
-  .pkg-card.featured { border: 1.5px solid #378ADD; }
-  .pkg-icon { font-size: 20px; color: #185FA5; }
-  .pkg-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; }
-  .pkg-name { font-size: 15px; font-weight: 500; color: #2C2C2A; margin: 0; line-height: 1.3; }
-  .pkg-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #E6F1FB; color: #0C447C; font-weight: 500; align-self: flex-start; }
-  .pkg-desc { font-size: 11.5px; line-height: 1.55; color: #5F5E5A; min-height: 36px; }
-  .price-block { margin-top: 4px; border-top: 0.5px solid #D3D1C7; padding-top: 10px; }
-  .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
-  .price-key { font-size: 11px; color: #5F5E5A; }
-  .price-val { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: #185FA5; }
-
-  /* ── Get Started button strip ── */
-  .cta-strip { background: #F1EFE8; border: 0.5px solid #D3D1C7; border-top: none; padding: 0 1.25rem 1.25rem; }
-  .cta-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 13px 24px;
-    background: #0C447C;
-    color: #E6F1FB;
-    font-family: 'Sora', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.15s;
-    box-sizing: border-box;
-  }
-  .cta-btn:hover { background: #042C53; }
-  .cta-sub { text-align: center; font-size: 11px; color: #888780; margin-top: 8px; }
-
-  .divider-section { padding: 0 1.25rem; }
-  .section-title { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5E5A; margin: 1.25rem 0 0.75rem; }
-  .incl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .incl-card { background: #fff; border: 0.5px solid #D3D1C7; border-radius: 12px; padding: 1rem 1.25rem; }
-  .incl-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .incl-icon { font-size: 18px; }
-  .incl-icon.green { color: #3B6D11; }
-  .incl-icon.red { color: #A32D2D; }
-  .incl-title { font-size: 13px; font-weight: 500; color: #2C2C2A; }
-  .incl-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 7px; }
-  .incl-dot { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
-  .incl-dot.yes { color: #3B6D11; }
-  .incl-dot.no { color: #A32D2D; }
-  .incl-text { font-size: 12px; color: #5F5E5A; line-height: 1.5; }
-  .note-box { background: #E6F1FB; border: 0.5px solid #B5D4F4; border-radius: 8px; padding: 0.85rem 1rem; margin: 0 1.25rem 1rem; }
-  .note-text { font-size: 12px; color: #0C447C; line-height: 1.7; }
-  .note-text p { margin: 0 0 6px; }
-  .note-text p:last-child { margin: 0; }
-  .footer-bar { background: #F1EFE8; border: 0.5px solid #D3D1C7; border-radius: 0 0 12px 12px; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-  .footer-contact { font-size: 12px; color: #5F5E5A; }
-  .footer-contact span { color: #2C2C2A; font-weight: 500; }
-  .footer-rate { font-family: 'Space Mono', monospace; font-size: 11px; color: #185FA5; background: #E6F1FB; border-radius: 20px; padding: 4px 12px; }
-</style>
-
-<div class="price-root">
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
-    <button class="lang-btn" onclick="setLang('cn')" id="btn-cn">中文</button>
-  </div>
-
-  <div class="brand-bar">
-    <div class="brand-name" id="t-brand">AI Automation Services</div>
-    <div class="brand-title" id="t-title">Practical AI Automation for SMEs</div>
-    <div class="brand-sub" id="t-sub">Excel · Admin · Documents · n8n · Chatbots</div>
-    <div class="badge-row">
-      <span class="badge"><i class="ti ti-map-pin" aria-hidden="true"></i> <span id="t-loc">Malaysia</span></span>
-      <span class="badge"><i class="ti ti-calendar" aria-hidden="true"></i> <span id="t-valid">Valid from May 2026</span></span>
-      <span class="badge" id="t-sme">SME-Friendly</span>
-    </div>
-  </div>
-
-  <div class="cards-grid">
-    <div class="pkg-card">
-      <i class="ti ti-search pkg-icon" aria-hidden="true"></i>
-      <div class="pkg-label">Start Here</div>
-      <div class="pkg-name" id="t-p0name">Workflow Automation Audit</div>
-      <div class="pkg-badge" id="t-p0badge">For first-time clients</div>
-      <div class="pkg-desc" id="t-p0desc">Map your current manual process and identify the best automation opportunities.</div>
-      <div class="price-block">
-        <div class="price-row"><span class="price-key" id="t-auditfee">Audit fee</span><span class="price-val">RM 299 – 499</span></div>
-        <div class="price-row"><span class="price-key" id="t-auditdeliver">Includes</span><span class="price-val" id="t-auditdeliver-val">Roadmap</span></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Omic Pricing | Malaysia SME Automation</title>
+    <meta
+      name="description"
+      content="AI Omic pricing for Malaysia SME workflow automation, workflow audit, AI automation, chatbot setup, presales and aftercare support."
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="AI Omic home">
+        <span class="brand-mark">AI</span>
+        <span>
+          <strong>AI Omic</strong>
+          <small>Malaysia SME workflows</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#packages" data-i18n="navPackages">Packages</a>
+        <a href="#sales" data-i18n="navSales">Sales Flow</a>
+        <a href="#support" data-i18n="navSupport">Aftercare</a>
+        <a href="playbook.html" data-i18n="navPlaybook">Playbook</a>
+      </nav>
+      <div class="header-actions">
+        <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">中文</button>
+        <a class="button button-small" href="intake-form.html" data-i18n="navCta">Get Started</a>
       </div>
-    </div>
+    </header>
 
-    <div class="pkg-card">
-      <i class="ti ti-table-automation pkg-icon" aria-hidden="true"></i>
-      <div class="pkg-label">Package 01</div>
-      <div class="pkg-name" id="t-p1name">Excel / Admin Automation</div>
-      <div class="pkg-badge" id="t-p1badge">Starter</div>
-      <div class="pkg-desc" id="t-p1desc">For Excel, Google Sheets, file clean-up, reports, copy-paste work and admin tasks.</div>
-      <div class="price-block">
-        <div class="price-row"><span class="price-key" id="t-setup">One-time setup</span><span class="price-val">RM 500 – 1,200</span></div>
-        <div class="price-row"><span class="price-key" id="t-monthly">Monthly support</span><span class="price-val">RM 300 – 500</span></div>
-      </div>
-    </div>
-
-    <div class="pkg-card featured">
-      <i class="ti ti-robot pkg-icon" aria-hidden="true"></i>
-      <div class="pkg-label">Package 02</div>
-      <div class="pkg-name" id="t-p2name">AI Workflow Automation</div>
-      <div class="pkg-badge" id="t-p2badge">Most Popular</div>
-      <div class="pkg-desc" id="t-p2desc">For n8n workflows, Gmail, Sheets, Forms, Telegram, AI classification and auto reports.</div>
-      <div class="price-block">
-        <div class="price-row"><span class="price-key" id="t-setup2">One-time setup</span><span class="price-val">RM 1,500 – 3,500</span></div>
-        <div class="price-row"><span class="price-key" id="t-monthly2">Monthly support</span><span class="price-val">RM 500 – 800</span></div>
-      </div>
-    </div>
-
-    <div class="pkg-card">
-      <i class="ti ti-file-ai pkg-icon" aria-hidden="true"></i>
-      <div class="pkg-label">Package 03</div>
-      <div class="pkg-name" id="t-p3name">AI Document / Chatbot System</div>
-      <div class="pkg-badge" id="t-p3badge">WhatsApp / Web / Telegram</div>
-      <div class="pkg-desc" id="t-p3desc">For PDF Q&A, FAQ bots, internal knowledge assistants, document summaries and chatbots.</div>
-      <div class="price-block">
-        <div class="price-row"><span class="price-key" id="t-setup3">One-time setup</span><span class="price-val">RM 2,000 – 4,500</span></div>
-        <div class="price-row"><span class="price-key" id="t-monthly3">Monthly support</span><span class="price-val">RM 600 – 1,000</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── CTA strip ── -->
-  <div class="cta-strip">
-    <a class="cta-btn" href="intake-form.html" id="t-cta-btn">
-      <i class="ti ti-send" aria-hidden="true"></i>
-      <span id="t-cta-label">Start with a Workflow Audit</span>
-    </a>
-    <div class="cta-sub" id="t-cta-sub">Tell us your current manual process · We'll reply within 1 business day</div>
-  </div>
-
-  <div class="divider-section">
-    <div class="section-title" id="t-inclhead">What's included / excluded</div>
-    <div class="incl-grid">
-      <div class="incl-card">
-        <div class="incl-head">
-          <i class="ti ti-circle-check incl-icon green" aria-hidden="true"></i>
-          <div class="incl-title" id="t-incltitle">Included in price</div>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="hero-meta" data-i18n="heroMeta">Valid from May 2026 · Malaysia · SME-friendly</p>
+          <h1 data-i18n="heroTitle">Automation services that turn manual work into clear operating flows.</h1>
+          <p class="hero-lede" data-i18n="heroLede">
+            Start with a free fit check, move into a paid workflow audit when the scope is unclear, then build the
+            automation with defined delivery, sign-off, and monthly support.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="intake-form.html" data-i18n="heroPrimary">Fill in requirements</a>
+            <a class="button button-secondary" href="#sales" data-i18n="heroSecondary">See the process</a>
+          </div>
         </div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i1">Flow design & build</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i2">Testing & bug fixing</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i3">AI prompt tuning</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i4">Basic training & handover doc</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i5">1 revision after delivery</span></div>
-        <div class="incl-item"><i class="ti ti-check incl-dot yes" aria-hidden="true"></i><span class="incl-text" id="t-i6">WhatsApp support (14 days)</span></div>
-      </div>
-      <div class="incl-card">
-        <div class="incl-head">
-          <i class="ti ti-circle-x incl-icon red" aria-hidden="true"></i>
-          <div class="incl-title" id="t-excltitle">Not included</div>
+        <div class="hero-panel" aria-label="Service journey">
+          <ol class="journey-list">
+            <li>
+              <span>01</span>
+              <strong data-i18n="journey1Title">Intake form</strong>
+              <p data-i18n="journey1Text">Client explains pain point, current tools, volume, budget, and timeline.</p>
+            </li>
+            <li>
+              <span>02</span>
+              <strong data-i18n="journey2Title">Free fit check</strong>
+              <p data-i18n="journey2Text">15-30 minutes to confirm whether automation can save real time or reduce leakage.</p>
+            </li>
+            <li>
+              <span>03</span>
+              <strong data-i18n="journey3Title">Audit or quote</strong>
+              <p data-i18n="journey3Text">Unclear scope starts with RM299-RM499 audit; clear scope goes straight to quote.</p>
+            </li>
+            <li>
+              <span>04</span>
+              <strong data-i18n="journey4Title">Delivery and support</strong>
+              <p data-i18n="journey4Text">Build, test, hand over, 14-day WhatsApp support, then optional monthly maintenance.</p>
+            </li>
+          </ol>
         </div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e1">n8n Cloud / hosting fees</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e2">OpenAI / Claude API costs</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e3">WhatsApp Business API fee</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e4">Google Workspace / domains</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e5">Extra revisions beyond scope</span></div>
-        <div class="incl-item"><i class="ti ti-x incl-dot no" aria-hidden="true"></i><span class="incl-text" id="t-e6">New features after sign-off</span></div>
-      </div>
-    </div>
-  </div>
+      </section>
 
-  <div class="divider-section" style="margin-top: 1rem;">
-    <div class="note-box">
-      <div class="note-text" id="t-note">
-        <p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Platform subscriptions</strong> — All third-party platforms (n8n, OpenAI, WhatsApp API, etc.) are registered and paid directly by the client.</p>
-        <p><i class="ti ti-plus" aria-hidden="true"></i> <strong>Account management add-on</strong> — If you prefer us to handle platform setup and management on your behalf, this is charged separately at <strong>RM 100 / hour</strong> or a fixed monthly fee by arrangement.</p>
-      </div>
-    </div>
-  </div>
+      <section id="packages" class="section">
+        <div class="section-heading">
+          <p class="section-label" data-i18n="packagesLabel">Service packages</p>
+          <h2 data-i18n="packagesTitle">Four entry points, from diagnosis to AI workflow support.</h2>
+          <p data-i18n="packagesIntro">
+            Every package is scoped around outcomes: saving admin hours, reducing missed replies, preventing order leaks,
+            and making work status visible to the owner.
+          </p>
+        </div>
+        <div class="package-grid">
+          <article class="package-card">
+            <div class="package-topline">
+              <span>01</span>
+              <small data-i18n="auditTag">For unclear needs</small>
+            </div>
+            <h3 data-i18n="auditTitle">Workflow Audit</h3>
+            <p class="price">RM 299-499</p>
+            <p data-i18n="auditDesc">A paid discovery session with a simple process map, recommended automation path, budget range, and implementation plan.</p>
+          </article>
+          <article class="package-card">
+            <div class="package-topline">
+              <span>02</span>
+              <small data-i18n="basicTag">Starter</small>
+            </div>
+            <h3 data-i18n="basicTitle">Basic Automation</h3>
+            <p class="price">RM 500-1,200</p>
+            <p class="support-price" data-i18n="basicSupport">Monthly support RM 300-500</p>
+            <p data-i18n="basicDesc">Excel, Google Sheets, forms, admin tracking, notifications, and simple reporting workflows.</p>
+          </article>
+          <article class="package-card package-card-featured">
+            <div class="package-topline">
+              <span>03</span>
+              <small data-i18n="flowTag">Most popular</small>
+            </div>
+            <h3 data-i18n="flowTitle">AI Automation Flow</h3>
+            <p class="price">RM 1,500-3,500</p>
+            <p class="support-price" data-i18n="flowSupport">Monthly support RM 500-800</p>
+            <p data-i18n="flowDesc">n8n workflows, AI classification, AI replies, document extraction, routing, alerts, and approval flows.</p>
+          </article>
+          <article class="package-card">
+            <div class="package-topline">
+              <span>04</span>
+              <small data-i18n="botTag">WhatsApp / Web / Telegram</small>
+            </div>
+            <h3 data-i18n="botTitle">AI Chatbot</h3>
+            <p class="price">RM 2,000-4,500</p>
+            <p class="support-price" data-i18n="botSupport">Monthly support RM 600-1,000</p>
+            <p data-i18n="botDesc">Customer support chatbot, FAQ bot, document Q&A, lead capture, and handoff to human teams.</p>
+          </article>
+        </div>
+      </section>
 
-  <div class="footer-bar">
-    <div class="footer-contact" id="t-footer">Questions? Reach out via <span>WhatsApp / Telegram</span></div>
-    <div class="footer-rate" id="t-rate">Ad-hoc rate: RM 100 / hr</div>
-  </div>
-</div>
+      <section id="sales" class="section section-split">
+        <div>
+          <p class="section-label" data-i18n="salesLabel">Presales process</p>
+          <h2 data-i18n="salesTitle">How a lead becomes a scoped project.</h2>
+          <p data-i18n="salesIntro">
+            The first conversation is not a free solution-design session. It qualifies fit, then sends unclear work into
+            a paid audit so time is protected on both sides.
+          </p>
+        </div>
+        <div class="process-steps">
+          <article>
+            <span>1</span>
+            <h3 data-i18n="salesStep1Title">Reply within 1 business day</h3>
+            <p data-i18n="salesStep1Text">Acknowledge the form and ask only for missing items needed to judge fit.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3 data-i18n="salesStep2Title">15-30 minute free fit check</h3>
+            <p data-i18n="salesStep2Text">Confirm pain point, tools, volume, budget, and timeline.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3 data-i18n="salesStep3Title">Audit if unclear, quote if clear</h3>
+            <p data-i18n="salesStep3Text">Audit delivers a process map and recommendation. Clear scopes receive a quote with payment terms.</p>
+          </article>
+          <article>
+            <span>4</span>
+            <h3 data-i18n="salesStep4Title">50% deposit, 50% before handover</h3>
+            <p data-i18n="salesStep4Text">Every quote states scope, deliverables, exclusions, revisions, timeline, and platform costs.</p>
+          </article>
+        </div>
+      </section>
 
-<script>
-const translations = {
-  en: {
-    'brand': 'AI Automation Services',
-    'title': 'Practical AI Automation for SMEs',
-    'sub': 'Excel · Admin · Documents · n8n · Chatbots',
-    'loc': 'Malaysia',
-    'valid': 'Valid from May 2026',
-    'sme': 'SME-Friendly',
-    'p0name': 'Workflow Automation Audit', 'p0badge': 'For first-time clients',
-    'p0desc': 'Map your current manual process and identify the best automation opportunities.',
-    'auditfee': 'Audit fee', 'auditdeliver': 'Includes', 'auditdeliver-val': 'Roadmap',
-    'p1name': 'Excel / Admin Automation', 'p1badge': 'Starter',
-    'p1desc': 'For Excel, Google Sheets, file clean-up, reports, copy-paste work and admin tasks.',
-    'p2name': 'AI Workflow Automation', 'p2badge': 'Most Popular',
-    'p2desc': 'For n8n workflows, Gmail, Sheets, Forms, Telegram, AI classification and auto reports.',
-    'p3name': 'AI Document / Chatbot System', 'p3badge': 'WhatsApp / Web / Telegram',
-    'p3desc': 'For PDF Q&A, FAQ bots, internal knowledge assistants, document summaries and chatbots.',
-    'setup': 'One-time setup', 'monthly': 'Monthly support',
-    'setup2': 'One-time setup', 'monthly2': 'Monthly support',
-    'setup3': 'One-time setup', 'monthly3': 'Monthly support',
-    'cta-label': 'Start with a Workflow Audit',
-    'cta-sub': 'Tell us your current manual process · We will reply within 1 business day',
-    'inclhead': "What's included / excluded",
-    'incltitle': 'Included in price', 'excltitle': 'Not included',
-    'i1': 'Basic workflow consultation', 'i2': 'Flow design, build & testing',
-    'i3': 'AI prompt tuning where applicable', 'i4': 'Simple SOP / handover guide',
-    'i5': '1 revision after delivery', 'i6': 'WhatsApp support (14 days)',
-    'e1': 'n8n Cloud / hosting fees', 'e2': 'OpenAI / Claude API costs',
-    'e3': 'WhatsApp Business API fee', 'e4': 'Google Workspace / domains',
-    'e5': 'Extra revisions beyond scope', 'e6': 'New features after sign-off',
-    'note': '<p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>Platform subscriptions</strong> — All third-party platforms (n8n, OpenAI, WhatsApp API, etc.) are registered and paid directly by the client.</p><p><i class="ti ti-plus" aria-hidden="true"></i> <strong>Account management add-on</strong> — If you prefer us to handle platform setup and management on your behalf, this is charged separately at <strong>RM 100 / hour</strong> or a fixed monthly fee by arrangement.</p>',
-    'footer': 'Questions? Reach out via <span>WhatsApp / Telegram</span>',
-    'rate': 'Ad-hoc rate: RM 100 / hr'
-  },
-  cn: {
-    'brand': 'AI 自动化服务',
-    'title': '帮中小企业把重复工作变成自动流程',
-    'sub': 'Excel｜行政流程｜文件处理｜n8n｜Chatbot',
-    'loc': '马来西亚',
-    'valid': '2026年5月起生效',
-    'sme': '中小企业友好',
-    'p0name': '工作流自动化诊断', 'p0badge': '适合第一次咨询',
-    'p0desc': '梳理现有人工流程，找出最适合自动化的机会点。',
-    'auditfee': '诊断费', 'auditdeliver': '包含', 'auditdeliver-val': '路线图',
-    'p1name': 'Excel / 行政自动化', 'p1badge': '入门款',
-    'p1desc': '适合 Excel、Google Sheet、文件整理、报表、复制粘贴和行政任务。',
-    'p2name': 'AI 工作流自动化', 'p2badge': '最受欢迎',
-    'p2desc': '适合 n8n、Gmail、表单、Telegram、AI 分类和自动报告。',
-    'p3name': 'AI 文件 / Chatbot 系统', 'p3badge': 'WhatsApp / 网页 / Telegram',
-    'p3desc': '适合 PDF 问答、FAQ 机器人、内部知识库、文件摘要和聊天机器人。',
-    'setup': '一次性建置费', 'monthly': '月维护费',
-    'setup2': '一次性建置费', 'monthly2': '月维护费',
-    'setup3': '一次性建置费', 'monthly3': '月维护费',
-    'cta-label': '先做一次流程诊断',
-    'cta-sub': '告诉我们你现在最耗时的工作 · 1 个工作日内回复',
-    'inclhead': '服务范围说明',
-    'incltitle': '包含在报价内', 'excltitle': '不包含在报价内',
-    'i1': '基础流程咨询', 'i2': '流程设计、搭建与测试',
-    'i3': '适用时包含 AI 提示词调优', 'i4': '简单 SOP / 交接指南',
-    'i5': '交付后 1 次修改', 'i6': 'WhatsApp 支援（14天）',
-    'e1': 'n8n Cloud / 主机费用', 'e2': 'OpenAI / Claude API 费用',
-    'e3': 'WhatsApp Business API 费', 'e4': 'Google Workspace / 域名',
-    'e5': '超出范围的额外修改', 'e6': '验收后新增功能',
-    'note': '<p><i class="ti ti-info-circle" aria-hidden="true"></i> <strong>平台订阅费</strong> — 所有第三方平台（n8n、OpenAI、WhatsApp API 等）由客户自行注册并支付。</p><p><i class="ti ti-plus" aria-hidden="true"></i> <strong>账号管理附加服务</strong> — 如需由我们代为设置和管理平台账号，额外收取 <strong>RM 100 / 小时</strong>，或按月收取固定服务费。</p>',
-    'footer': '有疑问？请联系我们 <span>WhatsApp / Telegram</span>',
-    'rate': '零散工时：RM 100 / 小时'
-  }
-};
+      <section class="section checklist-section">
+        <div class="section-heading">
+          <p class="section-label" data-i18n="quoteLabel">Quote checklist</p>
+          <h2 data-i18n="quoteTitle">Every proposal must make scope visible.</h2>
+        </div>
+        <div class="checklist-grid">
+          <div class="checklist-card">
+            <h3 data-i18n="includedTitle">Included in price</h3>
+            <ul>
+              <li data-i18n="included1">Flow design and build</li>
+              <li data-i18n="included2">Testing and bug fixing</li>
+              <li data-i18n="included3">AI prompt tuning</li>
+              <li data-i18n="included4">Basic training and handover doc</li>
+              <li data-i18n="included5">1 revision after delivery</li>
+              <li data-i18n="included6">WhatsApp support for 14 days</li>
+            </ul>
+          </div>
+          <div class="checklist-card">
+            <h3 data-i18n="excludedTitle">Not included</h3>
+            <ul>
+              <li data-i18n="excluded1">n8n Cloud or hosting fees</li>
+              <li data-i18n="excluded2">OpenAI / Claude API costs</li>
+              <li data-i18n="excluded3">WhatsApp Business API fee</li>
+              <li data-i18n="excluded4">Google Workspace, domains, and subscriptions</li>
+              <li data-i18n="excluded5">Extra revisions beyond scope</li>
+              <li data-i18n="excluded6">New features after sign-off</li>
+            </ul>
+          </div>
+          <div class="checklist-card">
+            <h3 data-i18n="quoteMustTitle">Must be written in every quote</h3>
+            <ul>
+              <li data-i18n="quoteMust1">Project scope and expected outcome</li>
+              <li data-i18n="quoteMust2">Deliverables and handover items</li>
+              <li data-i18n="quoteMust3">Revision limit and support window</li>
+              <li data-i18n="quoteMust4">Estimated delivery timeline</li>
+              <li data-i18n="quoteMust5">50% deposit + 50% before handover</li>
+              <li data-i18n="quoteMust6">Third-party costs paid directly by client</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-function setLang(lang) {
-  const t = translations[lang];
-  for (const key in t) {
-    const el = document.getElementById('t-' + key);
-    if (el) el.innerHTML = t[key];
-  }
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  document.getElementById('btn-cn').classList.toggle('active', lang === 'cn');
-}
-</script>
+      <section id="support" class="section section-split support-band">
+        <div>
+          <p class="section-label" data-i18n="supportLabel">Delivery and aftercare</p>
+          <h2 data-i18n="supportTitle">Support stays useful because the boundaries are clear.</h2>
+          <p data-i18n="supportIntro">
+            The first 14 days are for stabilising the delivered workflow. Monthly support begins after that and focuses on
+            maintenance, monitoring, small adjustments, and light prompt tuning.
+          </p>
+          <a class="button button-secondary" href="playbook.html" data-i18n="supportCta">Open templates</a>
+        </div>
+        <div class="delivery-card">
+          <h3 data-i18n="deliveryTitle">Delivery flow</h3>
+          <ol>
+            <li data-i18n="delivery1">Kickoff</li>
+            <li data-i18n="delivery2">Account and access checklist</li>
+            <li data-i18n="delivery3">Workflow confirmation</li>
+            <li data-i18n="delivery4">Build and internal testing</li>
+            <li data-i18n="delivery5">Client acceptance test</li>
+            <li data-i18n="delivery6">Training and handover doc</li>
+            <li data-i18n="delivery7">Sign-off and support start date</li>
+          </ol>
+        </div>
+      </section>
 
-</body>
+      <section class="section">
+        <div class="section-heading">
+          <p class="section-label" data-i18n="examplesLabel">SME scenarios</p>
+          <h2 data-i18n="examplesTitle">Use these as sales examples during discovery.</h2>
+        </div>
+        <div class="scenario-grid">
+          <article>
+            <h3 data-i18n="scenario1Title">Restaurant / retail</h3>
+            <p data-i18n="scenario1Text">WhatsApp enquiries are captured into Google Sheets with status, owner, and follow-up reminder.</p>
+          </article>
+          <article>
+            <h3 data-i18n="scenario2Title">E-commerce</h3>
+            <p data-i18n="scenario2Text">Orders, customer service messages, inventory alerts, and fulfilment updates move through one workflow.</p>
+          </article>
+          <article>
+            <h3 data-i18n="scenario3Title">Professional services</h3>
+            <p data-i18n="scenario3Text">Documents are organised, clients receive follow-up reminders, and a chatbot answers common questions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <h2 data-i18n="finalTitle">Ready to turn a manual process into a working flow?</h2>
+        <p data-i18n="finalText">Tell us what is taking too much time. We will reply via WhatsApp within 1 business day.</p>
+        <a class="button" href="intake-form.html" data-i18n="finalCta">Start with the intake form</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p data-i18n="footerText">Platform costs are paid directly by the client. Account management add-on: RM100/hr or fixed monthly fee by arrangement.</p>
+      <p>Ad-hoc rate: RM 100/hr</p>
+    </footer>
+
+    <script src="assets/app.js"></script>
+  </body>
 </html>
