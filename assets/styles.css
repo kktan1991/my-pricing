@@ -1125,6 +1125,13 @@ pre {
   text-underline-offset: 3px;
 }
 
+.xiao-o-disclaimer {
+  color: var(--muted);
+  display: inline-block;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
 .xiao-o-message.user {
   background: var(--accent);
   color: #fff;

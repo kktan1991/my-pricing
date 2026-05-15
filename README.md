@@ -21,6 +21,15 @@ Open `http://localhost:4173/index.html`.
 
 This is a static site. Deploy the folder contents directly to Zeabur or any static hosting service.
 
+## Xiao O Assistant
+
+- Frontend widget: `assets/app.js`
+- n8n workflow backup: `docs/n8n-xiao-o-workflow.import.json`
+- Workflow notes: `docs/n8n-xiao-o-workflow.md`
+- Public webhook: `https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o`
+
+The webhook is public because the static website calls it directly. Keep n8n API keys, DeepSeek keys, and other credentials inside n8n or Zeabur environment settings only.
+
 ## Sales Defaults
 
 - Main audience: Malaysia local SME.

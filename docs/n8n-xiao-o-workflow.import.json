@@ -15,112 +15,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -920,
+        -816,
         0
       ],
       "webhookId": "ai-omic-xiao-o"
-    },
-    {
-      "parameters": {
-        "jsCode": "const body = $json.body || $json;\nconst message = String(body.message || '').trim();\nconst lower = message.toLowerCase();\nconst keywords = [\n  'ai omic','小o','小O','automation','workflow','rag','n8n','audit','chatbot','pricing','price','cost','fee','quote','quotation','how much','support','aftercare','presales','whatsapp','google sheets','ocr','deepseek',\n  '自动化','工作流','流程','价格','报价','费用','收费','多少钱','几多钱','预算','售前','售后','配套','客服','表单','审计','发票','单据','你是谁'\n];\nconst inScope = keywords.some((keyword) => lower.includes(String(keyword).toLowerCase()));\nconst intakeFormUrl = 'https://my-pricing-list.zeabur.app/intake-form';\nconst outOfScopeAnswer = '这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。\\n\\n如果你想咨询具体 workflow 或小O 回答不上来，可以填写 intake form：' + intakeFormUrl + '\\n我们会在 1 个工作日内回复。';\nconst context = `\nAI Omic slogan: Make Work Flow Better. 让工作流更顺。\nAI Omic positioning: Malaysia SME workflow automation services.\nService journey: intake form -> free fit check -> paid workflow audit or direct quote -> delivery -> 14-day WhatsApp support -> optional monthly support.\nWorkflow Audit: RM299-RM499. For unclear needs. Deliverables: simple process map, recommended automation path, budget range, implementation plan.\nBasic Automation: RM500-RM1,200. Monthly support RM300-RM500. Good for Excel, Google Sheets, forms, admin tracking, notifications, simple reporting.\nAI Automation Flow: RM1,500-RM3,500. Monthly support RM500-RM800. Good for n8n workflows, AI classification, AI replies, document extraction, routing, alerts, approvals.\nAI Chatbot: RM2,000-RM4,500. Monthly support RM600-RM1,000. Good for WhatsApp, Web, Telegram, FAQ, document Q&A, lead capture, human handoff.\nQuote terms: every quote must state scope, deliverables, exclusions, revision limit, timeline, payment terms, and third-party costs.\nPayment default: 50% deposit, 50% before handover.\nIncluded: flow design, build, testing, bug fixing, prompt tuning when applicable, basic training, handover doc, 1 revision, 14-day WhatsApp support.\nNot included: n8n Cloud/hosting fees, OpenAI/Claude/DeepSeek API costs, WhatsApp Business API fee, Google Workspace/domains/subscriptions, extra revisions, new features after sign-off.\nMonthly support includes: bug fixing, monitoring, small adjustments, light prompt tuning. It excludes new features, new workflows, full account management unless separately arranged.\nAccount management add-on: RM100/hour or fixed monthly fee by arrangement.\nBlog themes: workflow friction, OCR automation, AI operations, reducing manual document handling, OCR -> AI summary/classification -> routing -> archive/review.\nIf Xiao O cannot answer confidently, ask the visitor to fill the intake form at https://my-pricing-list.zeabur.app/intake-form. AI Omic will reply within 1 working day.\nXiao O identity: 小O is AI Omic's website assistant. It should only answer questions about AI Omic and related service topics.\n`;\nreturn [{ json: { message, inScope, context, outOfScopeAnswer, page: body.page || '', language: body.language || '', sessionId: body.sessionId || '' } }];"
-      },
-      "id": "25ead2e4-c290-4378-b78f-ee9f90d962c8",
-      "name": "Scope Guard + RAG Context",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -700,
-        0
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "60830af9-e79b-4d42-b448-5c5643faf8c8",
-              "leftValue": "={{ $json.inScope }}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "be6b4338-0299-4dce-a951-f7cc7d899aae",
-      "name": "Is AI Omic Related?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        -480,
-        0
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://api.deepseek.com/chat/completions",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{$env.DEEPSEEK_API_KEY}}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ model: \"deepseek-chat\", temperature: 0.3, messages: [{ role: \"system\", content: \"You are 小O, the AI Omic website assistant. Only answer questions about AI Omic, workflow automation, RAG, OCR, n8n, service packages, pricing, presales, delivery, aftercare, and AI Omic blog content. If outside scope or you cannot answer confidently, politely redirect the visitor to the intake form: https://my-pricing-list.zeabur.app/intake-form and say AI Omic will reply within 1 working day. Use only the provided context. Do not invent pricing, guarantees, platform fees, or technical claims. Answer in the user's language. Keep answers concise, practical, and sales-friendly. Suggest the intake form when the user wants a quote or has a specific workflow.\" }, { role: \"user\", content: \"Context:\\n\" + $json.context + \"\\n\\nUser question:\\n\" + $json.message }] }) }}",
-        "options": {}
-      },
-      "id": "80b6caf7-75b4-4fb3-a10c-52d508525b8f",
-      "name": "DeepSeek Chat",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -240,
-        -120
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const answer = $json.choices?.[0]?.message?.content || $json.output || $json.answer || '小O 暂时没有拿到 DeepSeek 的答案。你可以稍后再试，或先填写 AI Omic 需求表单。';\nreturn [{ json: { answer } }];"
-      },
-      "id": "c3de3300-e484-4e21-b950-a28596393718",
-      "name": "Format DeepSeek Answer",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        0,
-        -120
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "return [{ json: { answer: $json.outOfScopeAnswer } }];"
-      },
-      "id": "4dd733bd-5925-4dc1-b42f-89d607016fbc",
-      "name": "Out of Scope Answer",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -240,
-        120
-      ]
     },
     {
       "parameters": {
@@ -135,9 +33,61 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        240,
+        -176,
         0
       ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "Role\nYou are 小O, the official assistant for AI Omic.\n\nLanguage Policy (CRITICAL)\nAlways respond in the language used by the user.\n\nIf user speaks Chinese -> Reply in Chinese.\n\nIf user speaks English -> Reply in English.\n\nIf user mixes both -> Reply in a natural mixed style.\n\nBusiness Scope\nServices: Workflow Audit (RM299-499), Basic Automation (RM500-1200), AI Flow (RM1500-3500), AI Chatbot (RM2000-4500).\n\nStandard Support: 14 days WhatsApp support included.\n\nRedirection & Uncertainty Rules\nIf the question is unrelated to AI Omic or automation, explain your scope and provide this link: https://my-pricing-list.zeabur.app/intake-form\n\nIMPORTANT: If you are unsure of the answer, or if the user asks for specific project details you cannot confirm, you must include this statement: \n\"The following is an AI assistant's answer; any final answer is subject to the AI Omic project team.\" \nThen, kindly suggest they fill out the intake form: https://my-pricing-list.zeabur.app/intake-form\n\nSTRICT FORMATTING RULE\nDo not use Markdown, double asterisks, or any bold formatting in your response. Return raw plain text only."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -560,
+        0
+      ],
+      "id": "108a442e-fb54-46f1-a033-505b4174b53b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "deepseek-v4-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        208
+      ],
+      "id": "0e92819b-21db-4347-b997-35a9fc8fd8c0",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "SET_IN_N8N",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.sessionId }}",
+        "contextWindowLength": null
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -512,
+        208
+      ],
+      "id": "3b2665ac-dcd6-4829-bd73-e7cfe094be44",
+      "name": "Simple Memory"
     }
   ],
   "pinData": {},
@@ -146,54 +96,14 @@
       "main": [
         [
           {
-            "node": "Scope Guard + RAG Context",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Scope Guard + RAG Context": {
-      "main": [
-        [
-          {
-            "node": "Is AI Omic Related?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Is AI Omic Related?": {
-      "main": [
-        [
-          {
-            "node": "DeepSeek Chat",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Out of Scope Answer",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "DeepSeek Chat": {
-      "main": [
-        [
-          {
-            "node": "Format DeepSeek Answer",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Format DeepSeek Answer": {
+    "AI Agent": {
       "main": [
         [
           {
@@ -204,25 +114,32 @@
         ]
       ]
     },
-    "Out of Scope Answer": {
-      "main": [
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
         [
           {
-            "node": "Respond to Website",
-            "type": "main",
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
             "index": 0
           }
         ]
       ]
     }
   },
-  "active": false,
   "settings": {
-    "executionOrder": "v1"
-  },
-  "versionId": "1",
-  "meta": {
-    "templateCredsSetupCompleted": false
-  },
-  "tags": []
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
 }

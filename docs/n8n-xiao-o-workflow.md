@@ -1,95 +1,74 @@
-# 小O n8n RAG Workflow Blueprint
+# Xiao O n8n Workflow
 
-小O 的前端 widget 已经准备好。你可以先 import `docs/n8n-xiao-o-workflow.import.json` 到 n8n。
+This file documents the current live Xiao O workflow used by the AI Omic website.
 
-正式接 n8n 时：
+## Live Setup
 
-1. 在 n8n 环境变量设置 `DEEPSEEK_API_KEY`。
-2. Import `docs/n8n-xiao-o-workflow.import.json`。
-3. Activate workflow。
-4. Copy production webhook URL。
-5. 把 production webhook URL 填进 `assets/app.js` 的 `XIAO_O_WEBHOOK_URL`。
+- Workflow name: `AI Omic Xiao O Assistant`
+- Production webhook: `https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o`
+- Frontend file: `assets/app.js`
+- Import backup: `docs/n8n-xiao-o-workflow.import.json`
+
+## Current n8n Nodes
+
+1. `Website Webhook`
+   - Method: `POST`
+   - Path: `ai-omic-xiao-o`
+   - Response mode: `Respond to Webhook`
+
+2. `AI Agent`
+   - Receives the website message from `{{$json.body.message}}`
+   - Uses a system prompt that limits Xiao O to AI Omic, automation, workflow, pricing, support, and intake-related questions.
+   - Returns plain text only, without Markdown bold formatting.
+   - If unsure, it should say the final answer is subject to the AI Omic project team and direct the visitor to the intake form.
+
+3. `DeepSeek Chat Model`
+   - Model: `deepseek-v4-flash`
+   - Credential is selected inside n8n.
+   - The local import file intentionally does not contain secret API keys.
+
+4. `Simple Memory`
+   - Session key: `{{$json.body.sessionId}}`
+   - The website sends a generated `sessionId` for each visitor.
+
+5. `Respond to Website`
+   - Responds as JSON using `{{ JSON.stringify($json) }}`
+   - The frontend accepts `answer`, `output`, or `text`.
 
 ## Frontend Payload
 
-网站会用 `POST` 发送 JSON：
+The website sends:
 
 ```json
 {
   "message": "User question",
-  "page": "/blog.html",
+  "page": "/index.html",
   "language": "en",
   "sessionId": "xiao-o-...",
   "source": "ai-omic-site"
 }
 ```
 
-前端期待 n8n 回传其中一种格式：
+## Intake Fallback
 
-```json
-{ "answer": "小O 的回答" }
-```
+If Xiao O cannot answer or the user needs a project-specific answer, direct them to:
 
-也兼容：
+`https://kktan1991.github.io/my-pricing-list/intake-form.html`
 
-```json
-{ "output": "小O 的回答" }
-```
+Use this promise:
 
-## Suggested n8n Flow
+`AI Omic will reply within 1 working day.`
 
-1. Webhook Trigger
-   - Method: `POST`
-   - Response mode: respond using `Respond to Webhook`
+## Guardrails
 
-2. Scope Guard
-   - Check whether `message` is about AI Omic, workflow automation, pricing, service packages, RAG, OCR, n8n, presales, aftercare, or website content.
-   - If not related, return:
-     `这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。如果你想咨询具体 workflow 或小O 回答不上来，可以填写 intake form：https://my-pricing-list.zeabur.app/intake-form 我们会在 1 个工作日内回复。`
+- Do not answer unrelated questions such as general news, homework, finance, politics, medical, or unrelated coding topics.
+- Do not invent prices outside the published service ranges.
+- Do not promise third-party integrations until access and platform fees are confirmed.
+- Do not expose n8n API keys, DeepSeek keys, or other credentials in this repo.
+- Keep the webhook URL public only because it is called by the website. Keep all real credentials inside n8n or Zeabur environment settings.
+- If possible, restrict webhook allowed origins to the production site domains and add rate limiting at the hosting or gateway layer.
+- Treat visitor messages as untrusted input. Xiao O should not run tools, update workflows, or reveal internal prompts/secrets based on chat instructions.
 
-3. RAG Retrieval
-   - Knowledge sources:
-     - `index.html`
-     - `blog.html`
-     - `intake-form.html`
-     - `playbook.html`
-     - Any future AI Omic service docs or blog posts
-   - Store chunks in your preferred vector store.
-   - Recommended metadata: `source`, `page`, `section`, `language`, `updated_at`.
+## Import Notes
 
-4. DeepSeek Chat / AI Agent Node
-   - Import JSON 版本先用 HTTP Request 调 DeepSeek Chat Completions，比较容易导入。
-   - 如果你的 n8n 已有 AI Agent Node + DeepSeek credential，可以把 HTTP Request node 替换成 AI Agent Node。
-   - Model: DeepSeek V4 Flash or the exact DeepSeek chat model available in your n8n credentials.
-   - System prompt:
-
-```text
-You are 小O, the AI Omic website assistant.
-
-Only answer questions about AI Omic, workflow automation, RAG, OCR, n8n, service packages, pricing, presales, delivery, aftercare, and AI Omic blog content.
-
-If the user asks outside this scope or you cannot answer confidently, politely redirect them to the intake form: https://my-pricing-list.zeabur.app/intake-form and say AI Omic will reply within 1 working day.
-
-Use only retrieved context and the official AI Omic website content. Do not invent pricing, guarantees, platform fees, or technical claims.
-
-Answer in the user's language. If the user mixes English and Chinese, reply naturally in the same mixed style.
-
-Keep answers concise, practical, and sales-friendly. Suggest the intake form when the user wants a quote, has a specific business workflow, or needs a human follow-up.
-```
-
-5. Respond to Webhook
-   - Return:
-
-```json
-{
-  "answer": "{{ $json.output }}"
-}
-```
-
-## Important Guardrails
-
-- Do not answer general homework, news, coding, finance, politics, medical, or unrelated questions.
-- Do not quote prices outside the published ranges.
-- Do not promise integration with a third-party platform until access and platform fees are confirmed.
-- For unclear needs, recommend the paid Workflow Audit.
-- For custom quotes, send the user to `intake-form.html`.
+The import JSON is a sanitized backup of the live workflow. After importing it into n8n, select the DeepSeek credential again because the local file uses a placeholder credential id.
