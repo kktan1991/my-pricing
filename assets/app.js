@@ -354,14 +354,36 @@ if (blogImages.length) {
 
 const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
 const INTAKE_FORM_URL = "https://my-pricing-list.zeabur.app/intake-form";
-const AI_DISCLAIMER =
-  "温馨提示：以上为 AI 助理回答，仅供参考。具体技术方案与最终报价请以 AI Omic 项目团队的官方确认内容为准。";
-const XIAO_O_FALLBACK_ANSWER = `Xiao O is currently offline. Please fill in the intake form directly:
-小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：
+const AI_DISCLAIMERS = {
+  en: "Note: The above is an AI assistant response for reference only. The final technical solution and quotation are subject to official confirmation by the AI Omic project team.",
+  zh: "温馨提示：以上为 AI 助理回答，仅供参考。具体技术方案与最终报价请以 AI Omic 项目团队的官方确认内容为准。"
+};
 
-${INTAKE_FORM_URL}
+function getXiaoOLanguage(text) {
+  const hasChinese = /[\u3400-\u9fff]/.test(text);
+  const hasEnglish = /[A-Za-z]/.test(text);
+  if (hasChinese && hasEnglish) return "mixed";
+  if (hasChinese) return "zh";
+  return "en";
+}
 
-${AI_DISCLAIMER}`;
+function getXiaoODisclaimer(language) {
+  if (language === "zh") return AI_DISCLAIMERS.zh;
+  if (language === "mixed") return `${AI_DISCLAIMERS.en}\n${AI_DISCLAIMERS.zh}`;
+  return AI_DISCLAIMERS.en;
+}
+
+function getXiaoOFallbackAnswer(language) {
+  if (language === "zh") {
+    return `小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：\n\n${INTAKE_FORM_URL}\n\n${AI_DISCLAIMERS.zh}`;
+  }
+
+  if (language === "mixed") {
+    return `Xiao O is currently offline. Please fill in the intake form directly:\n小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：\n\n${INTAKE_FORM_URL}\n\n${AI_DISCLAIMERS.en}\n${AI_DISCLAIMERS.zh}`;
+  }
+
+  return `Xiao O is currently offline. Please fill in the intake form directly:\n\n${INTAKE_FORM_URL}\n\n${AI_DISCLAIMERS.en}`;
+}
 const XIAO_O_SCOPE_KEYWORDS = [
   "ai omic",
   "小o",
@@ -548,10 +570,12 @@ function createXiaoOAssistant() {
     if (isOpen) input.focus();
   }
 
-  function renderMessageText(bubble, role, text, isUnsure = false) {
+  function renderMessageText(bubble, role, text, isUnsure = false, language = "en") {
     bubble.replaceChildren();
     if (role === "assistant") {
-      const cleanText = `${text}${isUnsure ? `\n\n---\n${AI_DISCLAIMER}` : ""}`.replace(/\*\*/g, "");
+      const alreadyHasDisclaimer = /AI assistant'?s answer|AI 助理回答|AI assistant response/i.test(text);
+      const disclaimer = isUnsure && !alreadyHasDisclaimer ? `\n\n---\n${getXiaoODisclaimer(language)}` : "";
+      const cleanText = `${text}${disclaimer}`.replace(/\*\*/g, "");
       const parts = cleanText.split(/(https?:\/\/[^\s]+)/g);
       parts.forEach((part) => {
         if (/^https?:\/\//.test(part)) {
@@ -588,11 +612,13 @@ function createXiaoOAssistant() {
   }
 
   async function askXiaoO(message) {
+    const messageLanguage = getXiaoOLanguage(message);
+    const fallbackAnswer = getXiaoOFallbackAnswer(messageLanguage);
     addMessage("user", message);
     const loading = addMessage("assistant", "Thinking / 正在整理答案...");
 
     if (!XIAO_O_WEBHOOK_URL) {
-      renderMessageText(loading, "assistant", XIAO_O_FALLBACK_ANSWER);
+      renderMessageText(loading, "assistant", fallbackAnswer, false, messageLanguage);
       return;
     }
 
@@ -611,13 +637,13 @@ function createXiaoOAssistant() {
 
       if (!response.ok) throw new Error(`n8n returned ${response.status}`);
       const data = await response.json();
-      const finalAnswer = data.answer || data.output || data.text || XIAO_O_FALLBACK_ANSWER;
+      const finalAnswer = data.answer || data.output || data.text || fallbackAnswer;
       const isUnsure =
-        finalAnswer !== XIAO_O_FALLBACK_ANSWER &&
+        finalAnswer !== fallbackAnswer &&
         /intake-form|sorry|抱歉|不确定|超出范围|cannot answer|subject to/i.test(finalAnswer);
-      renderMessageText(loading, "assistant", finalAnswer, isUnsure);
+      renderMessageText(loading, "assistant", finalAnswer, isUnsure, messageLanguage);
     } catch (error) {
-      renderMessageText(loading, "assistant", XIAO_O_FALLBACK_ANSWER);
+      renderMessageText(loading, "assistant", fallbackAnswer, false, messageLanguage);
     }
   }
 
