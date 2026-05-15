@@ -367,6 +367,10 @@ function getXiaoOLanguage(text) {
   return "en";
 }
 
+function getXiaoOPageLanguage() {
+  return document.documentElement.lang?.startsWith("zh") ? "zh" : "en";
+}
+
 function getXiaoODisclaimer(language) {
   if (language === "zh") return AI_DISCLAIMERS.zh;
   if (language === "mixed") return `${AI_DISCLAIMERS.en}\n${AI_DISCLAIMERS.zh}`;
@@ -544,9 +548,9 @@ function createXiaoOAssistant() {
         </div>
       </div>
       <div class="xiao-o-prompts" aria-label="Suggested questions">
-        <button type="button">Our Services / 我们的服务</button>
-        <button type="button">Workflow Audit? / 什么是审计？</button>
-        <button type="button">Pricing / 价格咨询</button>
+        <button type="button" data-prompt-en="What services does AI Omic provide?" data-prompt-zh="AI Omic 有什么服务？">Our Services / 我们的服务</button>
+        <button type="button" data-prompt-en="What is Workflow Audit?" data-prompt-zh="Workflow Audit 是什么？">Workflow Audit? / 什么是审计？</button>
+        <button type="button" data-prompt-en="How much does AI Omic cost?" data-prompt-zh="AI Omic 的价格怎么算？">Pricing / 价格咨询</button>
       </div>
       <form class="xiao-o-form">
         <label class="sr-only" for="xiao-o-input">Ask 小O / Xiao O</label>
@@ -611,10 +615,10 @@ function createXiaoOAssistant() {
     return bubble;
   }
 
-  async function askXiaoO(message) {
-    const messageLanguage = getXiaoOLanguage(message);
+  async function askXiaoO(message, languageOverride, displayMessage = message) {
+    const messageLanguage = languageOverride || getXiaoOLanguage(message);
     const fallbackAnswer = getXiaoOFallbackAnswer(messageLanguage);
-    addMessage("user", message);
+    addMessage("user", displayMessage);
     const loading = addMessage("assistant", "Thinking / 正在整理答案...");
 
     if (!XIAO_O_WEBHOOK_URL) {
@@ -651,8 +655,10 @@ function createXiaoOAssistant() {
   close.addEventListener("click", () => setOpen(false));
   assistant.querySelectorAll(".xiao-o-prompts button").forEach((button) => {
     button.addEventListener("click", () => {
+      const pageLanguage = getXiaoOPageLanguage();
+      const prompt = pageLanguage === "zh" ? button.dataset.promptZh : button.dataset.promptEn;
       setOpen(true);
-      askXiaoO(button.textContent.trim());
+      askXiaoO(prompt || button.textContent.trim(), pageLanguage, button.textContent.trim());
     });
   });
   form.addEventListener("submit", (event) => {
