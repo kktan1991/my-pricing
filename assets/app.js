@@ -353,9 +353,15 @@ if (blogImages.length) {
 }
 
 const XIAO_O_WEBHOOK_URL = "https://n8n-kktan.zeabur.app/webhook/ai-omic-xiao-o";
-const INTAKE_FORM_URL = "https://kktan1991.github.io/my-pricing-list/intake-form.html";
+const INTAKE_FORM_URL = "https://my-pricing-list.zeabur.app/intake-form";
 const AI_DISCLAIMER =
   "温馨提示：以上为 AI 助理回答，仅供参考。具体技术方案与最终报价请以 AI Omic 项目团队的官方确认内容为准。";
+const XIAO_O_FALLBACK_ANSWER = `Xiao O is currently offline. Please fill in the intake form directly:
+小O 目前离线，请直接填写需求表单，我们会在 1 个工作日内回复：
+
+${INTAKE_FORM_URL}
+
+${AI_DISCLAIMER}`;
 const XIAO_O_SCOPE_KEYWORDS = [
   "ai omic",
   "小o",
@@ -583,15 +589,10 @@ function createXiaoOAssistant() {
 
   async function askXiaoO(message) {
     addMessage("user", message);
-    const loading = addMessage("assistant", "小O 正在整理答案...");
-
-    if (!isXiaoOInScope(message)) {
-      renderMessageText(loading, "assistant", getXiaoOFallback(message), true);
-      return;
-    }
+    const loading = addMessage("assistant", "Thinking / 正在整理答案...");
 
     if (!XIAO_O_WEBHOOK_URL) {
-      renderMessageText(loading, "assistant", getXiaoOFallback(message), true);
+      renderMessageText(loading, "assistant", XIAO_O_FALLBACK_ANSWER);
       return;
     }
 
@@ -610,11 +611,13 @@ function createXiaoOAssistant() {
 
       if (!response.ok) throw new Error(`n8n returned ${response.status}`);
       const data = await response.json();
-      const finalAnswer = data.answer || data.output || data.text || getXiaoOFallback(message);
-      const isUnsure = /intake-form|sorry|抱歉|不确定|超出范围|cannot answer|subject to/i.test(finalAnswer);
+      const finalAnswer = data.answer || data.output || data.text || XIAO_O_FALLBACK_ANSWER;
+      const isUnsure =
+        finalAnswer !== XIAO_O_FALLBACK_ANSWER &&
+        /intake-form|sorry|抱歉|不确定|超出范围|cannot answer|subject to/i.test(finalAnswer);
       renderMessageText(loading, "assistant", finalAnswer, isUnsure);
     } catch (error) {
-      renderMessageText(loading, "assistant", "小O 先用本地资料回答：\n\n" + getXiaoOFallback(message), true);
+      renderMessageText(loading, "assistant", XIAO_O_FALLBACK_ANSWER);
     }
   }
 

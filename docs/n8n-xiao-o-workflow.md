@@ -53,7 +53,7 @@ The website sends:
 
 If Xiao O cannot answer or the user needs a project-specific answer, direct them to:
 
-`https://kktan1991.github.io/my-pricing-list/intake-form.html`
+`https://my-pricing-list.zeabur.app/intake-form`
 
 Use this promise:
 
