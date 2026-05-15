@@ -351,3 +351,233 @@ if (blogImages.length) {
     if (event.key === "-") setZoom(scale - 0.25);
   });
 }
+
+const XIAO_O_WEBHOOK_URL = "";
+const XIAO_O_SCOPE_KEYWORDS = [
+  "ai omic",
+  "小o",
+  "小O",
+  "automation",
+  "workflow",
+  "rag",
+  "n8n",
+  "audit",
+  "chatbot",
+  "pricing",
+  "price",
+  "cost",
+  "fee",
+  "quote",
+  "quotation",
+  "how much",
+  "support",
+  "aftercare",
+  "presales",
+  "whatsapp",
+  "google sheets",
+  "ocr",
+  "deepseek",
+  "自动化",
+  "工作流",
+  "流程",
+  "价格",
+  "报价",
+  "费用",
+  "收费",
+  "多少钱",
+  "几多钱",
+  "预算",
+  "售前",
+  "售后",
+  "配套",
+  "客服",
+  "表单",
+  "审计",
+  "发票",
+  "单据",
+  "你是谁",
+  "who are you"
+];
+
+const XIAO_O_FALLBACKS = [
+  {
+    test: /(price|pricing|cost|fee|quote|quotation|how much|价格|报价|配套|多少钱|几多钱|收费|费用|预算)/i,
+    answer:
+      "如果你问“多少钱”，小O 可以先给你一个范围：\n\nWorkflow Audit：RM299-RM499\nBasic Automation：RM500-RM1,200\nAI Automation Flow：RM1,500-RM3,500\nAI Chatbot：RM2,000-RM4,500\n\n如果只是维护和小修改，月费一般从 RM300 起。真正报价要看你的 workflow 有多少步骤、接多少系统、有没有 AI/RAG/OCR、以及要不要 WhatsApp 或 API。你可以先填写需求表单，我会建议你适合 Audit 还是直接报价。"
+  },
+  {
+    test: /(audit|审计|不清楚|scope|范围)/i,
+    answer:
+      "如果需求还不清楚，小O 会建议先做 Workflow Audit。Audit 会交付简单流程图、推荐方案、预算范围和实施计划，避免一开始就做错 scope。"
+  },
+  {
+    test: /(support|aftercare|售后|维护|月费)/i,
+    answer:
+      "AI Omic 项目包含 14 天 WhatsApp support。之后可转月费维护：Basic RM300-RM500/月、AI Flow RM500-RM800/月、Chatbot RM600-RM1,000/月。月费主要包含 bug fixing、monitoring、小修改和轻量 prompt tuning。"
+  },
+  {
+    test: /(chatbot|客服|whatsapp|telegram|web)/i,
+    answer:
+      "AI Omic 可以做 WhatsApp、Web 或 Telegram AI Chatbot，适合 FAQ、文件问答、lead capture 和人工交接。第三方平台费用由客户直接支付。"
+  },
+  {
+    test: /(ocr|发票|收据|单据|document|文件)/i,
+    answer:
+      "AI Omic 的 OCR 自动化方向适合发票、收据、财务报表和知识归档。典型流程是文件收集 → OCR 识别 → AI 总结/分类 → 数据处理 → 归档或人工 review。"
+  },
+  {
+    test: /(who are you|你是谁|小o|小O)/i,
+    answer:
+      "我是小O，AI Omic 的网站助理。我只回答 AI Omic、工作流自动化、RAG、OCR、售前售后和服务配套相关的问题。"
+  }
+];
+
+function isXiaoOInScope(message) {
+  const normalized = message.toLowerCase();
+  return XIAO_O_SCOPE_KEYWORDS.some((keyword) => normalized.includes(keyword.toLowerCase()));
+}
+
+function getXiaoOFallback(message) {
+  if (!isXiaoOInScope(message)) {
+    return "这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。";
+  }
+
+  const match = XIAO_O_FALLBACKS.find((item) => item.test.test(message));
+  if (match) return match.answer;
+
+  return "小O 可以帮你了解 AI Omic 的 Workflow Audit、Basic Automation、AI Automation Flow、AI Chatbot、售前流程和售后支持。你也可以填写需求表单，让我们 1 个工作日内通过 WhatsApp 回复。";
+}
+
+function getXiaoOSessionId() {
+  const key = "xiaoOSessionId";
+  let sessionId = localStorage.getItem(key);
+  if (!sessionId) {
+    sessionId = `xiao-o-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    localStorage.setItem(key, sessionId);
+  }
+  return sessionId;
+}
+
+function createXiaoOAssistant() {
+  const assistant = document.createElement("section");
+  assistant.className = "xiao-o";
+  assistant.setAttribute("aria-label", "小O AI Omic assistant");
+  assistant.innerHTML = `
+    <button class="xiao-o-launcher" type="button" aria-expanded="false" aria-controls="xiao-o-panel">
+      <span class="xiao-o-bot" aria-hidden="true">
+        <span class="xiao-o-antenna"></span>
+        <span class="xiao-o-face">
+          <span class="xiao-o-eye"></span>
+          <span class="xiao-o-eye"></span>
+          <span class="xiao-o-smile"></span>
+        </span>
+      </span>
+      <span class="sr-only">Open 小O</span>
+    </button>
+    <div class="xiao-o-panel" id="xiao-o-panel" hidden>
+      <header class="xiao-o-header">
+        <div class="xiao-o-title">
+          <span class="xiao-o-mini-bot" aria-hidden="true">
+            <span></span>
+          </span>
+          <div>
+            <strong>小O</strong>
+            <span>AI Omic 助理</span>
+          </div>
+        </div>
+        <button class="xiao-o-close" type="button" aria-label="Close 小O">Close</button>
+      </header>
+      <div class="xiao-o-messages" aria-live="polite">
+        <div class="xiao-o-message assistant">
+          你好，我是小O。你可以问我 AI Omic 的服务、价格、Workflow Audit、RAG、OCR 或售后支持。
+        </div>
+      </div>
+      <div class="xiao-o-prompts" aria-label="Suggested questions">
+        <button type="button">AI Omic 有什么服务？</button>
+        <button type="button">Workflow Audit 是什么？</button>
+        <button type="button">售后支持怎么算？</button>
+      </div>
+      <form class="xiao-o-form">
+        <label class="sr-only" for="xiao-o-input">Ask 小O</label>
+        <input id="xiao-o-input" name="message" autocomplete="off" placeholder="Ask about AI Omic..." />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(assistant);
+
+  const launcher = assistant.querySelector(".xiao-o-launcher");
+  const panel = assistant.querySelector(".xiao-o-panel");
+  const close = assistant.querySelector(".xiao-o-close");
+  const messages = assistant.querySelector(".xiao-o-messages");
+  const form = assistant.querySelector(".xiao-o-form");
+  const input = assistant.querySelector("#xiao-o-input");
+
+  function setOpen(isOpen) {
+    panel.hidden = !isOpen;
+    launcher.setAttribute("aria-expanded", String(isOpen));
+    if (isOpen) input.focus();
+  }
+
+  function addMessage(role, text) {
+    const bubble = document.createElement("div");
+    bubble.className = `xiao-o-message ${role}`;
+    bubble.textContent = text;
+    messages.appendChild(bubble);
+    messages.scrollTop = messages.scrollHeight;
+    return bubble;
+  }
+
+  async function askXiaoO(message) {
+    addMessage("user", message);
+    const loading = addMessage("assistant", "小O 正在整理答案...");
+
+    if (!isXiaoOInScope(message)) {
+      loading.textContent = getXiaoOFallback(message);
+      return;
+    }
+
+    if (!XIAO_O_WEBHOOK_URL) {
+      loading.textContent = getXiaoOFallback(message);
+      return;
+    }
+
+    try {
+      const response = await fetch(XIAO_O_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          page: window.location.pathname,
+          language: document.documentElement.lang,
+          sessionId: getXiaoOSessionId(),
+          source: "ai-omic-site"
+        })
+      });
+
+      if (!response.ok) throw new Error(`n8n returned ${response.status}`);
+      const data = await response.json();
+      loading.textContent = data.answer || data.output || data.text || getXiaoOFallback(message);
+    } catch (error) {
+      loading.textContent = "小O 暂时连接不到 n8n workflow。我先用本地资料回答：\n\n" + getXiaoOFallback(message);
+    }
+  }
+
+  launcher.addEventListener("click", () => setOpen(panel.hidden));
+  close.addEventListener("click", () => setOpen(false));
+  assistant.querySelectorAll(".xiao-o-prompts button").forEach((button) => {
+    button.addEventListener("click", () => {
+      setOpen(true);
+      askXiaoO(button.textContent.trim());
+    });
+  });
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const message = input.value.trim();
+    if (!message) return;
+    input.value = "";
+    askXiaoO(message);
+  });
+}
+
+createXiaoOAssistant();

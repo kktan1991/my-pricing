@@ -1,0 +1,228 @@
+{
+  "name": "AI Omic Xiao O Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-omic-xiao-o",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "9d4a6326-8cd3-4ad3-9e1e-2f3bdcb4f012",
+      "name": "Website Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -920,
+        0
+      ],
+      "webhookId": "ai-omic-xiao-o"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nconst message = String(body.message || '').trim();\nconst lower = message.toLowerCase();\nconst keywords = [\n  'ai omic','小o','小O','automation','workflow','rag','n8n','audit','chatbot','pricing','price','cost','fee','quote','quotation','how much','support','aftercare','presales','whatsapp','google sheets','ocr','deepseek',\n  '自动化','工作流','流程','价格','报价','费用','收费','多少钱','几多钱','预算','售前','售后','配套','客服','表单','审计','发票','单据','你是谁'\n];\nconst inScope = keywords.some((keyword) => lower.includes(String(keyword).toLowerCase()));\nconst outOfScopeAnswer = '这个问题可能超出 AI Omic 的范围。小O 只回答关于 AI Omic、工作流自动化、RAG、OCR、服务配套、售前与售后的问题。';\nconst context = `\nAI Omic slogan: Make Work Flow Better. 让工作流更顺。\nAI Omic positioning: Malaysia SME workflow automation services.\nService journey: intake form -> free fit check -> paid workflow audit or direct quote -> delivery -> 14-day WhatsApp support -> optional monthly support.\nWorkflow Audit: RM299-RM499. For unclear needs. Deliverables: simple process map, recommended automation path, budget range, implementation plan.\nBasic Automation: RM500-RM1,200. Monthly support RM300-RM500. Good for Excel, Google Sheets, forms, admin tracking, notifications, simple reporting.\nAI Automation Flow: RM1,500-RM3,500. Monthly support RM500-RM800. Good for n8n workflows, AI classification, AI replies, document extraction, routing, alerts, approvals.\nAI Chatbot: RM2,000-RM4,500. Monthly support RM600-RM1,000. Good for WhatsApp, Web, Telegram, FAQ, document Q&A, lead capture, human handoff.\nQuote terms: every quote must state scope, deliverables, exclusions, revision limit, timeline, payment terms, and third-party costs.\nPayment default: 50% deposit, 50% before handover.\nIncluded: flow design, build, testing, bug fixing, prompt tuning when applicable, basic training, handover doc, 1 revision, 14-day WhatsApp support.\nNot included: n8n Cloud/hosting fees, OpenAI/Claude/DeepSeek API costs, WhatsApp Business API fee, Google Workspace/domains/subscriptions, extra revisions, new features after sign-off.\nMonthly support includes: bug fixing, monitoring, small adjustments, light prompt tuning. It excludes new features, new workflows, full account management unless separately arranged.\nAccount management add-on: RM100/hour or fixed monthly fee by arrangement.\nBlog themes: workflow friction, OCR automation, AI operations, reducing manual document handling, OCR -> AI summary/classification -> routing -> archive/review.\nXiao O identity: 小O is AI Omic's website assistant. It should only answer questions about AI Omic and related service topics.\n`;\nreturn [{ json: { message, inScope, context, outOfScopeAnswer, page: body.page || '', language: body.language || '', sessionId: body.sessionId || '' } }];"
+      },
+      "id": "25ead2e4-c290-4378-b78f-ee9f90d962c8",
+      "name": "Scope Guard + RAG Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -700,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "60830af9-e79b-4d42-b448-5c5643faf8c8",
+              "leftValue": "={{ $json.inScope }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "be6b4338-0299-4dce-a951-f7cc7d899aae",
+      "name": "Is AI Omic Related?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.deepseek.com/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.DEEPSEEK_API_KEY}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"deepseek-chat\",\n  \"temperature\": 0.3,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are 小O, the AI Omic website assistant. Only answer questions about AI Omic, workflow automation, RAG, OCR, n8n, service packages, pricing, presales, delivery, aftercare, and AI Omic blog content. If outside scope, politely refuse and redirect to AI Omic-related topics. Use only the provided context. Do not invent pricing, guarantees, platform fees, or technical claims. Answer in the user's language. Keep answers concise, practical, and sales-friendly. Suggest the intake form when the user wants a quote or has a specific workflow.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Context:\\n{{$json.context}}\\n\\nUser question:\\n{{$json.message}}\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "80b6caf7-75b4-4fb3-a10c-52d508525b8f",
+      "name": "DeepSeek Chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -240,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const answer = $json.choices?.[0]?.message?.content || $json.output || $json.answer || '小O 暂时没有拿到 DeepSeek 的答案。你可以稍后再试，或先填写 AI Omic 需求表单。';\nreturn [{ json: { answer } }];"
+      },
+      "id": "c3de3300-e484-4e21-b950-a28596393718",
+      "name": "Format DeepSeek Answer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { answer: $json.outOfScopeAnswer } }];"
+      },
+      "id": "4dd733bd-5925-4dc1-b42f-89d607016fbc",
+      "name": "Out of Scope Answer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "690c6fc4-e7ab-4c12-9b24-63f95c5311f0",
+      "name": "Respond to Website",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Website Webhook": {
+      "main": [
+        [
+          {
+            "node": "Scope Guard + RAG Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scope Guard + RAG Context": {
+      "main": [
+        [
+          {
+            "node": "Is AI Omic Related?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is AI Omic Related?": {
+      "main": [
+        [
+          {
+            "node": "DeepSeek Chat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Out of Scope Answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat": {
+      "main": [
+        [
+          {
+            "node": "Format DeepSeek Answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format DeepSeek Answer": {
+      "main": [
+        [
+          {
+            "node": "Respond to Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Out of Scope Answer": {
+      "main": [
+        [
+          {
+            "node": "Respond to Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}
