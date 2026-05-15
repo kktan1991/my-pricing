@@ -210,3 +210,144 @@ document.querySelectorAll("[data-copy-template]").forEach((button) => {
     }, 1200);
   });
 });
+
+const blogImages = Array.from(
+  document.querySelectorAll(".blog-card img, .image-gallery img, .post-media-stack img")
+);
+
+if (blogImages.length) {
+  const lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+  lightbox.setAttribute("role", "dialog");
+  lightbox.setAttribute("aria-modal", "true");
+  lightbox.setAttribute("aria-label", "Image preview");
+  lightbox.innerHTML = `
+    <div class="lightbox-toolbar">
+      <button class="lightbox-button" type="button" data-lightbox-prev aria-label="Previous image">Prev</button>
+      <button class="lightbox-button" type="button" data-lightbox-zoom-out aria-label="Zoom out">-</button>
+      <button class="lightbox-button" type="button" data-lightbox-reset aria-label="Reset zoom">100%</button>
+      <button class="lightbox-button" type="button" data-lightbox-zoom-in aria-label="Zoom in">+</button>
+      <button class="lightbox-button" type="button" data-lightbox-next aria-label="Next image">Next</button>
+      <button class="lightbox-button" type="button" data-lightbox-close aria-label="Close image preview">Close</button>
+    </div>
+    <div class="lightbox-stage" data-lightbox-stage>
+      <img class="lightbox-image" alt="" draggable="false" />
+    </div>
+    <div class="lightbox-caption" data-lightbox-caption></div>
+  `;
+  document.body.appendChild(lightbox);
+
+  const stage = lightbox.querySelector("[data-lightbox-stage]");
+  const preview = lightbox.querySelector(".lightbox-image");
+  const caption = lightbox.querySelector("[data-lightbox-caption]");
+  const resetButton = lightbox.querySelector("[data-lightbox-reset]");
+  let activeIndex = 0;
+  let scale = 1;
+  let translateX = 0;
+  let translateY = 0;
+  let dragStart = null;
+
+  function updateTransform() {
+    preview.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    resetButton.textContent = `${Math.round(scale * 100)}%`;
+  }
+
+  function setZoom(nextScale) {
+    scale = Math.min(4, Math.max(0.5, nextScale));
+    if (scale === 1) {
+      translateX = 0;
+      translateY = 0;
+    }
+    updateTransform();
+  }
+
+  function openLightbox(index) {
+    activeIndex = index;
+    const source = blogImages[activeIndex];
+    preview.src = source.currentSrc || source.src;
+    preview.alt = source.alt || "Blog image preview";
+    caption.textContent = `${activeIndex + 1} / ${blogImages.length}${source.alt ? ` - ${source.alt}` : ""}`;
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    updateTransform();
+    lightbox.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("is-open");
+    document.body.style.overflow = "";
+    preview.removeAttribute("src");
+  }
+
+  function moveImage(direction) {
+    activeIndex = (activeIndex + direction + blogImages.length) % blogImages.length;
+    openLightbox(activeIndex);
+  }
+
+  blogImages.forEach((image, index) => {
+    image.setAttribute("tabindex", "0");
+    image.setAttribute("role", "button");
+    image.setAttribute("aria-label", `Open image preview: ${image.alt || `image ${index + 1}`}`);
+    image.addEventListener("click", () => openLightbox(index));
+    image.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLightbox(index);
+      }
+    });
+  });
+
+  lightbox.querySelector("[data-lightbox-close]").addEventListener("click", closeLightbox);
+  lightbox.querySelector("[data-lightbox-prev]").addEventListener("click", () => moveImage(-1));
+  lightbox.querySelector("[data-lightbox-next]").addEventListener("click", () => moveImage(1));
+  lightbox.querySelector("[data-lightbox-zoom-in]").addEventListener("click", () => setZoom(scale + 0.25));
+  lightbox.querySelector("[data-lightbox-zoom-out]").addEventListener("click", () => setZoom(scale - 0.25));
+  resetButton.addEventListener("click", () => setZoom(1));
+
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox || event.target === stage) closeLightbox();
+  });
+
+  stage.addEventListener("wheel", (event) => {
+    event.preventDefault();
+    setZoom(scale + (event.deltaY < 0 ? 0.15 : -0.15));
+  });
+
+  preview.addEventListener("pointerdown", (event) => {
+    if (scale <= 1) return;
+    preview.setPointerCapture(event.pointerId);
+    preview.classList.add("is-dragging");
+    dragStart = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      translateX,
+      translateY
+    };
+  });
+
+  preview.addEventListener("pointermove", (event) => {
+    if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+    translateX = dragStart.translateX + event.clientX - dragStart.x;
+    translateY = dragStart.translateY + event.clientY - dragStart.y;
+    updateTransform();
+  });
+
+  preview.addEventListener("pointerup", (event) => {
+    if (dragStart?.pointerId === event.pointerId) {
+      dragStart = null;
+      preview.classList.remove("is-dragging");
+    }
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (!lightbox.classList.contains("is-open")) return;
+    if (event.key === "Escape") closeLightbox();
+    if (event.key === "ArrowLeft") moveImage(-1);
+    if (event.key === "ArrowRight") moveImage(1);
+    if (event.key === "+" || event.key === "=") setZoom(scale + 0.25);
+    if (event.key === "-") setZoom(scale - 0.25);
+  });
+}
