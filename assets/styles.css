@@ -221,6 +221,23 @@ h3 {
   max-width: 720px;
 }
 
+.brand-slogan {
+  align-items: center;
+  color: var(--accent-dark);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: clamp(1.05rem, 2vw, 1.32rem);
+  font-weight: 850;
+  line-height: 1.2;
+  margin: 0 0 22px;
+}
+
+.brand-slogan span + span {
+  color: var(--muted);
+  font-weight: 750;
+}
+
 .hero-panel,
 .delivery-card,
 .response-card,
