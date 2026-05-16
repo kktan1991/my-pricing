@@ -1,16 +1,16 @@
 :root {
   color-scheme: light;
-  --bg: #f6f7f4;
+  --bg: #f6fbff;
   --surface: #ffffff;
-  --surface-soft: #eef3ec;
-  --ink: #17201b;
-  --muted: #65706a;
-  --border: #dce3db;
-  --accent: #136f63;
-  --accent-dark: #0c4e47;
-  --accent-soft: #dff0ea;
-  --gold: #c58b2a;
-  --shadow: 0 24px 70px rgba(32, 51, 42, 0.12);
+  --surface-soft: #edf8fb;
+  --ink: #0b1638;
+  --muted: #66758b;
+  --border: #d8e8ef;
+  --accent: #087f73;
+  --accent-dark: #071737;
+  --accent-soft: #def8f5;
+  --gold: #2a75e8;
+  --shadow: 0 24px 70px rgba(8, 58, 96, 0.13);
   --radius: 8px;
   --max: 1160px;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -45,7 +45,7 @@ select {
 
 .site-header {
   align-items: center;
-  background: rgba(246, 247, 244, 0.92);
+  background: rgba(246, 251, 255, 0.92);
   border-bottom: 1px solid var(--border);
   display: flex;
   gap: 24px;
@@ -64,17 +64,16 @@ select {
   min-width: 220px;
 }
 
-.brand-mark {
-  align-items: center;
-  background: var(--accent);
-  border-radius: var(--radius);
-  color: #fff;
-  display: inline-flex;
-  font-size: 0.82rem;
-  font-weight: 800;
-  height: 42px;
-  justify-content: center;
-  width: 42px;
+.brand-logo {
+  background: #fff;
+  border: 1px solid rgba(8, 127, 115, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 12px 26px rgba(42, 117, 232, 0.14);
+  flex: 0 0 auto;
+  height: 44px;
+  object-fit: contain;
+  padding: 4px;
+  width: 44px;
 }
 
 .brand strong {
@@ -371,6 +370,10 @@ h3 {
   margin-bottom: 0;
 }
 
+.package-card-featured p:last-child {
+  color: rgba(255, 255, 255, 0.86);
+}
+
 .section-split {
   align-items: start;
   display: grid;
@@ -619,7 +622,7 @@ fieldset {
 }
 
 pre {
-  background: #10211d;
+  background: var(--accent-dark);
   border-radius: var(--radius);
   color: #eef8f4;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -886,82 +889,108 @@ pre {
 
 .xiao-o-launcher {
   align-items: center;
-  background: #f8fffc;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), rgba(232, 251, 255, 0.72) 48%, rgba(8, 127, 115, 0.12)),
+    linear-gradient(145deg, #ffffff, #e8f7ff);
   border: 0;
   border-radius: 999px;
-  box-shadow: 0 18px 50px rgba(19, 111, 99, 0.28);
+  box-shadow: 0 18px 50px rgba(42, 117, 232, 0.24), 0 0 0 1px rgba(42, 117, 232, 0.1);
   cursor: pointer;
   display: inline-flex;
-  height: 64px;
+  height: 74px;
   justify-content: center;
   position: relative;
-  width: 64px;
+  width: 74px;
+  animation: xiaoOFloat 3.8s ease-in-out infinite;
+}
+
+.xiao-o-launcher::before {
+  border: 1px solid rgba(42, 117, 232, 0.28);
+  border-left-color: rgba(8, 127, 115, 0.75);
+  border-radius: 999px;
+  content: "";
+  height: 84px;
+  inset: -6px;
+  opacity: 0.85;
+  position: absolute;
+  transform: rotate(-18deg);
+  width: 84px;
+  animation: xiaoOOrbit 6s linear infinite;
 }
 
 .xiao-o-launcher::after {
-  background: var(--accent);
+  background: linear-gradient(135deg, #00d4b8, #2a75e8);
   border: 2px solid #fff;
   border-radius: 999px;
-  bottom: 4px;
+  bottom: 6px;
   content: "";
   height: 12px;
   position: absolute;
-  right: 5px;
+  right: 7px;
   width: 12px;
+  box-shadow: 0 0 16px rgba(42, 117, 232, 0.55);
 }
 
 .xiao-o-bot {
   align-items: center;
   display: inline-flex;
-  height: 44px;
+  height: 58px;
   justify-content: center;
   position: relative;
-  width: 46px;
+  width: 56px;
+  z-index: 1;
 }
 
 .xiao-o-antenna {
-  background: var(--accent-dark);
+  background: linear-gradient(#071737, #087f73);
   border-radius: 999px;
-  height: 10px;
+  height: 12px;
   left: 50%;
   position: absolute;
-  top: -2px;
+  top: -3px;
   transform: translateX(-50%);
   width: 3px;
+  z-index: 3;
 }
 
 .xiao-o-antenna::before {
-  background: var(--gold);
+  background: #2a75e8;
   border-radius: 999px;
   content: "";
-  height: 8px;
+  height: 9px;
   left: 50%;
   position: absolute;
-  top: -6px;
+  top: -7px;
   transform: translateX(-50%);
-  width: 8px;
+  width: 9px;
+  box-shadow: 0 0 14px rgba(42, 117, 232, 0.75);
+  animation: xiaoOPulse 1.8s ease-in-out infinite;
 }
 
 .xiao-o-face {
-  background: linear-gradient(145deg, #e9fff7, #ffffff);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(228, 252, 255, 0.86)),
+    radial-gradient(circle at 50% 18%, rgba(42, 117, 232, 0.24), transparent 54%);
   border: 3px solid var(--accent);
-  border-radius: 15px;
-  box-shadow: inset 0 -6px 12px rgba(19, 111, 99, 0.08);
+  border-radius: 16px 16px 14px 14px;
+  box-shadow: inset 0 -7px 14px rgba(42, 117, 232, 0.12), 0 10px 18px rgba(7, 23, 55, 0.1);
   display: block;
   height: 34px;
   position: relative;
-  width: 42px;
+  width: 44px;
+  z-index: 2;
+  overflow: hidden;
 }
 
 .xiao-o-face::before,
 .xiao-o-face::after {
-  background: var(--accent);
+  background: linear-gradient(#08b8a3, #2a75e8);
   border-radius: 999px;
   content: "";
-  height: 8px;
+  height: 9px;
   position: absolute;
   top: 12px;
-  width: 3px;
+  width: 4px;
 }
 
 .xiao-o-face::before {
@@ -975,10 +1004,13 @@ pre {
 .xiao-o-eye {
   background: var(--accent-dark);
   border-radius: 999px;
+  box-shadow: 0 0 8px rgba(42, 117, 232, 0.45);
   height: 6px;
   position: absolute;
   top: 11px;
   width: 6px;
+  animation: xiaoOBlink 5s ease-in-out infinite;
+  z-index: 2;
 }
 
 .xiao-o-eye:first-child {
@@ -990,7 +1022,7 @@ pre {
 }
 
 .xiao-o-smile {
-  border-bottom: 2px solid var(--gold);
+  border-bottom: 2px solid #2a75e8;
   border-radius: 0 0 999px 999px;
   bottom: 8px;
   height: 7px;
@@ -998,6 +1030,124 @@ pre {
   position: absolute;
   transform: translateX(-50%);
   width: 15px;
+  z-index: 2;
+}
+
+.xiao-o-scan {
+  background: linear-gradient(90deg, transparent, rgba(42, 117, 232, 0.32), transparent);
+  height: 100%;
+  left: -70%;
+  position: absolute;
+  top: 0;
+  transform: skewX(-18deg);
+  width: 60%;
+}
+
+.xiao-o-body {
+  background: linear-gradient(145deg, #071737, #087f73 62%, #2a75e8);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: 12px 12px 16px 16px;
+  bottom: 0;
+  box-shadow: 0 8px 14px rgba(7, 23, 55, 0.18);
+  height: 24px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 34px;
+  z-index: 1;
+}
+
+.xiao-o-core {
+  background: #e8fbff;
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.85);
+  height: 8px;
+  left: 50%;
+  position: absolute;
+  top: 7px;
+  transform: translateX(-50%);
+  width: 8px;
+}
+
+.xiao-o-arm {
+  background: linear-gradient(180deg, #2a75e8, #08b8a3);
+  border-radius: 999px;
+  bottom: 13px;
+  height: 20px;
+  position: absolute;
+  width: 6px;
+  z-index: 0;
+}
+
+.xiao-o-arm-left {
+  left: 7px;
+  transform: rotate(17deg);
+}
+
+.xiao-o-arm-right {
+  right: 7px;
+  transform: rotate(-17deg);
+}
+
+.xiao-o-thinking .xiao-o-scan {
+  animation: xiaoOScan 1s ease-in-out infinite;
+}
+
+.xiao-o-thinking .xiao-o-core {
+  animation: xiaoOPulse 0.9s ease-in-out infinite;
+}
+
+@keyframes xiaoOFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes xiaoOOrbit {
+  to {
+    transform: rotate(342deg);
+  }
+}
+
+@keyframes xiaoOPulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translateX(-50%) scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.22);
+  }
+}
+
+@keyframes xiaoOBlink {
+  0%,
+  44%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  46% {
+    transform: scaleY(0.16);
+  }
+}
+
+@keyframes xiaoOScan {
+  0% {
+    left: -70%;
+  }
+
+  100% {
+    left: 110%;
+  }
 }
 
 .xiao-o-panel {
@@ -1021,7 +1171,7 @@ pre {
 
 .xiao-o-header {
   align-items: center;
-  background: #10211d;
+  background: var(--accent-dark);
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -1036,39 +1186,53 @@ pre {
 
 .xiao-o-mini-bot {
   align-items: center;
-  background: #e9fff7;
-  border-radius: 10px;
+  background: radial-gradient(circle at 35% 30%, #ffffff, #e8fbff 60%, rgba(42, 117, 232, 0.22));
+  border: 1px solid rgba(42, 117, 232, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(42, 117, 232, 0.16);
   display: inline-flex;
-  height: 34px;
+  height: 38px;
   justify-content: center;
-  width: 34px;
-}
-
-.xiao-o-mini-bot span {
-  background: var(--accent);
-  border-radius: 8px;
-  display: block;
-  height: 20px;
   position: relative;
-  width: 25px;
+  width: 38px;
 }
 
-.xiao-o-mini-bot span::before,
-.xiao-o-mini-bot span::after {
-  background: #fff;
+.xiao-o-mini-bot::before {
+  background: #2a75e8;
   border-radius: 999px;
   content: "";
+  height: 6px;
+  left: 50%;
+  position: absolute;
+  top: 4px;
+  transform: translateX(-50%);
+  width: 6px;
+  box-shadow: 0 0 12px rgba(42, 117, 232, 0.7);
+}
+
+.xiao-o-mini-face {
+  background: linear-gradient(145deg, #071737, #087f73);
+  border-radius: 9px;
+  display: block;
+  height: 21px;
+  position: relative;
+  width: 26px;
+}
+
+.xiao-o-mini-face span {
+  background: #fff;
+  border-radius: 999px;
   height: 4px;
   position: absolute;
   top: 7px;
   width: 4px;
 }
 
-.xiao-o-mini-bot span::before {
+.xiao-o-mini-face span:first-child {
   left: 6px;
 }
 
-.xiao-o-mini-bot span::after {
+.xiao-o-mini-face span:nth-child(2) {
   right: 6px;
 }
 
@@ -1307,8 +1471,28 @@ pre {
     width: 58px;
   }
 
+  .xiao-o-launcher::before {
+    height: 66px;
+    width: 66px;
+  }
+
+  .xiao-o-bot {
+    transform: scale(0.84);
+  }
+
   .xiao-o-panel {
     bottom: 70px;
     max-height: calc(100vh - 96px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xiao-o-launcher,
+  .xiao-o-launcher::before,
+  .xiao-o-antenna::before,
+  .xiao-o-eye,
+  .xiao-o-thinking .xiao-o-scan,
+  .xiao-o-thinking .xiao-o-core {
+    animation: none;
   }
 }

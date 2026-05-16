@@ -523,6 +523,12 @@ function createXiaoOAssistant() {
           <span class="xiao-o-eye"></span>
           <span class="xiao-o-eye"></span>
           <span class="xiao-o-smile"></span>
+          <span class="xiao-o-scan"></span>
+        </span>
+        <span class="xiao-o-arm xiao-o-arm-left"></span>
+        <span class="xiao-o-arm xiao-o-arm-right"></span>
+        <span class="xiao-o-body">
+          <span class="xiao-o-core"></span>
         </span>
       </span>
       <span class="sr-only">Open 小O / Xiao O</span>
@@ -531,7 +537,10 @@ function createXiaoOAssistant() {
       <header class="xiao-o-header">
         <div class="xiao-o-title">
           <span class="xiao-o-mini-bot" aria-hidden="true">
-            <span></span>
+            <span class="xiao-o-mini-face">
+              <span></span>
+              <span></span>
+            </span>
           </span>
           <div>
             <strong>小O (Xiao O)</strong>
@@ -620,9 +629,11 @@ function createXiaoOAssistant() {
     const fallbackAnswer = getXiaoOFallbackAnswer(messageLanguage);
     addMessage("user", displayMessage);
     const loading = addMessage("assistant", "Thinking / 正在整理答案...");
+    assistant.classList.add("xiao-o-thinking");
 
     if (!XIAO_O_WEBHOOK_URL) {
       renderMessageText(loading, "assistant", fallbackAnswer, false, messageLanguage);
+      assistant.classList.remove("xiao-o-thinking");
       return;
     }
 
@@ -648,6 +659,8 @@ function createXiaoOAssistant() {
       renderMessageText(loading, "assistant", finalAnswer, isUnsure, messageLanguage);
     } catch (error) {
       renderMessageText(loading, "assistant", fallbackAnswer, false, messageLanguage);
+    } finally {
+      assistant.classList.remove("xiao-o-thinking");
     }
   }
 
